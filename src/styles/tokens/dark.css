@@ -1,0 +1,121 @@
+/*
+ * Inception42 — dark theme.
+ * Background runs on Foundation Black, glass surfaces are black-based,
+ * and ink flips to Clarity White. Progress Green and Intelligent
+ * Purple are kept at full brand value (they were designed to sit on
+ * dark surfaces — see the "Dark Mode" guideline page).
+ */
+[data-theme='dark'] {
+  /* Backgrounds */
+  --bg-default: var(--colors-page-base-dark);
+  --bg-page: var(--colors-page-base-dark);
+  --bg-page-tint: var(--colors-page-tint-dark);
+  --bg-surface-1: var(--colors-glass-black-72);
+  --bg-surface-2: var(--colors-glass-black-55);
+  --bg-surface-3: var(--colors-glass-black-38);
+  --bg-surface-4: var(--colors-glass-black-18);
+  --bg-surface-5: var(--colors-neutral-700);
+  --bg-overlay: var(--colors-overlay-heavy);
+  --bg-input: var(--colors-glass-black-72);
+  --bg-tooltip: var(--colors-neutral-0);
+  --bg-modal: var(--colors-glass-black-72);
+  --bg-sidebar: var(--colors-glass-black-55);
+  --bg-hover: var(--colors-glass-black-38);
+  --bg-pressed: var(--colors-glass-black-55);
+  --bg-selected: var(--colors-action-green-soft);
+  --bg-disabled: var(--colors-neutral-800);
+
+  --bg-glass-heavy: var(--colors-glass-black-72);
+  --bg-glass-medium: var(--colors-glass-black-55);
+  --bg-glass-light: var(--colors-glass-black-38);
+  --bg-glass-subtle: var(--colors-glass-black-18);
+
+  /* Text */
+  --text-primary: var(--colors-ink-inverse-85);
+  --text-secondary: var(--colors-ink-inverse-60);
+  --text-tertiary: var(--colors-ink-inverse-40);
+  --text-disabled: var(--colors-ink-inverse-25);
+  --text-placeholder: var(--colors-ink-inverse-25);
+  --text-inverse: var(--colors-neutral-900);
+  --text-on-primary: var(
+    --colors-neutral-900
+  ); /* Progress Green stays light-value on dark bg too */
+  --text-on-ai: var(--colors-neutral-900);
+  --text-accent: var(--colors-action-green);
+  --text-link: var(--colors-action-blue);
+  --text-success: var(--colors-action-green);
+  --text-warning: var(--colors-action-amber);
+  --text-error: var(--colors-action-red);
+  --text-info: var(--colors-action-blue);
+  --text-ai: var(--colors-action-purple);
+
+  /* Borders */
+  --border-default: var(--colors-glass-border-dark-65);
+  --border-subtle: var(--colors-glass-border-dark-45);
+  --border-strong: var(--colors-glass-border-dark-80);
+  --border-outer: var(--colors-glass-border-dark-outer);
+  --border-focus: var(--colors-action-green);
+
+  /* Glass blur (same physical values, kept for parity) */
+  --glass-blur-heavy: var(--blur-heavy);
+  --glass-blur-medium: var(--blur-medium);
+  --glass-blur-light: var(--blur-light);
+  --glass-blur-subtle: var(--blur-subtle);
+
+  /* Elevation */
+  --shadow-1: var(--shadow-glass-dark-1);
+  --shadow-2: var(--shadow-glass-dark-2);
+  --shadow-3: var(--shadow-glass-dark-3);
+  --shadow-focus: var(--shadow-focus-primary);
+
+  /* Action — primary (Progress Green) */
+  --action-primary-bg-default: var(--colors-action-green);
+  --action-primary-bg-hover: var(--colors-action-green-hover);
+  --action-primary-bg-pressed: var(--colors-action-green-pressed);
+  --action-primary-text: var(--text-on-primary);
+  --action-primary-bg-soft: var(--colors-action-green-soft);
+
+  /* Action — AI (Intelligent Purple) */
+  --action-ai-bg-default: var(--colors-action-purple);
+  --action-ai-bg-hover: var(--colors-action-purple-hover);
+  --action-ai-bg-pressed: var(--colors-action-purple-pressed);
+  --action-ai-text: var(--text-on-ai);
+  --action-ai-bg-soft: var(--colors-action-purple-soft);
+
+  /* Action — destructive */
+  --action-destructive-bg-default: var(--colors-action-red);
+  --action-destructive-bg-hover: var(--colors-action-red-hover);
+  --action-destructive-text: var(--colors-neutral-0);
+
+  /* Action — secondary / neutral */
+  --action-secondary-bg-default: var(--colors-neutral-800);
+  --action-secondary-bg-hover: var(--colors-neutral-700);
+  --action-secondary-bg-pressed: var(--colors-neutral-600);
+  --action-secondary-text: var(--text-primary);
+
+  /* Status */
+  --status-success-bg: var(--colors-action-green-soft);
+  --status-success-text: var(--colors-action-green);
+  --status-success-border: rgba(145, 255, 1, 0.3);
+  --status-success-icon: var(--colors-action-green);
+
+  --status-warning-bg: var(--colors-action-amber-soft);
+  --status-warning-text: var(--colors-action-amber);
+  --status-warning-border: rgba(255, 176, 32, 0.25);
+  --status-warning-icon: var(--colors-action-amber);
+
+  --status-error-bg: var(--colors-action-red-soft);
+  --status-error-text: var(--colors-action-red);
+  --status-error-border: rgba(255, 77, 77, 0.25);
+  --status-error-icon: var(--colors-action-red);
+
+  --status-info-bg: var(--colors-action-blue-soft);
+  --status-info-text: var(--colors-action-blue);
+  --status-info-border: rgba(77, 159, 255, 0.25);
+  --status-info-icon: var(--colors-action-blue);
+
+  --status-ai-bg: var(--colors-action-purple-soft);
+  --status-ai-text: var(--colors-action-purple);
+  --status-ai-border: rgba(174, 116, 255, 0.3);
+  --status-ai-icon: var(--colors-action-purple);
+}

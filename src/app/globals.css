@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@import '../styles/tokens/primitives.css';
+@import '../styles/tokens/light.css';
+@import '../styles/tokens/dark.css';
+@import '../styles/tokens/brand.css';
+
+body {
+  background-color: var(--bg-default);
+  color: var(--text-primary);
+  font-family: var(--font-body, system-ui, sans-serif);
+}
+
+.font-display {
+  font-family: var(--font-display, Georgia, serif);
+}

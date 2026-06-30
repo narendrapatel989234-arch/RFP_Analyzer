@@ -1,0 +1,117 @@
+:root,
+[data-theme='light'] {
+  /* Backgrounds */
+  --bg-default: var(--colors-page-base-light);
+  --bg-page: var(--colors-page-base-light);
+  --bg-page-tint: var(--colors-page-tint-light);
+  --bg-surface-1: var(--colors-glass-white-72);
+  --bg-surface-2: var(--colors-glass-white-55);
+  --bg-surface-3: var(--colors-glass-white-38);
+  --bg-surface-4: var(--colors-glass-white-18);
+  --bg-surface-5: var(--colors-neutral-200);
+  --bg-overlay: var(--colors-overlay-medium);
+  --bg-input: var(--colors-glass-white-72);
+  --bg-tooltip: var(--colors-ink-85);
+  --bg-modal: var(--colors-glass-white-72);
+  --bg-sidebar: var(--colors-glass-white-55);
+  --bg-hover: var(--colors-glass-white-38);
+  --bg-pressed: var(--colors-glass-white-55);
+  --bg-selected: var(--colors-action-green-soft);
+  --bg-disabled: var(--colors-neutral-100);
+
+  --bg-glass-heavy: var(--colors-glass-white-72);
+  --bg-glass-medium: var(--colors-glass-white-55);
+  --bg-glass-light: var(--colors-glass-white-38);
+  --bg-glass-subtle: var(--colors-glass-white-18);
+
+  /* Text */
+  --text-primary: var(--colors-ink-85);
+  --text-secondary: var(--colors-ink-60);
+  --text-tertiary: var(--colors-ink-40);
+  --text-disabled: var(--colors-ink-25);
+  --text-placeholder: var(--colors-ink-25);
+  --text-inverse: var(--colors-neutral-0);
+  --text-on-primary: var(
+    --colors-neutral-900
+  ); /* Progress Green is light-value; dark text reads better */
+  --text-on-ai: var(
+    --colors-neutral-900
+  ); /* Intelligent Purple is light-value; dark text reads better */
+  --text-accent: var(--colors-action-green-pressed);
+  --text-link: var(--colors-action-blue);
+  --text-success: var(--colors-action-green-pressed);
+  --text-warning: var(--colors-action-amber-hover);
+  --text-error: var(--colors-action-red-hover);
+  --text-info: var(--colors-action-blue);
+  --text-ai: var(--colors-action-purple-pressed);
+
+  /* Borders */
+  --border-default: var(--colors-glass-border-65);
+  --border-subtle: var(--colors-glass-border-45);
+  --border-strong: var(--colors-glass-border-80);
+  --border-outer: var(--colors-glass-border-outer);
+  --border-focus: var(--colors-action-green);
+
+  /* Glass blur */
+  --glass-blur-heavy: var(--blur-heavy);
+  --glass-blur-medium: var(--blur-medium);
+  --glass-blur-light: var(--blur-light);
+  --glass-blur-subtle: var(--blur-subtle);
+
+  /* Elevation */
+  --shadow-1: var(--shadow-glass-1);
+  --shadow-2: var(--shadow-glass-2);
+  --shadow-3: var(--shadow-glass-3);
+  --shadow-focus: var(--shadow-focus-primary);
+
+  /* Action — primary (Progress Green) */
+  --action-primary-bg-default: var(--colors-action-green);
+  --action-primary-bg-hover: var(--colors-action-green-hover);
+  --action-primary-bg-pressed: var(--colors-action-green-pressed);
+  --action-primary-text: var(--text-on-primary);
+  --action-primary-bg-soft: var(--colors-action-green-soft);
+
+  /* Action — AI (Intelligent Purple) */
+  --action-ai-bg-default: var(--colors-action-purple);
+  --action-ai-bg-hover: var(--colors-action-purple-hover);
+  --action-ai-bg-pressed: var(--colors-action-purple-pressed);
+  --action-ai-text: var(--text-on-ai);
+  --action-ai-bg-soft: var(--colors-action-purple-soft);
+
+  /* Action — destructive */
+  --action-destructive-bg-default: var(--colors-action-red);
+  --action-destructive-bg-hover: var(--colors-action-red-hover);
+  --action-destructive-text: var(--colors-neutral-0);
+
+  /* Action — secondary / neutral */
+  --action-secondary-bg-default: var(--colors-neutral-100);
+  --action-secondary-bg-hover: var(--colors-neutral-200);
+  --action-secondary-bg-pressed: var(--colors-neutral-300);
+  --action-secondary-text: var(--text-primary);
+
+  /* Status */
+  --status-success-bg: var(--colors-action-green-soft);
+  --status-success-text: var(--colors-action-green-pressed);
+  --status-success-border: rgba(145, 255, 1, 0.3);
+  --status-success-icon: var(--colors-action-green-pressed);
+
+  --status-warning-bg: var(--colors-action-amber-soft);
+  --status-warning-text: var(--colors-action-amber-hover);
+  --status-warning-border: rgba(255, 176, 32, 0.25);
+  --status-warning-icon: var(--colors-action-amber-hover);
+
+  --status-error-bg: var(--colors-action-red-soft);
+  --status-error-text: var(--colors-action-red-hover);
+  --status-error-border: rgba(255, 77, 77, 0.2);
+  --status-error-icon: var(--colors-action-red-hover);
+
+  --status-info-bg: var(--colors-action-blue-soft);
+  --status-info-text: var(--colors-action-blue);
+  --status-info-border: rgba(77, 159, 255, 0.2);
+  --status-info-icon: var(--colors-action-blue);
+
+  --status-ai-bg: var(--colors-action-purple-soft);
+  --status-ai-text: var(--colors-action-purple-pressed);
+  --status-ai-border: rgba(174, 116, 255, 0.25);
+  --status-ai-icon: var(--colors-action-purple-pressed);
+}

@@ -1,0 +1,222 @@
+/* DO NOT EDIT. Update by re-converting the designer's source file. */
+/*
+ * Inception42 — Primitive tokens
+ * Core 5 brand colors are taken verbatim from the Inception42 brand
+ * guidelines (Figma: "Inception42 Brand Guidelines"):
+ *   Progress Green    #91FF01  (RGB 145/255/0   · PMS 375 C)
+ *   Intelligent Purple #AE74FF (RGB 174/116/255 · PMS 2087 C)
+ *   Foundation Black  #1E1F1E  (RGB 30/31/30)
+ *   Clarity White     #FBF8FF  (RGB 251/248/255)
+ *   Technical Grey    #C2C8D6  (RGB 194/200/214)
+ *
+ * Per the guidelines' "Color Usage" page, core brand colors (green /
+ * purple / grey) should hold ~85% of usage, with black reserved for
+ * ~15% (product surfaces). Everything below is built from those 5
+ * colors — nothing here is an arbitrary hex.
+ */
+:root {
+  /* ---------------------------------------------------------------
+   * Neutral scale — interpolated between Clarity White (0) and
+   * Foundation Black (900/950), passing through Technical Grey (~300).
+   * --------------------------------------------------------------- */
+  --colors-neutral-0: #fbf8ff; /* Clarity White */
+  --colors-neutral-50: #f6f4fa;
+  --colors-neutral-100: #eeecf3;
+  --colors-neutral-200: #dddbe4;
+  --colors-neutral-300: #c2c8d6; /* Technical Grey */
+  --colors-neutral-400: #9a9da8;
+  --colors-neutral-500: #75777e;
+  --colors-neutral-600: #54565a;
+  --colors-neutral-700: #3a3b3d;
+  --colors-neutral-800: #28292a;
+  --colors-neutral-900: #1e1f1e; /* Foundation Black */
+  --colors-neutral-950: #131313;
+
+  /* Page backgrounds (theme-agnostic raw values; themes pick which to use) */
+  --colors-page-base-light: var(--colors-neutral-0);
+  --colors-page-tint-light: var(--colors-neutral-50);
+  --colors-page-base-dark: var(--colors-neutral-900);
+  --colors-page-tint-dark: var(--colors-neutral-800);
+
+  /* ---------------------------------------------------------------
+   * Glass surfaces — light (white-based, for light theme glass UI)
+   * --------------------------------------------------------------- */
+  --colors-glass-white-72: rgba(251, 248, 255, 0.72);
+  --colors-glass-white-55: rgba(251, 248, 255, 0.55);
+  --colors-glass-white-38: rgba(251, 248, 255, 0.38);
+  --colors-glass-white-18: rgba(251, 248, 255, 0.18);
+
+  --colors-glass-border-80: rgba(251, 248, 255, 0.8);
+  --colors-glass-border-65: rgba(251, 248, 255, 0.65);
+  --colors-glass-border-45: rgba(251, 248, 255, 0.45);
+  --colors-glass-border-outer: rgba(30, 31, 30, 0.06);
+
+  --colors-glass-inset-90: rgba(251, 248, 255, 0.9);
+  --colors-glass-inset-95: rgba(251, 248, 255, 0.95);
+
+  /* ---------------------------------------------------------------
+   * Glass surfaces — dark (black-based, for dark theme glass UI)
+   * --------------------------------------------------------------- */
+  --colors-glass-black-72: rgba(30, 31, 30, 0.72);
+  --colors-glass-black-55: rgba(30, 31, 30, 0.55);
+  --colors-glass-black-38: rgba(30, 31, 30, 0.38);
+  --colors-glass-black-18: rgba(30, 31, 30, 0.18);
+
+  --colors-glass-border-dark-80: rgba(251, 248, 255, 0.24);
+  --colors-glass-border-dark-65: rgba(251, 248, 255, 0.18);
+  --colors-glass-border-dark-45: rgba(251, 248, 255, 0.12);
+  --colors-glass-border-dark-outer: rgba(0, 0, 0, 0.4);
+
+  --colors-glass-inset-dark-90: rgba(40, 41, 42, 0.9);
+  --colors-glass-inset-dark-95: rgba(40, 41, 42, 0.95);
+
+  /* ---------------------------------------------------------------
+   * Ink (text-on-surface) — black-based for light theme, white-based
+   * for dark theme
+   * --------------------------------------------------------------- */
+  --colors-ink-85: rgba(30, 31, 30, 0.85);
+  --colors-ink-60: rgba(30, 31, 30, 0.6);
+  --colors-ink-40: rgba(30, 31, 30, 0.4);
+  --colors-ink-25: rgba(30, 31, 30, 0.25);
+
+  --colors-ink-inverse-85: rgba(251, 248, 255, 0.85);
+  --colors-ink-inverse-60: rgba(251, 248, 255, 0.6);
+  --colors-ink-inverse-40: rgba(251, 248, 255, 0.4);
+  --colors-ink-inverse-25: rgba(251, 248, 255, 0.25);
+
+  /* Overlays (scrims) */
+  --colors-overlay-light: rgba(30, 31, 30, 0.2);
+  --colors-overlay-medium: rgba(30, 31, 30, 0.45);
+  --colors-overlay-heavy: rgba(30, 31, 30, 0.7);
+
+  /* ---------------------------------------------------------------
+   * Action / accent colors
+   * Green = primary brand action. Purple = AI / intelligence accent.
+   * Both are bright, light-value colors, so their "-text" pairing
+   * uses Foundation Black, not white — see brand.css a11y note.
+   * Blue / amber / red are NOT in the official 5-color palette; they
+   * are supplementary status colors tuned to sit comfortably next to
+   * Progress Green and Intelligent Purple. Swap freely if Inception42
+   * issues official status colors later.
+   * --------------------------------------------------------------- */
+  --colors-action-green: #91ff01; /* Progress Green */
+  --colors-action-green-hover: #7ad900;
+  --colors-action-green-pressed: #67b800;
+  --colors-action-green-soft: rgba(145, 255, 1, 0.12);
+
+  --colors-action-purple: #ae74ff; /* Intelligent Purple */
+  --colors-action-purple-hover: #9a57ff;
+  --colors-action-purple-pressed: #8742e8;
+  --colors-action-purple-soft: rgba(174, 116, 255, 0.12);
+
+  --colors-action-blue: #4d9fff; /* supplementary — info */
+  --colors-action-blue-hover: #2f86eb;
+  --colors-action-blue-pressed: #1f6fd1;
+  --colors-action-blue-soft: rgba(77, 159, 255, 0.1);
+
+  --colors-action-amber: #ffb020; /* supplementary — warning */
+  --colors-action-amber-hover: #e89900;
+  --colors-action-amber-soft: rgba(255, 176, 32, 0.12);
+
+  --colors-action-red: #ff4d4d; /* supplementary — danger */
+  --colors-action-red-hover: #e23636;
+  --colors-action-red-soft: rgba(255, 77, 77, 0.1);
+
+  /* ---------------------------------------------------------------
+   * Typography — per "Typography" guideline page
+   * Lineca = headline font, Diatype = body font.
+   * Poppins / Inter are the named Google Fonts fallbacks for when
+   * licensed fonts are unavailable (e.g. Google Slides).
+   * --------------------------------------------------------------- */
+  --font-display: 'Lineca', 'Poppins', -apple-system, sans-serif;
+  --font-body: 'Diatype', 'Inter', -apple-system, sans-serif;
+
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 17px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 28px;
+  --text-3xl: 34px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.03em;
+  --tracking-wider: 0.08em;
+
+  /* ---------------------------------------------------------------
+   * Elevation / blur / radius / spacing — generic scale, unchanged
+   * shape from product reference (kept for component-library parity)
+   * --------------------------------------------------------------- */
+  --blur-heavy: 16px;
+  --blur-medium: 12px;
+  --blur-light: 8px;
+  --blur-subtle: 6px;
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --shadow-glass-1: 0 4px 24px rgba(30, 31, 30, 0.08), inset 0 1px 0 rgba(251, 248, 255, 0.9);
+  --shadow-glass-2:
+    0 8px 32px rgba(30, 31, 30, 0.1), 0 2px 8px rgba(30, 31, 30, 0.06),
+    inset 0 1px 0 rgba(251, 248, 255, 0.9);
+  --shadow-glass-3:
+    0 16px 48px rgba(30, 31, 30, 0.12), 0 4px 16px rgba(30, 31, 30, 0.08),
+    inset 0 1px 0 rgba(251, 248, 255, 0.95);
+
+  --shadow-glass-dark-1: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(251, 248, 255, 0.06);
+  --shadow-glass-dark-2:
+    0 8px 32px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(251, 248, 255, 0.06);
+  --shadow-glass-dark-3:
+    0 16px 48px rgba(0, 0, 0, 0.46), 0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(251, 248, 255, 0.08);
+
+  --shadow-focus-primary: 0 0 0 3px rgba(145, 255, 1, 0.4);
+  --shadow-focus-ai: 0 0 0 3px rgba(174, 116, 255, 0.35);
+  --shadow-focus-danger: 0 0 0 3px rgba(255, 77, 77, 0.35);
+
+  --duration-fast: 120ms;
+  --duration-std: 200ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-calm: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}

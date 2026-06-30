@@ -1,0 +1,49 @@
+/*
+ * Inception42 — Brand Tokens
+ * This is the only file that should need editing to re-skin the
+ * product. All values reference primitives — never hardcode hex
+ * values here.
+ *
+ * Source: Inception42 Brand Guidelines (Figma), "Color Overview" /
+ * "Color Usage" / "Dark Mode" pages.
+ *   Primary  → Progress Green     #91FF01
+ *   AI/Intel → Intelligent Purple #AE74FF
+ *   Ink ends → Foundation Black   #1E1F1E / Clarity White #FBF8FF
+ *   Neutral  → Technical Grey     #C2C8D6
+ *
+ * A11y note: Progress Green and Intelligent Purple are both
+ * high-luminance colors. White text fails contrast on either, so
+ * --action-primary-text / --action-ai-text are pinned to
+ * Foundation Black (neutral-900) in both light.css and dark.css.
+ * Verify any new component that paints text on these fills.
+ */
+:root,
+[data-theme='light'] {
+  --brand-primary: var(--colors-action-green);
+  --brand-ai: var(--colors-action-purple);
+  --brand-success: var(--colors-action-green);
+  --brand-warning: var(--colors-action-amber);
+  --brand-danger: var(--colors-action-red);
+  --brand-info: var(--colors-action-blue);
+
+  --brand-text-on-primary: var(--colors-neutral-900);
+  --brand-text-on-ai: var(--colors-neutral-900);
+
+  --brand-font-display: var(--font-display);
+  --brand-font-body: var(--font-body);
+}
+
+[data-theme='dark'] {
+  --brand-primary: var(--colors-action-green);
+  --brand-ai: var(--colors-action-purple);
+  --brand-success: var(--colors-action-green);
+  --brand-warning: var(--colors-action-amber);
+  --brand-danger: var(--colors-action-red);
+  --brand-info: var(--colors-action-blue);
+
+  --brand-text-on-primary: var(--colors-neutral-900);
+  --brand-text-on-ai: var(--colors-neutral-900);
+
+  --brand-font-display: var(--font-display);
+  --brand-font-body: var(--font-body);
+}
