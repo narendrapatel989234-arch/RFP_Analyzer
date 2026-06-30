@@ -1,0 +1,107 @@
+.topnav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background-color: var(--colors-neutral-900);
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-8);
+  box-sizing: border-box;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.logoMark {
+  width: 32px;
+  height: 32px;
+  background-color: var(--action-primary-bg-default);
+  border-radius: var(--radius-sm);
+}
+
+.companyName {
+  color: var(--colors-neutral-0);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  font-family: var(--brand-font-display, var(--font-display));
+}
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.appName {
+  color: var(--colors-neutral-0);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  font-family: var(--brand-font-display, var(--font-display));
+  margin: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.iconBtn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--colors-neutral-300);
+  transition:
+    background-color var(--duration-fast),
+    color var(--duration-fast);
+  position: relative;
+}
+
+.iconBtn:hover {
+  background-color: var(--colors-neutral-800);
+  color: var(--colors-neutral-0);
+}
+
+.iconBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.iconBtn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--action-primary-bg-default);
+  border-radius: var(--radius-full);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--colors-neutral-700);
+  color: var(--colors-neutral-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}

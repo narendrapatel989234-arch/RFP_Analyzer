@@ -1,83 +1,111 @@
-import Image from 'next/image'
+import React from 'react'
+import { TopNav } from '@/components/TopNav'
+import { UploadZone } from '@/components/UploadZone'
+import { StatCard } from '@/components/StatCard'
+import { RFPTable } from '@/components/RFPTable'
+import styles from './page.module.css'
 
-export default function Home() {
+export default function RFPResponderDashboard() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{' '}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-        </ol>
+    <div className={styles.page}>
+      <TopNav />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      <main className={styles.content}>
+        <section className={styles.section}>
+          <UploadZone />
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.statsGrid}>
+            <StatCard
+              title="Total RFPs Uploaded"
+              count={0}
+              trend="Neutral trend"
+              accentColor="var(--action-primary-bg-default)"
+              icon={
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              }
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+            <StatCard
+              title="Functional Pending"
+              count={0}
+              trend="↑ 0% vs last month"
+              trendColor="var(--status-warning-text)"
+              accentColor="var(--status-warning-icon)"
+              icon={
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              }
+            />
+            <StatCard
+              title="Technical Pending"
+              count={0}
+              trend="↑ 0% vs last month"
+              trendColor="var(--status-info-text)"
+              accentColor="var(--status-info-icon)"
+              icon={
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              }
+            />
+            <StatCard
+              title="Completed"
+              count={0}
+              trend="↑ 0% vs last month"
+              trendColor="var(--status-success-text)"
+              accentColor="var(--status-success-icon)"
+              icon={
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              }
+            />
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <RFPTable />
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   )
 }
