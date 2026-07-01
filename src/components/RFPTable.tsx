@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import styles from './RFPTable.module.css'
 
 type StatusType = 'Processing' | 'Pending Review' | 'Completed' | 'Finalised'
@@ -61,6 +62,7 @@ const FILTER_OPTIONS = {
 }
 
 export function RFPTable() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState({
     status: '',
@@ -392,7 +394,7 @@ export function RFPTable() {
                   </td>
                   <td className={styles.colText}>{getRelativeTime(row.lastModifiedDate)}</td>
                   <td style={{ textAlign: 'center' }}>
-                    <button className={styles.actionBtn} aria-label="Open RFP">
+                    <button className={styles.actionBtn} aria-label="Open RFP" onClick={() => router.push(`/rfp/${row.id}`)}>
                       <svg
                         width="20"
                         height="20"

@@ -1,10 +1,23 @@
 import React from 'react'
+import Link from 'next/link'
 import styles from './TopNav.module.css'
 
-export function TopNav() {
+interface TopNavProps {
+  showBack?: boolean
+}
+
+export function TopNav({ showBack }: TopNavProps) {
   return (
     <header className={styles.topnav}>
       <div className={styles.left}>
+        {showBack && (
+          <Link href="/" className={styles.backBtn} aria-label="Go back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </Link>
+        )}
         <svg
           className={styles.logoSvg}
           width="161"
