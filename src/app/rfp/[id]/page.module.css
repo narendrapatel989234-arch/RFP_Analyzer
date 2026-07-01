@@ -67,10 +67,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-6) var(--space-8);
-  background-color: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  padding: var(--space-6) 0;
   margin-top: var(--space-6);
 }
 
@@ -103,9 +100,15 @@
   font-weight: var(--weight-bold);
   font-size: var(--text-sm);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
 }
 
-.proceedBtn:hover {
+.proceedBtn:hover:not(:disabled) {
   background-color: var(--action-primary-bg-hover);
+}
+
+.proceedBtn:disabled {
+  background-color: var(--bg-disabled);
+  color: var(--text-disabled);
+  cursor: not-allowed;
 }

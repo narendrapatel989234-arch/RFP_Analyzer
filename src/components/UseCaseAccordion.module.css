@@ -117,7 +117,7 @@
 }
 
 .modifyCtaBtn {
-  background-color: var(--action-secondary-bg-hover);
+  background-color: var(--action-primary-bg-soft);
   border: 1px solid var(--border-strong);
   color: var(--text-primary);
   border-radius: var(--radius-sm);
@@ -125,11 +125,12 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .modifyCtaBtn:hover {
-  background-color: var(--action-secondary-bg-pressed);
+  background-color: var(--action-primary-bg-default);
+  color: var(--action-primary-text);
 }
 
 .chevron {
@@ -144,18 +145,20 @@
 }
 
 .accordionContent {
-  padding: 0;
+  padding: var(--space-5);
+  background-color: var(--action-secondary-bg-default);
   border-top: 1px solid var(--border-subtle);
-  background-color: var(--bg-surface-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
 .sectionContainer {
   padding: var(--space-6) var(--space-8);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.sectionContainer:last-child {
-  border-bottom: none;
+  background-color: var(--bg-surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .sectionHeader {
@@ -232,9 +235,8 @@
 }
 
 .moduleRowContainer:hover {
-  border-color: var(--action-primary-bg-default);
-  background-color: var(--bg-hover);
-  box-shadow: var(--shadow-1);
+  background-color: var(--action-primary-bg-soft);
+  border-color: var(--border-subtle);
 }
 
 .moduleRowHeader {

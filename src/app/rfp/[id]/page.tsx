@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
@@ -6,6 +8,8 @@ import { UseCaseAccordion } from '@/components/UseCaseAccordion'
 import styles from './page.module.css'
 
 export default function RFPDetail({ params }: { params: { id: string } }) {
+  const [isValidated, setIsValidated] = useState(false)
+
   return (
     <div className={styles.page}>
       <TopNav showBack={false} />
@@ -26,14 +30,14 @@ export default function RFPDetail({ params }: { params: { id: string } }) {
           <div className={styles.headerContainer}>
             <h2 className={styles.sectionTitle}>
               <div style={{
-                backgroundColor: 'var(--bg-surface-1)',
+                backgroundColor: 'var(--colors-neutral-900)',
                 border: '1px solid var(--border-subtle)',
                 borderRadius: 'var(--radius-sm)',
                 padding: '6px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'var(--text-secondary)'
+                color: 'var(--colors-neutral-0)'
               }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -51,12 +55,18 @@ export default function RFPDetail({ params }: { params: { id: string } }) {
           
           <div className={styles.validationFooter}>
             <div className={styles.validationLeft}>
-              <input type="checkbox" id="validation-checkbox" className={styles.validationCheckbox} />
+              <input 
+                type="checkbox" 
+                id="validation-checkbox" 
+                className={styles.validationCheckbox} 
+                checked={isValidated}
+                onChange={(e) => setIsValidated(e.target.checked)}
+              />
               <label htmlFor="validation-checkbox" className={styles.validationLabel}>
                 All use cases validated and ready to proceed to the clarifying questions and proposal generation.
               </label>
             </div>
-            <button className={styles.proceedBtn}>Proceed</button>
+            <button className={styles.proceedBtn} disabled={!isValidated}>Proceed</button>
           </div>
         </section>
       </main>

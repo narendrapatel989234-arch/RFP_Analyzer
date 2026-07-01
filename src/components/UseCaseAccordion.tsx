@@ -168,9 +168,6 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                     <h3 className={styles.title}>{uc.title}</h3>
                     <div className={styles.chipsContainer}>
                       <span className={styles.moduleChip}>{uc.modulesCount} modules</span>
-                      {uc.actionStatus === 'Approved' && (
-                        <span className={`${styles.actionChip} ${styles.chipApproved}`}>{uc.actionStatus}</span>
-                      )}
                       {uc.actionStatus === 'Modified' && (
                         <span className={`${styles.actionChip} ${styles.chipModified}`}>{uc.actionStatus}</span>
                       )}
