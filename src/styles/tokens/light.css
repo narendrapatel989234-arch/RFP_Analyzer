@@ -90,10 +90,10 @@
   --action-secondary-text: var(--text-primary);
 
   /* Status */
-  --status-success-bg: var(--colors-action-green-soft);
-  --status-success-text: var(--colors-action-green-pressed);
-  --status-success-border: rgba(145, 255, 1, 0.3);
-  --status-success-icon: var(--colors-action-green-pressed);
+  --status-success-bg: var(--colors-status-green-soft);
+  --status-success-text: var(--colors-status-green);
+  --status-success-border: var(--colors-status-green-border);
+  --status-success-icon: var(--colors-status-green);
 
   --status-warning-bg: var(--colors-action-amber-soft);
   --status-warning-text: var(--colors-action-amber-hover);

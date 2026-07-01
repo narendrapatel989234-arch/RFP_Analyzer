@@ -20,8 +20,8 @@ export default function RFPResponderDashboard() {
           <div className={styles.statsGrid}>
             <StatCard
               title="Total RFPs Uploaded"
-              count={0}
-              trend="Neutral trend"
+              count={20}
+              trend={{ value: 15, direction: 'up' }}
               accentColor="var(--action-primary-bg-default)"
               icon={
                 <svg
@@ -42,8 +42,8 @@ export default function RFPResponderDashboard() {
             />
             <StatCard
               title="Functional Pending"
-              count={0}
-              trend="↑ 0% vs last month"
+              count={7}
+              trend={{ value: 8, direction: 'up' }}
               trendColor="var(--status-warning-text)"
               accentColor="var(--status-warning-icon)"
               icon={
@@ -62,8 +62,8 @@ export default function RFPResponderDashboard() {
             />
             <StatCard
               title="Technical Pending"
-              count={0}
-              trend="↑ 0% vs last month"
+              count={5}
+              trend={{ value: 3, direction: 'down' }}
               trendColor="var(--status-info-text)"
               accentColor="var(--status-info-icon)"
               icon={
@@ -82,8 +82,8 @@ export default function RFPResponderDashboard() {
             />
             <StatCard
               title="Completed"
-              count={0}
-              trend="↑ 0% vs last month"
+              count={8}
+              trend={{ value: 12, direction: 'up' }}
               trendColor="var(--status-success-text)"
               accentColor="var(--status-success-icon)"
               icon={

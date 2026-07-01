@@ -45,26 +45,12 @@ export function UploadZone() {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <svg
-        className={styles.icon}
-        width="40"
-        height="40"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        viewBox="0 0 24 24"
-      >
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="17 8 12 3 7 8" />
-        <line x1="12" y1="3" x2="12" y2="15" />
-      </svg>
-      <h2 className={styles.heading}>Click to upload or drag & drop</h2>
-      <p className={styles.subLabel}>Supports PDF and DOCX</p>
-      <button className={styles.browseBtn} tabIndex={-1}>
-        Browse Files
-      </button>
+      <div className={styles.primaryText}>
+        Drop file or <span className={styles.browseLink}>Browse</span>
+      </div>
+      <div className={styles.hintText}>
+        Format: PDF, DOCX, DOC &amp; Max file size: 25 MB
+      </div>
     </div>
   )
 }
