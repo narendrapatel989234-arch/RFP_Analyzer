@@ -394,7 +394,13 @@ export function RFPTable() {
                   </td>
                   <td className={styles.colText}>{getRelativeTime(row.lastModifiedDate)}</td>
                   <td style={{ textAlign: 'center' }}>
-                    <button className={styles.actionBtn} aria-label="Open RFP" onClick={() => router.push(`/rfp/${row.id}`)}>
+                    <button className={styles.actionBtn} aria-label="Open RFP" onClick={() => {
+                      if (row.id === 'RFP-002') {
+                        router.push('/rfp/step4-demo')
+                      } else {
+                        router.push(`/rfp/${row.id}`)
+                      }
+                    }}>
                       <svg
                         width="20"
                         height="20"
