@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
 import { UseCaseAccordion } from '@/components/UseCaseAccordion'
@@ -7,9 +8,16 @@ import styles from './page.module.css'
 export default function RFPDetail({ params }: { params: { id: string } }) {
   return (
     <div className={styles.page}>
-      <TopNav showBack={true} />
+      <TopNav showBack={false} />
 
       <main className={styles.content}>
+        <Link href="/" className={styles.backBtn} aria-label="Go back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back
+        </Link>
         <section className={styles.section}>
           <ProgressStepper />
         </section>
@@ -18,13 +26,14 @@ export default function RFPDetail({ params }: { params: { id: string } }) {
           <div className={styles.headerContainer}>
             <h2 className={styles.sectionTitle}>
               <div style={{
-                backgroundColor: 'var(--action-primary-bg-default)',
-                borderRadius: '8px',
+                backgroundColor: 'var(--bg-surface-1)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-sm)',
                 padding: '6px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'white'
+                color: 'var(--text-secondary)'
               }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -39,6 +48,16 @@ export default function RFPDetail({ params }: { params: { id: string } }) {
           </div>
           
           <UseCaseAccordion />
+          
+          <div className={styles.validationFooter}>
+            <div className={styles.validationLeft}>
+              <input type="checkbox" id="validation-checkbox" className={styles.validationCheckbox} />
+              <label htmlFor="validation-checkbox" className={styles.validationLabel}>
+                All use cases validated and ready to proceed to the clarifying questions and proposal generation.
+              </label>
+            </div>
+            <button className={styles.proceedBtn}>Proceed</button>
+          </div>
         </section>
       </main>
     </div>

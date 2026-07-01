@@ -48,15 +48,15 @@
 }
 
 .in-progress {
-  background-color: var(--colors-glass-white-72);
-  border: 2px solid var(--action-primary-bg-default);
+  background-color: var(--status-info-bg);
+  border: 2px solid var(--status-info-text);
 }
 
 .activeDot {
   width: 12px;
   height: 12px;
   border-radius: var(--radius-sm);
-  background-color: var(--action-primary-bg-default);
+  background-color: var(--status-info-text);
 }
 
 .not-started {

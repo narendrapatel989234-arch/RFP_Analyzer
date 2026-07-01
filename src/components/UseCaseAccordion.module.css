@@ -19,10 +19,6 @@
   border-color: var(--border-default);
 }
 
-.accordionItem.expanded {
-  border-color: var(--action-primary-bg-default);
-}
-
 .accordionHeader {
   display: flex;
   align-items: center;
@@ -46,8 +42,8 @@
 .numberIcon {
   width: 40px;
   height: 40px;
-  background-color: #0d4a3e; /* Dark green from the mockup */
-  color: var(--colors-neutral-0);
+  background-color: var(--action-primary-bg-soft);
+  color: var(--text-accent);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -59,14 +55,20 @@
 .titleContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .title {
   margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  color: #0d4a3e; /* Matching the title color from mockup */
+  color: var(--text-primary);
 }
 
 .subtext {
@@ -83,7 +85,6 @@
 
 .chipsContainer {
   display: flex;
-  align-items: center;
   gap: var(--space-2);
 }
 
@@ -115,10 +116,20 @@
   border: 1px solid var(--status-warning-border);
 }
 
-.statusText {
+.modifyCtaBtn {
+  background-color: var(--action-secondary-bg-hover);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
-  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modifyCtaBtn:hover {
+  background-color: var(--action-secondary-bg-pressed);
 }
 
 .chevron {
@@ -241,8 +252,8 @@
 }
 
 .moduleId {
-  background-color: #e6f3f0;
-  color: #0d4a3e;
+  background-color: var(--action-secondary-bg-hover);
+  color: var(--text-primary);
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
   padding: 4px 8px;
@@ -301,44 +312,3 @@
   line-height: 1.5;
 }
 
-.actionFooter {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-4);
-  padding: var(--space-5) var(--space-8);
-  border-top: 1px solid var(--border-strong);
-  background-color: var(--bg-surface-1);
-}
-
-.btnSecondary {
-  padding: var(--space-2) var(--space-5);
-  background-color: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-  font-weight: var(--weight-bold);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btnSecondary:hover {
-  background-color: var(--bg-hover);
-}
-
-.btnPrimary {
-  padding: var(--space-2) var(--space-5);
-  background-color: var(--action-primary-bg-default);
-  color: var(--action-primary-text);
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: var(--weight-bold);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btnPrimary:hover {
-  background-color: var(--action-primary-bg-hover);
-}

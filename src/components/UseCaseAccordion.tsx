@@ -164,21 +164,28 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                   {uc.number}
                 </div>
                 <div className={styles.titleContainer}>
-                  <h3 className={styles.title}>{uc.title}</h3>
+                  <div className={styles.titleRow}>
+                    <h3 className={styles.title}>{uc.title}</h3>
+                    <div className={styles.chipsContainer}>
+                      <span className={styles.moduleChip}>{uc.modulesCount} modules</span>
+                      {uc.actionStatus === 'Approved' && (
+                        <span className={`${styles.actionChip} ${styles.chipApproved}`}>{uc.actionStatus}</span>
+                      )}
+                      {uc.actionStatus === 'Modified' && (
+                        <span className={`${styles.actionChip} ${styles.chipModified}`}>{uc.actionStatus}</span>
+                      )}
+                    </div>
+                  </div>
                   <p className={styles.subtext}>{uc.subtext}</p>
                 </div>
               </div>
               <div className={styles.headerRight}>
-                <div className={styles.chipsContainer}>
-                  <span className={styles.moduleChip}>{uc.modulesCount} modules</span>
-                  {uc.actionStatus === 'Approved' && (
-                    <span className={`${styles.actionChip} ${styles.chipApproved}`}>{uc.actionStatus}</span>
-                  )}
-                  {uc.actionStatus === 'Modified' && (
-                    <span className={`${styles.actionChip} ${styles.chipModified}`}>{uc.actionStatus}</span>
-                  )}
-                </div>
-                <span className={styles.statusText}>{uc.status}</span>
+                <button 
+                  className={styles.modifyCtaBtn} 
+                  onClick={(e) => { e.stopPropagation(); /* Add modify handler here */ }}
+                >
+                  Modify
+                </button>
                 <svg
                   className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}
                   viewBox="0 0 24 24"
@@ -253,11 +260,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                   </ul>
                 </div>
 
-                {/* ACTION FOOTER */}
-                <div className={styles.actionFooter}>
-                  <button className={styles.btnSecondary}>Modify</button>
-                  <button className={styles.btnPrimary}>Approve This UC</button>
-                </div>
+
               </div>
             )}
           </div>
