@@ -15,8 +15,10 @@ export default function RFPResponderDashboard() {
           <UploadZone />
         </section>
 
+        <hr className={styles.divider} />
+
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Overview</h2>
+          <h2 className={styles.sectionTitle}>Request Summary</h2>
           <div className={styles.statsGrid}>
             <StatCard
               title="Total RFPs Uploaded"

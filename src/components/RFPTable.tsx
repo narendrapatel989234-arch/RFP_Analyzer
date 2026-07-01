@@ -11,186 +11,61 @@ interface RFP {
   uploadedBy: string
   uploadedDate: string
   status: StatusType
-  lastModifiedDate: string
+  lastModifiedDate: number
+}
+
+const HOUR = 60 * 60 * 1000;
+const DAY = 24 * HOUR;
+
+function getRelativeTime(timestamp: number): string {
+  const diff = Date.now() - timestamp;
+  const hours = Math.floor(diff / HOUR);
+  const days = Math.floor(diff / DAY);
+
+  if (hours < 1) return "Just now";
+  if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  if (days === 1) return "Yesterday";
+  
+  const d = new Date(timestamp);
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${d.getDate() < 10 ? '0' : ''}${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 const mockData: RFP[] = [
-  {
-    id: 'RFP-001',
-    name: 'Cloud Migration RFP – ACME Corp',
-    uploadedBy: 'Alice Smith',
-    uploadedDate: '2023-10-15',
-    status: 'Processing',
-    lastModifiedDate: '2023-10-15',
-  },
-  {
-    id: 'RFP-002',
-    name: 'Security Audit Services – GlobalNet',
-    uploadedBy: 'Bob Johnson',
-    uploadedDate: '2023-10-12',
-    status: 'Pending Review',
-    lastModifiedDate: '2023-10-14',
-  },
-  {
-    id: 'RFP-003',
-    name: 'Q4 Marketing Agency Pitch',
-    uploadedBy: 'Carol Lee',
-    uploadedDate: '2023-10-05',
-    status: 'Completed',
-    lastModifiedDate: '2023-10-10',
-  },
-  {
-    id: 'RFP-004',
-    name: 'ERP Implementation – Falcon Industries',
-    uploadedBy: 'David Kim',
-    uploadedDate: '2023-09-28',
-    status: 'Finalised',
-    lastModifiedDate: '2023-10-01',
-  },
-  {
-    id: 'RFP-005',
-    name: 'Data Analytics Platform – BrightEdge',
-    uploadedBy: 'Alice Smith',
-    uploadedDate: '2023-09-20',
-    status: 'Processing',
-    lastModifiedDate: '2023-09-22',
-  },
-  {
-    id: 'RFP-006',
-    name: 'Cybersecurity Assessment – NovaTech',
-    uploadedBy: 'Emma Davis',
-    uploadedDate: '2023-09-15',
-    status: 'Completed',
-    lastModifiedDate: '2023-09-18',
-  },
-  {
-    id: 'RFP-007',
-    name: 'Digital Transformation – Horizon Group',
-    uploadedBy: 'Bob Johnson',
-    uploadedDate: '2023-09-10',
-    status: 'Pending Review',
-    lastModifiedDate: '2023-09-12',
-  },
-  {
-    id: 'RFP-008',
-    name: 'Cloud Infrastructure – PeakSystems',
-    uploadedBy: 'Carol Lee',
-    uploadedDate: '2023-09-05',
-    status: 'Finalised',
-    lastModifiedDate: '2023-09-08',
-  },
-  {
-    id: 'RFP-009',
-    name: 'AI Integration – Vertex Corp',
-    uploadedBy: 'David Kim',
-    uploadedDate: '2023-08-30',
-    status: 'Processing',
-    lastModifiedDate: '2023-09-01',
-  },
-  {
-    id: 'RFP-010',
-    name: 'Managed Services – BlueStar Ltd',
-    uploadedBy: 'Emma Davis',
-    uploadedDate: '2023-08-25',
-    status: 'Completed',
-    lastModifiedDate: '2023-08-28',
-  },
-  {
-    id: 'RFP-011',
-    name: 'Network Upgrade – Crestline Partners',
-    uploadedBy: 'Alice Smith',
-    uploadedDate: '2023-08-20',
-    status: 'Pending Review',
-    lastModifiedDate: '2023-08-22',
-  },
-  {
-    id: 'RFP-012',
-    name: 'DevOps Consulting – Ironclad Solutions',
-    uploadedBy: 'Bob Johnson',
-    uploadedDate: '2023-08-15',
-    status: 'Processing',
-    lastModifiedDate: '2023-08-17',
-  },
-  {
-    id: 'RFP-013',
-    name: 'SAP Migration – Quantum Enterprises',
-    uploadedBy: 'Carol Lee',
-    uploadedDate: '2023-08-10',
-    status: 'Finalised',
-    lastModifiedDate: '2023-08-13',
-  },
-  {
-    id: 'RFP-014',
-    name: 'IT Strategy Review – Meridian Group',
-    uploadedBy: 'David Kim',
-    uploadedDate: '2023-08-05',
-    status: 'Completed',
-    lastModifiedDate: '2023-08-07',
-  },
-  {
-    id: 'RFP-015',
-    name: 'Helpdesk Outsourcing – SilverTech',
-    uploadedBy: 'Emma Davis',
-    uploadedDate: '2023-07-30',
-    status: 'Pending Review',
-    lastModifiedDate: '2023-08-01',
-  },
-  {
-    id: 'RFP-016',
-    name: 'Blockchain Pilot – Apex Ventures',
-    uploadedBy: 'Alice Smith',
-    uploadedDate: '2023-07-25',
-    status: 'Processing',
-    lastModifiedDate: '2023-07-27',
-  },
-  {
-    id: 'RFP-017',
-    name: 'IoT Platform – Connected Systems',
-    uploadedBy: 'Bob Johnson',
-    uploadedDate: '2023-07-20',
-    status: 'Completed',
-    lastModifiedDate: '2023-07-23',
-  },
-  {
-    id: 'RFP-018',
-    name: 'CRM Implementation – Orion Retail',
-    uploadedBy: 'Carol Lee',
-    uploadedDate: '2023-07-15',
-    status: 'Finalised',
-    lastModifiedDate: '2023-07-18',
-  },
-  {
-    id: 'RFP-019',
-    name: 'Automation Framework – DeltaSoft',
-    uploadedBy: 'David Kim',
-    uploadedDate: '2023-07-10',
-    status: 'Pending Review',
-    lastModifiedDate: '2023-07-12',
-  },
-  {
-    id: 'RFP-020',
-    name: 'Cloud Security – Nexus Financial',
-    uploadedBy: 'Emma Davis',
-    uploadedDate: '2023-07-05',
-    status: 'Processing',
-    lastModifiedDate: '2023-07-08',
-  },
+  { id: 'RFP-001', name: 'Cloud Migration RFP – ACME Corp', uploadedBy: 'Alice Smith', uploadedDate: '2023-10-15', status: 'Processing', lastModifiedDate: Date.now() - 1 * HOUR },
+  { id: 'RFP-002', name: 'Security Audit Services – GlobalNet', uploadedBy: 'Bob Johnson', uploadedDate: '2023-10-12', status: 'Pending Review', lastModifiedDate: Date.now() - 3 * HOUR },
+  { id: 'RFP-003', name: 'Q4 Marketing Agency Pitch', uploadedBy: 'Carol Lee', uploadedDate: '2023-10-05', status: 'Completed', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-004', name: 'ERP Implementation – Falcon Industries', uploadedBy: 'David Kim', uploadedDate: '2023-09-28', status: 'Finalised', lastModifiedDate: Date.now() - 2 * DAY },
+  { id: 'RFP-005', name: 'Data Analytics Platform – BrightEdge', uploadedBy: 'Alice Smith', uploadedDate: '2023-09-20', status: 'Processing', lastModifiedDate: Date.now() },
+  { id: 'RFP-006', name: 'Cybersecurity Assessment – NovaTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-09-15', status: 'Completed', lastModifiedDate: Date.now() - 5 * HOUR },
+  { id: 'RFP-007', name: 'Digital Transformation – Horizon Group', uploadedBy: 'Bob Johnson', uploadedDate: '2023-09-10', status: 'Pending Review', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-008', name: 'Cloud Infrastructure – PeakSystems', uploadedBy: 'Carol Lee', uploadedDate: '2023-09-05', status: 'Finalised', lastModifiedDate: Date.now() - 3 * DAY },
+  { id: 'RFP-009', name: 'AI Integration – Vertex Corp', uploadedBy: 'David Kim', uploadedDate: '2023-08-30', status: 'Processing', lastModifiedDate: Date.now() },
+  { id: 'RFP-010', name: 'Managed Services – BlueStar Ltd', uploadedBy: 'Emma Davis', uploadedDate: '2023-08-25', status: 'Completed', lastModifiedDate: Date.now() - 2 * HOUR },
+  { id: 'RFP-011', name: 'Network Upgrade – Crestline Partners', uploadedBy: 'Alice Smith', uploadedDate: '2023-08-20', status: 'Pending Review', lastModifiedDate: Date.now() - 6 * DAY },
+  { id: 'RFP-012', name: 'DevOps Consulting – Ironclad Solutions', uploadedBy: 'Bob Johnson', uploadedDate: '2023-08-15', status: 'Processing', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-013', name: 'SAP Migration – Quantum Enterprises', uploadedBy: 'Carol Lee', uploadedDate: '2023-08-10', status: 'Finalised', lastModifiedDate: Date.now() - 4 * HOUR },
+  { id: 'RFP-014', name: 'IT Strategy Review – Meridian Group', uploadedBy: 'David Kim', uploadedDate: '2023-08-05', status: 'Completed', lastModifiedDate: Date.now() },
+  { id: 'RFP-015', name: 'Helpdesk Outsourcing – SilverTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-30', status: 'Pending Review', lastModifiedDate: Date.now() - 3 * HOUR },
+  { id: 'RFP-016', name: 'Blockchain Pilot – Apex Ventures', uploadedBy: 'Alice Smith', uploadedDate: '2023-07-25', status: 'Processing', lastModifiedDate: Date.now() - 2 * DAY },
+  { id: 'RFP-017', name: 'IoT Platform – Connected Systems', uploadedBy: 'Bob Johnson', uploadedDate: '2023-07-20', status: 'Completed', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-018', name: 'CRM Implementation – Orion Retail', uploadedBy: 'Carol Lee', uploadedDate: '2023-07-15', status: 'Finalised', lastModifiedDate: Date.now() - 1 * HOUR },
+  { id: 'RFP-019', name: 'Automation Framework – DeltaSoft', uploadedBy: 'David Kim', uploadedDate: '2023-07-10', status: 'Pending Review', lastModifiedDate: Date.now() },
+  { id: 'RFP-020', name: 'Cloud Security – Nexus Financial', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-05', status: 'Processing', lastModifiedDate: Date.now() - 5 * DAY },
 ]
 
 const FILTER_OPTIONS = {
-  lifecycleStage: ['Active', 'Archived', 'Draft'],
   status: ['Processing', 'Pending Review', 'Completed', 'Finalised'],
+  uploadedDate: ['Today', 'Last 7 days', 'Last 30 days', 'Last 3 months'],
   uploadedBy: ['Alice Smith', 'Bob Johnson', 'Carol Lee', 'David Kim', 'Emma Davis'],
-  selectDate: ['Today', 'Last 7 days', 'Last 30 days', 'Last 3 months'],
 }
 
 export function RFPTable() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState({
-    lifecycleStage: '',
     status: '',
     uploadedBy: '',
-    selectDate: '',
+    uploadedDate: '',
   })
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
@@ -256,10 +131,9 @@ export function RFPTable() {
   const clearAllFilters = () => {
     setSearchQuery('')
     setFilters({
-      lifecycleStage: '',
       status: '',
       uploadedBy: '',
-      selectDate: '',
+      uploadedDate: '',
     })
     setOpenDropdown(null)
   }
@@ -270,8 +144,19 @@ export function RFPTable() {
     const matchesSearch = row.name.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesStatus = filters.status ? row.status === filters.status : true
     const matchesUploadedBy = filters.uploadedBy ? row.uploadedBy === filters.uploadedBy : true
+    
+    const matchesUploadedDate = filters.uploadedDate ? (() => {
+      const rowTime = new Date(row.uploadedDate).getTime();
+      const now = Date.now();
+      const diffDays = (now - rowTime) / (1000 * 60 * 60 * 24);
+      if (filters.uploadedDate === 'Today') return diffDays < 1;
+      if (filters.uploadedDate === 'Last 7 days') return diffDays <= 7;
+      if (filters.uploadedDate === 'Last 30 days') return diffDays <= 30;
+      if (filters.uploadedDate === 'Last 3 months') return diffDays <= 90;
+      return true;
+    })() : true;
 
-    return matchesSearch && matchesStatus && matchesUploadedBy
+    return matchesSearch && matchesStatus && matchesUploadedBy && matchesUploadedDate
   })
 
   const totalItems = filteredData.length
@@ -282,7 +167,7 @@ export function RFPTable() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.headerRow}>
-        <h2 className={styles.heading}>RFP Tracker</h2>
+        <h2 className={styles.heading}>All Requests</h2>
       </div>
 
       <div className={styles.filterRow} ref={filterRowRef}>
@@ -302,48 +187,11 @@ export function RFPTable() {
             </svg>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search RFP names"
               className={styles.searchInput}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
-
-          <div className={styles.dropdownContainer}>
-            <button
-              className={`${styles.filterDropdown} ${filters.lifecycleStage ? styles.filterDropdownActive : ''}`}
-              aria-haspopup="listbox"
-              onClick={() => toggleDropdown('lifecycleStage')}
-            >
-              <span>
-                {filters.lifecycleStage ? `Stage: ${filters.lifecycleStage}` : 'Lifecycle Stage'}
-              </span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={styles.chevronIcon}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-            {openDropdown === 'lifecycleStage' && (
-              <div className={styles.dropdownPopover}>
-                {FILTER_OPTIONS.lifecycleStage.map((option) => (
-                  <button
-                    key={option}
-                    className={styles.dropdownOption}
-                    onClick={() => selectFilter('lifecycleStage', option)}
-                  >
-                    <span>{option}</span>
-                    {filters.lifecycleStage === option && <CheckIcon />}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           <div className={styles.dropdownContainer}>
@@ -420,10 +268,10 @@ export function RFPTable() {
 
           <div className={styles.dropdownContainer}>
             <button
-              className={`${styles.filterDropdown} ${filters.selectDate ? styles.filterDropdownActive : ''}`}
+              className={`${styles.filterDropdown} ${filters.uploadedDate ? styles.filterDropdownActive : ''}`}
               aria-haspopup="listbox"
               style={{ width: '160px' }}
-              onClick={() => toggleDropdown('selectDate')}
+              onClick={() => toggleDropdown('uploadedDate')}
             >
               <div className={styles.dropdownLeftContent}>
                 <svg
@@ -440,7 +288,7 @@ export function RFPTable() {
                   <line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                <span>{filters.selectDate || 'Select Date'}</span>
+                <span>{filters.uploadedDate || 'Uploaded Date'}</span>
               </div>
               <svg
                 viewBox="0 0 24 24"
@@ -454,16 +302,16 @@ export function RFPTable() {
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
-            {openDropdown === 'selectDate' && (
+            {openDropdown === 'uploadedDate' && (
               <div className={styles.dropdownPopover}>
-                {FILTER_OPTIONS.selectDate.map((option) => (
+                {FILTER_OPTIONS.uploadedDate.map((option) => (
                   <button
                     key={option}
                     className={styles.dropdownOption}
-                    onClick={() => selectFilter('selectDate', option)}
+                    onClick={() => selectFilter('uploadedDate', option)}
                   >
                     <span>{option}</span>
-                    {filters.selectDate === option && <CheckIcon />}
+                    {filters.uploadedDate === option && <CheckIcon />}
                   </button>
                 ))}
               </div>
@@ -542,7 +390,7 @@ export function RFPTable() {
                       {row.status}
                     </span>
                   </td>
-                  <td className={styles.colText}>{row.lastModifiedDate}</td>
+                  <td className={styles.colText}>{getRelativeTime(row.lastModifiedDate)}</td>
                   <td style={{ textAlign: 'center' }}>
                     <button className={styles.actionBtn} aria-label="Open RFP">
                       <svg

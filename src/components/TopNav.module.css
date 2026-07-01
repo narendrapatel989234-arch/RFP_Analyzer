@@ -1,12 +1,12 @@
 .topnav {
   position: fixed;
-  top: var(--space-3);
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 48px);
-  height: 56px;
+  top: var(--space-5);
+  left: var(--space-8);
+  right: var(--space-8);
+  width: auto;
+  height: 68px;
   border-radius: var(--radius-md);
-  background: rgba(20, 21, 20, 0.7);
+  background: rgba(20, 21, 20, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(251, 248, 255, 0.08);
@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-8);
+  padding: 0 var(--space-5);
   box-sizing: border-box;
 }
 

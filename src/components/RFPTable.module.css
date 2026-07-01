@@ -93,6 +93,7 @@
   gap: var(--space-2);
   cursor: pointer;
   outline: none;
+  white-space: nowrap;
   transition:
     border-color var(--duration-fast),
     color var(--duration-fast);
@@ -104,15 +105,15 @@
 }
 
 .filterDropdownActive {
-  background-color: var(--action-primary-bg-soft);
-  border: 1.5px solid var(--action-primary-bg-default);
+  background-color: #f6f4fa;
+  border: 1px solid #dddbe4;
   color: var(--text-primary);
   font-weight: var(--weight-semibold);
 }
 
 .filterDropdownActive .chevronIcon,
 .filterDropdownActive .calendarIcon {
-  color: var(--action-primary-bg-default);
+  color: var(--text-secondary);
 }
 
 .dropdownPopover {
@@ -120,7 +121,7 @@
   top: calc(100% + var(--space-1));
   left: 0;
   min-width: 180px;
-  background-color: var(--bg-surface-1);
+  background-color: #ffffff;
   opacity: 1;
   isolation: isolate;
   border: 1px solid #dddbe4;
@@ -201,7 +202,7 @@
 .tableCard {
   width: 100%;
   background-color: var(--bg-surface-1);
-  border: 1px solid var(--border-default);
+  border: 1px solid #dddbe4;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-1);
   overflow: hidden;
@@ -213,12 +214,13 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  font-family: var(--brand-font-body, var(--font-body));
 }
 
 .table thead tr {
-  background-color: #eeecf3;
+  background-color: #f6f4fa;
   height: 44px;
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: 1px solid #dddbe4;
 }
 
 .table th {
@@ -233,21 +235,18 @@
 
 .table tbody tr {
   height: 56px;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid #dddbe4;
   transition: background-color var(--duration-fast);
 }
 
-.table tbody tr:last-child {
-  border-bottom: none;
-}
-
 .table tbody tr:hover {
-  background-color: var(--bg-hover);
+  background-color: #f6f4fa;
 }
 
 .table td {
   padding: 0 var(--space-4);
   vertical-align: middle;
+  font-size: var(--text-sm);
 }
 
 .colId {
