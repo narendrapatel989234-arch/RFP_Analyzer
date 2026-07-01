@@ -16,6 +16,7 @@ export default function RFPResponderDashboard() {
         </section>
 
         <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Overview</h2>
           <div className={styles.statsGrid}>
             <StatCard
               title="Total RFPs Uploaded"

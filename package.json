@@ -13,8 +13,7 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "husky"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "next": "15.5.19",
@@ -22,8 +21,6 @@
     "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.1.0",
-    "@commitlint/config-conventional": "^21.1.0",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.61.1",
     "@storybook/addon-a11y": "^10.4.6",
@@ -38,9 +35,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.5.19",
-    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
-    "lint-staged": "^17.0.8",
     "msw": "^2.14.6",
     "prettier": "^3.9.3",
     "storybook": "^10.4.6",
