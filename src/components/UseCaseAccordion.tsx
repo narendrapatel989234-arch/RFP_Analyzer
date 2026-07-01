@@ -8,6 +8,8 @@ export interface UseCaseModule {
   identifier: string
   title: string
   description: string
+  includedInScope?: string[]
+  outOfScope?: string[]
 }
 
 export interface UseCase {
@@ -43,7 +45,20 @@ const defaultUseCases: UseCase[] = [
         id: 'm1',
         identifier: 'M1',
         title: 'Conversational AI Engine',
-        description: 'The core reasoning layer that understands a citizen\'s question, retrieves the right legal article, and formulates a plain-language answer — in Arabic or English.'
+        description: 'The core reasoning layer that understands a citizen\'s question, retrieves the right legal article, and formulates a plain-language answer — in Arabic or English.',
+        includedInScope: [
+          'Natural language understanding (NLU) for legal intent detection',
+          'Retrieval-Augmented Generation (RAG) over the approved legislative corpus',
+          'Bilingual response generation — Arabic (MSA) and English',
+          'Confidence scoring on every answer; low-confidence answers are flagged',
+          'Multi-turn conversation memory within a session',
+          'Structured answer format: article reference → plain summary → disclaimer'
+        ],
+        outOfScope: [
+          'Interpretation or extrapolation beyond the approved corpus',
+          'Generating legal opinions, advice, or draft contracts',
+          'Training or fine-tuning on data outside the approved corpus'
+        ]
       },
       {
         id: 'm2',
@@ -127,7 +142,43 @@ function ModuleRow({ mod }: { mod: UseCaseModule }) {
       </div>
       {expanded && (
         <div className={styles.moduleDetails}>
-          <p>{mod.description}</p>
+          <p className={styles.moduleDesc}>{mod.description}</p>
+          
+          {(mod.includedInScope || mod.outOfScope) && (
+            <div className={styles.scopeGrid}>
+              {mod.includedInScope && (
+                <div className={styles.scopeCardIncluded}>
+                  <h5 className={styles.scopeTitleIncluded}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    INCLUDED IN SCOPE
+                  </h5>
+                  <ul className={styles.scopeListIncluded}>
+                    {mod.includedInScope.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {mod.outOfScope && (
+                <div className={styles.scopeCardExcluded}>
+                  <h5 className={styles.scopeTitleExcluded}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                    OUT OF SCOPE
+                  </h5>
+                  <ul className={styles.scopeListExcluded}>
+                    {mod.outOfScope.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -136,14 +187,46 @@ function ModuleRow({ mod }: { mod: UseCaseModule }) {
 
 export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: UseCase[] }) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [cases, setCases] = useState<UseCase[]>(useCases)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modifyingId, setModifyingId] = useState<string | null>(null)
+  const [prompt, setPrompt] = useState('')
+  const [showToast, setShowToast] = useState(false)
 
   const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id))
   }
 
+  const openModifyModal = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation()
+    setModifyingId(id)
+    setPrompt('')
+    setIsModalOpen(true)
+  }
+
+  const handleRegenerate = () => {
+    if (!modifyingId) return
+
+    setCases((prev) => prev.map((uc) => {
+      if (uc.id === modifyingId) {
+        return {
+          ...uc,
+          actionStatus: 'Modified'
+        }
+      }
+      return uc
+    }))
+    
+    setIsModalOpen(false)
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 3000)
+  }
+
   return (
     <div className={styles.accordionContainer}>
-      {useCases.map((uc) => {
+      {cases.map((uc) => {
         const isExpanded = expandedId === uc.id
         return (
           <div key={uc.id} className={`${styles.accordionItem} ${isExpanded ? styles.expanded : ''}`}>
@@ -179,7 +262,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
               <div className={styles.headerRight}>
                 <button 
                   className={styles.modifyCtaBtn} 
-                  onClick={(e) => { e.stopPropagation(); /* Add modify handler here */ }}
+                  onClick={(e) => openModifyModal(e, uc.id)}
                 >
                   Modify
                 </button>
@@ -263,6 +346,40 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
           </div>
         )
       })}
+
+      {/* MODAL POPUP */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3 className={styles.modalTitle}>Modify Use Case</h3>
+            <p className={styles.modalDesc}>Provide instructions on how to regenerate this use case.</p>
+            <textarea
+              className={styles.modalTextarea}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="e.g., Focus more on compliance features..."
+            />
+            <div className={styles.modalActions}>
+              <button className={styles.modalCancelBtn} onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </button>
+              <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={!prompt.trim()}>
+                Regenerate Use Case
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TOAST NOTIFICATION */}
+      {showToast && (
+        <div className={styles.toast}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Usecase regenerated successfully!
+        </div>
+      )}
     </div>
   )
 }
