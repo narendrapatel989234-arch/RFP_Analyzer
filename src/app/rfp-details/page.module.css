@@ -752,3 +752,147 @@
   color: #9a9da8;
   cursor: not-allowed;
 }
+
+/* Parsed Outline Tree */
+.outlineCard {
+  background-color: var(--bg-surface-1, #ffffff);
+  border: 1px solid #dddbe4;
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.outlineHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  border-bottom: 1px solid #dddbe4;
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  user-select: none;
+}
+
+.outlineList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.outlineNodeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+}
+
+.outlineNodeLeft {
+  display: flex;
+  align-items: center;
+  min-width: 16px;
+  justify-content: center;
+}
+
+.outlineChevron {
+  cursor: pointer;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outlineChevron:hover {
+  color: var(--text-primary);
+}
+
+.outlineTextWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.outlinePrefix {
+  color: var(--text-secondary);
+}
+
+.outlineParent .outlineLabel {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.outlineChild {
+  margin-left: 20px;
+}
+
+.outlineChild .outlineLabel {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.inlineEditBtn {
+  opacity: 0;
+  cursor: pointer;
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--duration-fast);
+}
+
+.outlineNodeRow:hover .inlineEditBtn {
+  opacity: 1;
+}
+
+.inlineEditBtn:hover {
+  color: var(--action-primary-bg-default);
+}
+
+.inlineInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  border-bottom: 1px dashed var(--action-primary-bg-default);
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--text-primary);
+}
+
+/* Manual Attachment Toolbar */
+.paperclipBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-fast), color var(--duration-fast);
+}
+
+.paperclipBtn:hover {
+  background: rgba(145, 255, 1, 0.04);
+  color: var(--action-primary-bg-default);
+}
+
+.paperclipFileName {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+  font-size: var(--text-xs);
+}
