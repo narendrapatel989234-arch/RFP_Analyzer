@@ -83,30 +83,33 @@ export default function RFPDetail() {
 
           <UseCaseAccordion />
 
-          <div className={styles.validationFooter}>
-            <div className={styles.validationLeft}>
-              <input
-                type="checkbox"
-                id="validation-checkbox"
-                className={styles.validationCheckbox}
-                checked={isValidated}
-                onChange={(e) => setIsValidated(e.target.checked)}
-              />
-              <label
-                htmlFor="validation-checkbox"
-                className={styles.validationLabel}
-              >
-                All use cases validated and ready to proceed to the clarifying
-                questions and proposal generation.
-              </label>
-            </div>
+          <div className={styles.validationContainer}>
+            <h3 className={styles.validationSectionTitle}>Validate Use Cases</h3>
+            <div className={styles.validationFooter}>
+              <div className={styles.validationLeft}>
+                <input
+                  type="checkbox"
+                  id="validation-checkbox"
+                  className={styles.validationCheckbox}
+                  checked={isValidated}
+                  onChange={(e) => setIsValidated(e.target.checked)}
+                />
+                <label
+                  htmlFor="validation-checkbox"
+                  className={styles.validationLabel}
+                >
+                  All use cases validated and ready to proceed to the clarifying
+                  questions and proposal generation.
+                </label>
+              </div>
 
-            <button
-              className={styles.proceedBtn}
-              disabled={!isValidated}
-            >
-              Proceed
-            </button>
+              <button
+                className={styles.proceedBtn}
+                disabled={!isValidated}
+              >
+                Proceed
+              </button>
+            </div>
           </div>
         </section>
       </main>
