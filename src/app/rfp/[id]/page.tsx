@@ -11,7 +11,6 @@ import styles from './page.module.css'
 export default function RFPDetail() {
   const { id } = useParams<{ id: string }>()
   const [isValidated, setIsValidated] = useState(false)
-  const [isTechStackExpanded, setIsTechStackExpanded] = useState(false)
 
   const isStage3 = id === 'RFP-003'
   const activeStep = isStage3 ? 3 : 2
@@ -21,7 +20,6 @@ export default function RFPDetail() {
     'Docker', 'Kubernetes', 'AWS', 'Terraform', 'GraphQL', 
     'Redis', 'Elasticsearch', 'Kafka', 'MongoDB', 'GitHub Actions'
   ]
-  const visibleTechStack = isTechStackExpanded ? techStack : techStack.slice(0, 7)
 
   return (
     <div className={styles.page}>
@@ -108,29 +106,9 @@ export default function RFPDetail() {
               </div>
               <div className={styles.techStackContent}>
                 <div className={styles.techStackChips}>
-                  {visibleTechStack.map((tech, idx) => (
+                  {techStack.map((tech, idx) => (
                     <span key={idx} className={styles.techChip}>{tech}</span>
                   ))}
-                  {techStack.length > 7 && (
-                    <button 
-                      className={styles.techStackToggleBtn}
-                      onClick={() => setIsTechStackExpanded(!isTechStackExpanded)}
-                    >
-                      {isTechStackExpanded ? 'Collapse' : `+${techStack.length - 7} more`}
-                      <svg 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        className={styles.techStackChevron}
-                        style={{ transform: isTechStackExpanded ? 'rotate(180deg)' : 'none' }}
-                      >
-                        <polyline points="6 9 12 15 18 9" />
-                      </svg>
-                    </button>
-                  )}
                 </div>
               </div>
             </div>

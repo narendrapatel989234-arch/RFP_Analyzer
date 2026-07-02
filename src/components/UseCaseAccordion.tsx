@@ -156,7 +156,7 @@ const defaultUseCases: UseCase[] = [
     title: 'Smart Case Filing Portal',
     subtext: 'UC2 — AI-guided self-service portal for citizens to file legal cases without a lawyer',
     status: 'Awaiting review',
-    modulesCount: 5,
+    modulesCount: 4,
     actionStatus: null,
     problemUnderstanding: [
       'Citizens struggle to understand the complex forms and prerequisites required to formally file a case.',
@@ -250,7 +250,7 @@ const defaultUseCases: UseCase[] = [
     title: 'Judicial Analytics Dashboard',
     subtext: 'UC3 — Real-time insight platform for ADJD leadership to monitor court performance and backlog',
     status: 'Awaiting review',
-    modulesCount: 5,
+    modulesCount: 3,
     actionStatus: null,
     problemUnderstanding: [
       'Court administrators lack real-time visibility into case backlogs across different jurisdictions.',
@@ -517,7 +517,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [cases, setCases] = useState<UseCase[]>(useCases)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalType, setModalType] = useState<'usecase' | 'edit-section' | 'regenerate-section'>('usecase')
+  const [modalType, setModalType] = useState<'usecase' | 'edit-section' | 'regenerate-section' | 'upload-diagram'>('usecase')
   const [modifyingId, setModifyingId] = useState<string | null>(null)
   const [modifyingSection, setModifyingSection] = useState<number | null>(null)
   const [regeneratingSectionId, setRegeneratingSectionId] = useState<string | null>(null)
@@ -537,7 +537,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
     setExpandedId((prev) => (prev === id ? null : id))
   }
 
-  const openModifyModal = (e: React.MouseEvent, id: string, type: 'usecase' | 'edit-section' | 'regenerate-section' = 'usecase', section: number | null = null) => {
+  const openModifyModal = (e: React.MouseEvent, id: string, type: 'usecase' | 'edit-section' | 'regenerate-section' | 'upload-diagram' = 'usecase', section: number | null = null) => {
     e.stopPropagation()
     setModifyingId(id)
     setModalType(type)
@@ -561,8 +561,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
       return
     }
 
-    if (modalType === 'edit-section') {
-      triggerToast('Section saved successfully!')
+    if (modalType === 'edit-section' || modalType === 'upload-diagram') {
+      triggerToast(modalType === 'upload-diagram' ? 'Diagram uploaded successfully!' : 'Section saved successfully!')
       return
     }
 
@@ -677,6 +677,11 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
 
                 {/* SECTION 2: Techno-functional Scope */}
                 <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-2` && (
+                    <div className={styles.shimmerOverlay}>
+                      <div className={styles.shimmerText}>Regenerating Section...</div>
+                    </div>
+                  )}
                   <div className={styles.sectionHeader}>
                     <div className={styles.sectionHeaderLeft}>
                       <div className={styles.sectionIcon}>
@@ -684,8 +689,16 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </div>
                       <h4 className={styles.sectionTitle}>2 — Techno-functional Scope</h4>
                     </div>
-                    <span className={styles.sectionSubtitle}>Module-by-module breakdown — include / exclude</span>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 2) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 2) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
                   </div>
+                  <span className={styles.sectionSubtitle} style={{ marginTop: '-12px', display: 'block', marginBottom: '16px' }}>Module-by-module breakdown — include / exclude</span>
                   <div className={styles.modulesList}>
                     {uc.technoFunctionalScope.map((mod) => (
                       <ModuleRow key={mod.id} mod={mod} triggerToast={triggerToast} />
@@ -757,8 +770,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       <h4 className={styles.sectionTitle}>1 — Architecture Diagram</h4>
                     </div>
                     <div className={styles.sectionActions}>
-                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 1) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      <button className={styles.sectionActionBtn} title="Upload diagram" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'upload-diagram', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
                       </button>
                       <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 1) }}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
@@ -926,27 +939,38 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3 className={styles.modalTitle}>
-              {modalType === 'usecase' ? 'Modify Use Case' : modalType === 'edit-section' ? 'Edit Section' : 'Regenerate Section'}
+              {modalType === 'usecase' ? 'Modify Use Case' : modalType === 'edit-section' ? 'Edit Section' : modalType === 'upload-diagram' ? 'Upload Architecture Diagram' : 'Regenerate Section'}
             </h3>
             <p className={styles.modalDesc}>
               {modalType === 'usecase'
                 ? 'Provide instructions on how to regenerate this use case.'
                 : modalType === 'edit-section'
                   ? 'Provide the updated content for this section.'
-                  : 'Provide instructions on how to regenerate this section.'}
+                  : modalType === 'upload-diagram'
+                    ? 'Select an image file to upload as the new architecture diagram.'
+                    : 'Provide instructions on how to regenerate this section.'}
             </p>
-            <textarea
-              className={styles.useCaseModifyTextarea}
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder={modalType === 'edit-section' ? "Enter section content..." : "e.g., Focus more on compliance features..."}
-            />
+            
+            {modalType === 'upload-diagram' ? (
+              <div className={styles.uploadBox}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.uploadIcon}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                <p>Drag and drop or <span className={styles.uploadBrowse}>browse files</span></p>
+              </div>
+            ) : (
+              <textarea
+                className={styles.useCaseModifyTextarea}
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder={modalType === 'edit-section' ? "Enter section content..." : "e.g., Focus more on compliance features..."}
+              />
+            )}
+            
             <div className={styles.modalActions}>
               <button className={styles.modalCancelBtn} onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
-              <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={!prompt.trim()}>
-                {modalType === 'usecase' ? 'Regenerate Use Case' : modalType === 'regenerate-section' ? 'Regenerate Section' : 'Save'}
+              <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={modalType !== 'upload-diagram' && !prompt.trim()}>
+                {modalType === 'usecase' ? 'Regenerate Use Case' : modalType === 'regenerate-section' ? 'Regenerate Section' : modalType === 'upload-diagram' ? 'Upload' : 'Save'}
               </button>
             </div>
           </div>
