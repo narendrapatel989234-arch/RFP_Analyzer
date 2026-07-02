@@ -1,0 +1,7 @@
+  const handleClearAll = () => {
+    setUploadedDoc(null)
+    setPromptText('')
+    setCapabilityDocs([])
+    setSupportingDocs([])
+    setAddComponentsDocs([])
+    setPartnerCapabilitiesDocs([])

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
 import { UseCaseAccordion } from '@/components/UseCaseAccordion'
@@ -10,6 +10,7 @@ import styles from './page.module.css'
 
 export default function RFPDetail() {
   const { id } = useParams<{ id: string }>()
+  const router = useRouter()
   const [isValidated, setIsValidated] = useState(false)
 
   const isStage3 = id === 'RFP-003'
@@ -44,7 +45,14 @@ export default function RFPDetail() {
         </Link>
 
         <section className={styles.section}>
-          <ProgressStepper activeStep={activeStep} />
+          <ProgressStepper 
+            activeStep={activeStep} 
+            onStepClick={(stepId) => {
+              if (stepId === 1) {
+                router.push('/rfp-upload-review')
+              }
+            }}
+          />
         </section>
 
         <section className={styles.section}>

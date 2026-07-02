@@ -1,0 +1,13 @@
+        {extractionModal.isOpen && (
+          <div className={styles.extractionModalOverlay}>
+            <div className={styles.extractionModalCard}>
+              <div className={styles.extractionModalSpinner}></div>
+              <div className={styles.extractionModalText}>
+                {extractionModal.stage === 1 
+                  ? "Uploading document..." 
+                  : (extractionModal.type === 'components' ? "Extracting components..." : "Extracting capabilities...")}
+              </div>
+            </div>
+          </div>
+        )}
+      </main>

@@ -1,0 +1,20 @@
+        {/* Section 3 - Upload Documents */}
+        <MultiUploadZone
+          label="Supporting Documents"
+          files={supportingDocs}
+          setFiles={setSupportingDocs}
+        />
+
+        {/* Section 3.1 - Add Components */}
+        <section>
+          <label className={styles.sectionLabel}>Add Components</label>
+          <ExtractionDropzone label="Add Components" onDrop={(f) => handleExtractionUpload(f, 'components')} />
+          {addComponentsDocs.map(doc => renderExtractedDoc(doc, 'components'))}
+        </section>
+
+        {/* Section 3.2 - Add Partner Capabilities */}
+        <section>
+          <label className={styles.sectionLabel}>Add Partner Capabilities</label>
+          <ExtractionDropzone label="Add Partner Capabilities" onDrop={(f) => handleExtractionUpload(f, 'partner')} />
+          {partnerCapabilitiesDocs.map(doc => renderExtractedDoc(doc, 'partner'))}
+        </section>

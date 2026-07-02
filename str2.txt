@@ -1,0 +1,63 @@
+interface TableRow {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface ExtractedDocument {
+  id: string;
+  file: File;
+  description: string;
+  tableData: TableRow[];
+  isExpanded: boolean;
+  isEditing?: boolean;
+}
+
+function ExtractionDropzone({ label, onDrop }: { label: string, onDrop: (f: File) => void }) {
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    if (e.dataTransfer.files?.length) {
+      onDrop(e.dataTransfer.files[0])
+    }
+  }
+  return (
+    <div
+      className={"""" + styles.uploadZone + (isDragging ? """" """" + styles.isDragging : """")}
+      onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+      onDragLeave={(e) => { e.preventDefault(); setIsDragging(false) }}
+      onDrop={handleDrop}
+      onClick={() => fileInputRef?.current?.click()}
+      role=""""button""""
+      tabIndex={0}
+      aria-label={Upload ${label}}
+    >
+      <input 
+        type=""""file"""" 
+        ref={fileInputRef} 
+        style={{ display: 'none' }} 
+        accept="""".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword""""
+        onChange={(e) => { if (e.target.files?.length) onDrop(e.target.files[0]); e.target.value = '' }}
+      />
+      <div className={styles.uploadIconCircle}>
+        <svg fill=""""none"""" stroke=""""currentColor"""" strokeWidth=""""2"""" strokeLinecap=""""round"""" strokeLinejoin=""""round"""" viewBox=""""0 0 24 24"""">
+          <path d=""""M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"""" />
+          <polyline points=""""17 8 12 3 7 8"""" />
+          <line x1=""""12"""" y1=""""3"""" x2=""""12"""" y2=""""15"""" />
+        </svg>
+      </div>
+      <div className={styles.uploadText}>
+        <span style={{ color: 'var(--text-primary)' }}>Drop file or </span>
+        Browse
+      </div>
+      <div className={styles.hintText}>
+        Format: PDF, DOCX, DOC &amp; Max file size: 25 MB
+      </div>
+    </div>
+  )
+}
+
+export default function RFPDetailsPage() {

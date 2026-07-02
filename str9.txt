@@ -1,0 +1,25 @@
+        {/* Section 3 - Upload Documents */}
+        <MultiUploadZone
+          label="Capability Documents"
+          files={capabilityDocs}
+          setFiles={setCapabilityDocs}
+        />
+        <MultiUploadZone
+          label="Supporting Documents"
+          files={supportingDocs}
+          setFiles={setSupportingDocs}
+        />
+
+        {/* Section 3.1 - Add Components */}
+        <MultiUploadZone 
+          label="Add Components" 
+          files={addComponentsDocs} 
+          setFiles={setAddComponentsDocs} 
+        />
+
+        {/* Section 3.2 - Add Partner Capabilities */}
+        <MultiUploadZone 
+          label="Add Partner Capabilities" 
+          files={partnerCapabilitiesDocs} 
+          setFiles={setPartnerCapabilitiesDocs} 
+        />

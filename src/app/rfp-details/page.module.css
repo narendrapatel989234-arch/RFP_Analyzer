@@ -666,7 +666,7 @@
 
 /* Parsed Outline Tree */
 .outlineCard {
-  background-color: var(--bg-surface-1);
+  background-color: #f6f4fa;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--space-4);
@@ -848,3 +848,279 @@
     transform: translate(-50%, 0);
   }
 }
+/* Extraction Cards */
+.extractedCard {
+  background-color: #f6f4fa;
+  border: 1px solid #dddbe4;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-3);
+}
+
+.extractedCardHeader {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.extractedCardIcon {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.extractedCardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.extractedCardName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.extractedCardSize {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.extractedCardDeleteBtn {
+  background: var(--status-error-bg);
+  border: none;
+  color: var(--status-error-icon);
+  cursor: pointer;
+  padding: var(--space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.extractedCardDeleteBtn:hover {
+  color: var(--colors-neutral-0);
+  background-color: var(--action-destructive-bg-default);
+}
+
+.extractedCardChevron {
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.extractedCardChevronOpen {
+  transform: rotate(180deg);
+}
+
+.extractedCardBody {
+  padding: var(--space-4);
+  border-top: 1px solid #dddbe4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.extractedCardSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.extractedCardDescTitle,
+.extractedCardTableTitle {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.extractedCardDescText {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.extractedCardTableTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.extractedCardAddBtn {
+  background: none;
+  border: none;
+  color: var(--action-primary-bg-default);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  padding: 0;
+}
+
+.extractedCardAddBtn:hover {
+  color: var(--action-primary-bg-hover);
+}
+
+.extractedCardTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.extractedCardTh {
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid #dddbe4;
+}
+
+.extractedCardTd {
+  padding: 0;
+  border-bottom: 1px solid #dddbe4;
+}
+
+.extractedCardInput {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--text-primary);
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--duration-fast);
+  box-sizing: border-box;
+  min-height: 32px;
+}
+
+.extractedCardInput:focus {
+  border-bottom: 1px solid var(--action-primary-bg-default);
+}
+
+.extractedCardInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+.editableCell {
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid transparent;
+}
+
+.editableCell:hover {
+  background-color: var(--bg-surface-2);
+}
+
+.emptyPlaceholder {
+  color: var(--text-tertiary);
+}
+
+.extractedCardTable tr:last-child .extractedCardTd {
+  border-bottom: none;
+}
+
+/* Extraction Modal Overlay */
+.extractionModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.extractionModalCard {
+  background-color: var(--bg-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.extractionModalSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--action-primary-bg-default);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.extractionModalText {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+/* Custom Extraction Dropzone */
+.extractionDropzone {
+  background: var(--action-primary-bg-soft);
+  border: 2px dashed var(--action-primary-bg-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  box-sizing: border-box;
+  width: 100%;
+  gap: var(--space-2);
+}
+
+.extractionDropzone:hover {
+  background: var(--action-primary-bg-soft-hover);
+  border-color: var(--action-primary-bg-hover);
+}
+
+.extractionDropzone.isDragging {
+  border-style: solid;
+  background: var(--action-primary-bg-soft-hover);
+  border-color: var(--action-primary-bg-hover);
+}
+
+.extractionDropIcon {
+  color: var(--text-secondary);
+}
+
+.extractionDropText {
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+.extractionDropHint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+

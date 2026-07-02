@@ -12,7 +12,12 @@ export interface Step {
   status: StepStatus
 }
 
-export function ProgressStepper({ activeStep = 2 }: { activeStep?: number }) {
+export interface ProgressStepperProps {
+  activeStep?: number;
+  onStepClick?: (stepId: number) => void;
+}
+
+export function ProgressStepper({ activeStep = 2, onStepClick }: ProgressStepperProps) {
   const steps: Step[] = [
     { id: 1, label: 'Step 1', sublabel: 'RFP Upload', status: activeStep > 1 ? 'completed' : 'in-progress' },
     { id: 2, label: 'Step 2', sublabel: 'Functional Confirmation', status: activeStep > 2 ? 'completed' : activeStep === 2 ? 'in-progress' : 'not-started' },
@@ -31,8 +36,15 @@ export function ProgressStepper({ activeStep = 2 }: { activeStep?: number }) {
           // Wait, if step 1 is complete and step 2 is active, the line between them is green.
           const isConnectorActive = step.status === 'completed'
 
+          const isClickable = step.status === 'completed' && !!onStepClick
+
           return (
-            <div key={step.id} className={styles.stepItem}>
+            <div 
+              key={step.id} 
+              className={styles.stepItem}
+              onClick={() => isClickable && onStepClick(step.id)}
+              style={{ cursor: isClickable ? 'pointer' : 'default' }}
+            >
               <div className={styles.stepIndicatorContainer}>
                 <div className={`${styles.connector} ${styles.connectorLeft} ${isActiveOrCompleted ? styles.connectorActive : ''}`} style={{ visibility: index === 0 ? 'hidden' : 'visible' }} />
                 <div className={`${styles.iconContainer} ${styles[step.status]}`}>

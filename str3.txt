@@ -1,0 +1,4 @@
+  const [capabilityDocs, setCapabilityDocs] = useState<File[]>([])
+  const [supportingDocs, setSupportingDocs] = useState<File[]>([])
+  const [addComponentsDocs, setAddComponentsDocs] = useState<File[]>([])
+  const [partnerCapabilitiesDocs, setPartnerCapabilitiesDocs] = useState<File[]>([])
