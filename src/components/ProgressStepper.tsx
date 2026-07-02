@@ -14,7 +14,7 @@ export interface Step {
 
 export function ProgressStepper({ activeStep = 2 }: { activeStep?: number }) {
   const steps: Step[] = [
-    { id: 1, label: 'Step 1', sublabel: 'RFP Initiation', status: activeStep > 1 ? 'completed' : 'in-progress' },
+    { id: 1, label: 'Step 1', sublabel: 'RFP Upload', status: activeStep > 1 ? 'completed' : 'in-progress' },
     { id: 2, label: 'Step 2', sublabel: 'Functional Confirmation', status: activeStep > 2 ? 'completed' : activeStep === 2 ? 'in-progress' : 'not-started' },
     { id: 3, label: 'Step 3', sublabel: 'Technical Confirmation', status: activeStep > 3 ? 'completed' : activeStep === 3 ? 'in-progress' : 'not-started' },
     { id: 4, label: 'Step 4', sublabel: 'Proposal Review', status: activeStep > 4 ? 'completed' : activeStep === 4 ? 'in-progress' : 'not-started' },

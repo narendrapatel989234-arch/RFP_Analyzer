@@ -282,14 +282,14 @@
   color: var(--text-primary);
 }
 
-/* Step 5 UI Styles */
+/* Review UI Styles */
 .centerWrapper {
   max-width: 1024px; /* Increased to hit the strict 8.5 column width */
   width: 100%;
   margin: 0 auto;
 }
 
-.step5TopHeader {
+.reviewTopHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -297,19 +297,19 @@
   width: 100%;
 }
 
-.step5TopLeft {
+.reviewTopLeft {
   display: flex;
   flex-direction: column;
 }
 
-.step5Title {
+.reviewTitle {
   margin: 0;
   font-size: var(--text-2xl, 28px);
   font-weight: 700;
   color: var(--text-primary);
 }
 
-.step5Subtext {
+.reviewSubtext {
   margin: var(--space-1) 0 0 0;
   font-size: var(--text-sm);
   color: var(--text-secondary);

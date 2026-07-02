@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import styles from './UploadZone.module.css'
 
 interface UploadZoneProps {
@@ -16,8 +15,7 @@ export function UploadZone({ onFileSelect }: UploadZoneProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [uploadComplete, setUploadComplete] = useState(false)
-  const router = useRouter()
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -34,7 +32,12 @@ export function UploadZone({ onFileSelect }: UploadZoneProps) {
           clearInterval(interval)
           setUploadComplete(true)
           setTimeout(() => {
-            router.push('/rfp-details')
+            // Hard navigation on purpose: router.push() uses Next's client
+            // router cache, which can serve a stale RSC payload for this
+            // route in dev mode (especially while the target page is being
+            // edited), causing intermittent failed transitions. A full
+            // navigation always requests a fresh render.
+            window.location.href = '/rfp-details'
           }, 1000)
         }
       }, 50)
@@ -43,7 +46,7 @@ export function UploadZone({ onFileSelect }: UploadZoneProps) {
     } else if (!isUploading) {
       setProgress(0)
     }
-  }, [isUploading, uploadComplete, router])
+  }, [isUploading, uploadComplete])
 
   const validateFile = (selectedFile: File) => {
     setError(null)

@@ -1,22 +1,24 @@
 :root,
 [data-theme='light'] {
-  /* Backgrounds */
+  /* Backgrounds — solid, opaque, white. No glass/blur, no tan. Only
+     interactive feedback states (hover/pressed/selected) get a faint
+     neutral tint — everything static is white. */
   --bg-default: var(--colors-page-base-light);
-  --bg-page: var(--colors-page-base-light);
+  --bg-page: var(--colors-neutral-0);
   --bg-page-tint: var(--colors-page-tint-light);
-  --bg-surface-1: var(--colors-glass-white-72);
-  --bg-surface-2: var(--colors-glass-white-55);
-  --bg-surface-3: var(--colors-glass-white-38);
-  --bg-surface-4: var(--colors-glass-white-18);
+  --bg-surface-1: var(--colors-neutral-0);
+  --bg-surface-2: var(--colors-neutral-0);
+  --bg-surface-3: var(--colors-neutral-0);
+  --bg-surface-4: var(--colors-neutral-0);
   --bg-surface-5: var(--colors-neutral-200);
   --bg-overlay: var(--colors-overlay-medium);
-  --bg-input: var(--colors-glass-white-72);
-  --bg-tooltip: var(--colors-ink-85);
-  --bg-modal: var(--colors-glass-white-72);
-  --bg-sidebar: var(--colors-glass-white-55);
-  --bg-hover: var(--colors-glass-white-38);
-  --bg-pressed: var(--colors-glass-white-55);
-  --bg-selected: var(--colors-action-green-soft);
+  --bg-input: var(--colors-neutral-0);
+  --bg-tooltip: var(--colors-neutral-800);
+  --bg-modal: var(--colors-neutral-0);
+  --bg-sidebar: var(--colors-neutral-0);
+  --bg-hover: var(--colors-neutral-50);
+  --bg-pressed: var(--colors-neutral-100);
+  --bg-selected: var(--colors-neutral-100);
   --bg-disabled: var(--colors-neutral-100);
 
   --bg-glass-heavy: var(--colors-glass-white-72);
@@ -31,52 +33,47 @@
   --text-disabled: var(--colors-ink-25);
   --text-placeholder: var(--colors-ink-25);
   --text-inverse: var(--colors-neutral-0);
-  --text-on-primary: var(
-    --colors-neutral-900
-  ); /* Progress Green is light-value; dark text reads better */
-  --text-on-ai: var(
-    --colors-neutral-900
-  ); /* Intelligent Purple is light-value; dark text reads better */
-  --text-accent: var(--colors-action-green-pressed);
+  --text-on-primary: var(--colors-neutral-0);
+  --text-on-ai: var(--colors-neutral-0);
+  --text-accent: var(--colors-neutral-900);
   --text-link: var(--colors-action-blue);
-  --text-success: var(--colors-action-green-pressed);
+  --text-success: var(--colors-status-green-hover);
   --text-warning: var(--colors-action-amber-hover);
   --text-error: var(--colors-action-red-hover);
   --text-info: var(--colors-action-blue);
-  --text-ai: var(--colors-action-purple-pressed);
+  --text-ai: var(--colors-accent-text);
 
-  /* Borders */
-  --border-default: var(--colors-glass-border-65);
-  --border-subtle: var(--colors-glass-border-45);
-  --border-strong: var(--colors-glass-border-80);
+  /* Borders — solid */
+  --border-default: var(--colors-neutral-200);
+  --border-subtle: var(--colors-neutral-100);
+  --border-strong: var(--colors-neutral-300);
   --border-outer: var(--colors-glass-border-outer);
-  --border-focus: var(--colors-action-green);
+  --border-focus: var(--colors-neutral-900);
 
-  /* Glass blur */
   --glass-blur-heavy: var(--blur-heavy);
   --glass-blur-medium: var(--blur-medium);
   --glass-blur-light: var(--blur-light);
   --glass-blur-subtle: var(--blur-subtle);
 
-  /* Elevation */
-  --shadow-1: var(--shadow-glass-1);
-  --shadow-2: var(--shadow-glass-2);
-  --shadow-3: var(--shadow-glass-3);
-  --shadow-focus: var(--shadow-focus-primary);
+  /* Elevation — soft solid shadows, neutral focus ring */
+  --shadow-1: var(--shadow-solid-1);
+  --shadow-2: var(--shadow-solid-2);
+  --shadow-3: var(--shadow-solid-3);
+  --shadow-focus: var(--shadow-focus-neutral);
 
-  /* Action — primary (Progress Green) */
-  --action-primary-bg-default: var(--colors-action-green);
-  --action-primary-bg-hover: var(--colors-action-green-hover);
-  --action-primary-bg-pressed: var(--colors-action-green-pressed);
-  --action-primary-text: var(--text-on-primary);
-  --action-primary-bg-soft: var(--colors-action-green-soft);
+  /* Action — primary: solid Foundation Black CTA */
+  --action-primary-bg-default: var(--colors-neutral-900);
+  --action-primary-bg-hover: var(--colors-neutral-800);
+  --action-primary-bg-pressed: var(--colors-neutral-700);
+  --action-primary-text: var(--colors-neutral-0);
+  --action-primary-bg-soft: var(--colors-neutral-50);
 
-  /* Action — AI (Intelligent Purple) */
-  --action-ai-bg-default: var(--colors-action-purple);
-  --action-ai-bg-hover: var(--colors-action-purple-hover);
-  --action-ai-bg-pressed: var(--colors-action-purple-pressed);
-  --action-ai-text: var(--text-on-ai);
-  --action-ai-bg-soft: var(--colors-action-purple-soft);
+  /* Action — AI: warm accent, white text, used sparingly */
+  --action-ai-bg-default: var(--colors-accent-solid);
+  --action-ai-bg-hover: var(--colors-accent-solid-hover);
+  --action-ai-bg-pressed: var(--colors-accent-solid-hover);
+  --action-ai-text: var(--colors-neutral-0);
+  --action-ai-bg-soft: var(--colors-accent-soft);
 
   /* Action — destructive */
   --action-destructive-bg-default: var(--colors-action-red);
@@ -89,7 +86,7 @@
   --action-secondary-bg-pressed: var(--colors-neutral-300);
   --action-secondary-text: var(--text-primary);
 
-  /* Status */
+  /* Status — dot + soft-tint pill only, never large fills */
   --status-success-bg: var(--colors-status-green-soft);
   --status-success-text: var(--colors-status-green);
   --status-success-border: var(--colors-status-green-border);
@@ -110,8 +107,9 @@
   --status-info-border: rgba(77, 159, 255, 0.2);
   --status-info-icon: var(--colors-action-blue);
 
-  --status-ai-bg: var(--colors-action-purple-soft);
-  --status-ai-text: var(--colors-action-purple-pressed);
-  --status-ai-border: rgba(174, 116, 255, 0.25);
-  --status-ai-icon: var(--colors-action-purple-pressed);
+  /* Status — AI: warm accent, reserved for literal AI-generated content */
+  --status-ai-bg: var(--colors-accent-soft);
+  --status-ai-text: var(--colors-accent-text);
+  --status-ai-border: rgba(140, 96, 38, 0.3);
+  --status-ai-icon: var(--colors-accent-solid);
 }

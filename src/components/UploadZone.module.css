@@ -1,7 +1,7 @@
 .uploadZone {
   width: 100%;
   padding: var(--space-10) var(--space-8);
-  background-color: rgba(145, 255, 1, 0.05);
+  background-color: var(--action-primary-bg-soft);
   border: 2px dashed var(--action-primary-bg-default);
   border-radius: var(--radius-md);
   box-shadow: none;
@@ -117,15 +117,15 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(30, 31, 30, 0.6);
-  z-index: var(--z-modal, 9999);
+  background-color: var(--bg-overlay);
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .modalCard {
-  background-color: #ffffff;
+  background-color: var(--bg-modal);
   border-radius: var(--radius-lg);
   padding: var(--space-10) var(--space-12);
   box-shadow: var(--shadow-3);
@@ -139,7 +139,7 @@
 .spinner {
   width: 48px;
   height: 48px;
-  border: 3px solid #dddbe4;
+  border: 3px solid var(--border-default);
   border-top: 3px solid var(--action-primary-bg-default);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -168,7 +168,7 @@
 .progressBarTrack {
   width: 100%;
   height: 4px;
-  background-color: #dddbe4;
+  background-color: var(--bg-surface-3);
   border-radius: var(--radius-full);
   margin-top: var(--space-6);
   overflow: hidden;

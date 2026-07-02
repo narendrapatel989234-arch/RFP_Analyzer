@@ -39,7 +39,7 @@
 
 .completed {
   background-color: var(--action-primary-bg-default);
-  color: var(--colors-neutral-0);
+  color: var(--action-primary-text);
 }
 
 .checkIcon {
@@ -60,21 +60,21 @@
 }
 
 .not-started {
-  background-color: var(--colors-neutral-100);
-  border: 1px solid var(--colors-glass-border-45);
+  background-color: var(--bg-disabled);
+  border: 1px solid var(--border-subtle);
 }
 
 .inactiveDot {
   width: 10px;
   height: 10px;
   border-radius: var(--radius-sm);
-  background-color: var(--colors-neutral-300);
+  background-color: var(--border-strong);
 }
 
 .connector {
   flex: 1;
   height: 2px;
-  background-color: var(--colors-neutral-200);
+  background-color: var(--border-default);
   transition: background-color 0.3s ease;
 }
 
@@ -101,7 +101,7 @@
 .stepLabel {
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
-  color: var(--colors-neutral-500);
+  color: var(--text-secondary);
   margin-bottom: var(--space-1);
 }
 

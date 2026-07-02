@@ -294,8 +294,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
-  background-color: rgba(255,255,255,0.7);
-  backdrop-filter: blur(2px);
+  background-color: color-mix(in srgb, var(--bg-surface-1) 85%, transparent);
 }
 
 .shimmerText {
@@ -305,7 +304,7 @@
   color: var(--action-primary-bg-default);
   font-weight: var(--weight-bold);
   font-size: var(--text-sm);
-  background: #ffffff;
+  background: var(--bg-surface-1);
   padding: 8px 16px;
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-1);
@@ -490,12 +489,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
+  z-index: var(--z-modal);
 }
 
 .modalContent {
-  background: #ffffff;
+  background: var(--bg-modal);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
@@ -526,11 +524,11 @@
   margin-bottom: 4px;
 }
 .modalContent::-webkit-scrollbar-thumb {
-  background: var(--colors-neutral-400, #9CA3AF);
+  background: var(--border-strong);
   border-radius: var(--radius-full);
 }
 .modalContent::-webkit-scrollbar-thumb:hover {
-  background: var(--colors-neutral-500, #6B7280);
+  background: var(--text-tertiary);
 }
 
 .modalHeaderRow {
@@ -579,7 +577,7 @@
   width: 100%;
   min-height: 80px;
   padding: var(--space-3);
-  border: 1px solid rgba(20, 21, 20, 0.2); /* Foundation Black 20% */
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   background: transparent;
   color: var(--text-primary);
@@ -596,7 +594,7 @@
   width: 100%;
   min-height: 80px;
   padding: var(--space-3);
-  border: 1px solid rgba(20, 21, 20, 0.2); /* Foundation Black 20% */
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   background: transparent;
   color: var(--text-primary);
@@ -684,7 +682,9 @@
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
-  background: #E8F8ED; /* Solid light green instead of translucent */
+  /* Opaque on purpose — this floats over arbitrary page content, so the
+     translucent status-success-bg tint would let content bleed through. */
+  background: color-mix(in srgb, var(--colors-status-green) 12%, var(--bg-surface-1));
   border: 1px solid var(--status-success-border);
   color: var(--status-success-text);
   padding: var(--space-4) var(--space-6);
@@ -695,7 +695,7 @@
   box-shadow: var(--shadow-2);
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
-  z-index: 1000;
+  z-index: var(--z-toast);
   animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

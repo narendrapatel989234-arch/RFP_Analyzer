@@ -24,7 +24,7 @@ export default function RFPResponderDashboard() {
               title="Total RFPs Uploaded"
               count={20}
               trend={{ value: 15, direction: 'up' }}
-              accentColor="var(--action-primary-bg-default)"
+              accentColor="var(--action-ai-bg-default)"
               icon={
                 <svg
                   fill="none"

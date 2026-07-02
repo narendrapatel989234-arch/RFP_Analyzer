@@ -1,40 +1,15 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TopNav } from '@/components/TopNav'
-import { ProgressStepper, Step } from '@/components/ProgressStepper'
-import { TechnicalReviewAccordion } from '@/components/TechnicalReviewAccordion'
+import { ProgressStepper } from '@/components/ProgressStepper'
+
 import styles from './step4.module.css'
 
-const step4Steps: Step[] = [
-  { id: 1, label: 'Step 1', sublabel: 'RFP Upload', status: 'completed' },
-  { id: 2, label: 'Step 2', sublabel: 'Functional Confirmation', status: 'completed' },
-  { id: 3, label: 'Step 3', sublabel: 'Functional Review', status: 'completed' },
-  { id: 4, label: 'Step 4', sublabel: 'Technical Instructions', status: 'in-progress' },
-  { id: 5, label: 'Step 5', sublabel: 'Technical Review', status: 'not-started' },
-]
-
-const step5Steps: Step[] = [
-  { id: 1, label: 'Step 1', sublabel: 'RFP Upload', status: 'completed' },
-  { id: 2, label: 'Step 2', sublabel: 'Functional Confirmation', status: 'completed' },
-  { id: 3, label: 'Step 3', sublabel: 'Functional Review', status: 'completed' },
-  { id: 4, label: 'Step 4', sublabel: 'Technical Instructions', status: 'completed' },
-  { id: 5, label: 'Step 5', sublabel: 'Technical Review', status: 'in-progress' },
-]
-
-const PROCESSING_DELAY_MS = 4000;
-
-const loadingPhrases = [
-  "Analyzing Technical Scope...",
-  "Generating Architecture...",
-  "Drafting Integrations & Costing..."
-];
-
 export default function Step4Demo() {
-  const [viewState, setViewState] = useState<'form' | 'processing' | 'step5'>('form');
+  const [viewState, setViewState] = useState<'form' | 'review'>('form');
   const [capabilities, setCapabilities] = useState('');
   const [prompt, setPrompt] = useState('');
-  const [loadingPhase, setLoadingPhase] = useState(0);
   const [activeTab, setActiveTab] = useState<'Proposal' | 'Executive Summary'>('Proposal');
   
   const [editingSection, setEditingSection] = useState<string | null>(null);
@@ -47,33 +22,15 @@ export default function Step4Demo() {
   };
 
   const handleProceed = () => {
-    setViewState('processing');
+    setViewState('review');
   };
-
-  useEffect(() => {
-    if (viewState === 'processing') {
-      const phraseTimer = setInterval(() => {
-        setLoadingPhase(prev => (prev + 1) % loadingPhrases.length);
-      }, 1300);
-      
-      const timer = setTimeout(() => {
-        clearInterval(phraseTimer);
-        setViewState('step5');
-      }, PROCESSING_DELAY_MS);
-      
-      return () => {
-        clearInterval(phraseTimer);
-        clearTimeout(timer);
-      }
-    }
-  }, [viewState]);
 
   return (
     <div className={styles.page}>
       <TopNav showBack={true} />
       <main className={styles.content}>
         <section className={styles.section}>
-          <ProgressStepper steps={viewState === 'step5' ? step5Steps : step4Steps} />
+          <ProgressStepper activeStep={viewState === 'review' ? 4 : 3} />
         </section>
         
         {viewState === 'form' && (
@@ -130,29 +87,13 @@ export default function Step4Demo() {
           </section>
         )}
 
-        {viewState === 'processing' && (
-          <section className={styles.section}>
-            <div className={styles.centerContainer}>
-              <div className={styles.processingCard}>
-                <div className={styles.processingHeader}>
-                  <h2 className={styles.processingTitle}>{loadingPhrases[loadingPhase]}</h2>
-                  <p className={styles.processingSubtext}>AI is analyzing capabilities and generating Step 5 data...</p>
-                </div>
-                <div className={styles.progressBarContainer}>
-                  <div className={styles.progressBar}></div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {viewState === 'step5' && (
+        {viewState === 'review' && (
           <section className={styles.section}>
             <div className={styles.centerWrapper}>
-              <div className={styles.step5TopHeader}>
-                <div className={styles.step5TopLeft}>
-                  <h1 className={styles.step5Title}>Full Final Proposal Review</h1>
-                  <p className={styles.step5Subtext}>Following your instructions, review and add comments to update or regenerate.</p>
+              <div className={styles.reviewTopHeader}>
+                <div className={styles.reviewTopLeft}>
+                  <h1 className={styles.reviewTitle}>Full Final Proposal Review</h1>
+                  <p className={styles.reviewSubtext}>Following your instructions, review and add comments to update or regenerate.</p>
                 </div>
                 <div className={styles.headerActionContainer}>
                   <button className={styles.ctaSecondary}>Export DOCX</button>

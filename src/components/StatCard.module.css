@@ -1,6 +1,6 @@
 .card {
   background-color: var(--bg-surface-1);
-  border: 1px solid #dddbe4;
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-1);
   padding: var(--space-5);
@@ -61,16 +61,6 @@
   padding: var(--space-1) var(--space-2);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-}
-
-.trendUp {
-  background-color: var(--status-success-bg);
-  color: var(--status-success-text);
-}
-
-.trendDown {
-  background-color: var(--status-error-bg);
-  color: var(--status-error-text);
 }
 
 .trendText {

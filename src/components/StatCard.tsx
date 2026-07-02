@@ -10,29 +10,25 @@ interface StatCardProps {
   icon: React.ReactNode
 }
 
-export function StatCard({ title, count, trend, icon }: StatCardProps) {
-  let iconBgColor = 'transparent';
-  let iconColor = 'currentColor';
+export function StatCard({ title, count, trend, trendColor, accentColor, icon }: StatCardProps) {
+  const iconColor = accentColor || 'var(--text-secondary)'
+  const iconBgColor = accentColor
+    ? `color-mix(in srgb, ${accentColor} 14%, transparent)`
+    : 'var(--bg-surface-2)'
 
-  if (title === 'Total RFPs Uploaded') {
-    iconBgColor = 'var(--action-ai-bg-soft)';
-    iconColor = 'var(--action-ai-bg-default)';
-  } else if (title === 'Functional Pending') {
-    iconBgColor = 'var(--status-warning-bg)';
-    iconColor = 'var(--status-warning-icon)';
-  } else if (title === 'Technical Pending') {
-    iconBgColor = 'var(--status-info-bg)';
-    iconColor = 'var(--status-info-icon)';
-  } else if (title === 'Completed') {
-    iconBgColor = 'var(--status-success-bg)';
-    iconColor = 'var(--status-success-icon)';
-  }
+  const defaultTrendColor = trend?.direction === 'up' ? 'var(--status-success-text)' : 'var(--status-error-text)'
+  const resolvedTrendColor = trendColor || defaultTrendColor
+  const trendBgColor = trendColor
+    ? `color-mix(in srgb, ${trendColor} 14%, transparent)`
+    : trend?.direction === 'up'
+      ? 'var(--status-success-bg)'
+      : 'var(--status-error-bg)'
 
   return (
     <div className={styles.card}>
       <div className={styles.row1}>
         <h3 className={styles.title}>{title}</h3>
-        <div 
+        <div
           className={styles.iconContainer}
           style={{ backgroundColor: iconBgColor, color: iconColor }}
         >
@@ -44,7 +40,7 @@ export function StatCard({ title, count, trend, icon }: StatCardProps) {
       </div>
       {trend && (
         <div className={styles.trendRow}>
-          <div className={`${styles.trendPill} ${trend.direction === 'up' ? styles.trendUp : styles.trendDown}`}>
+          <div className={styles.trendPill} style={{ color: resolvedTrendColor, backgroundColor: trendBgColor }}>
             <span>{trend.direction === 'up' ? '↑' : '↓'}</span>
             <span>{trend.value}%</span>
           </div>

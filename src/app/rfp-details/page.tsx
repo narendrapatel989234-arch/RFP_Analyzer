@@ -521,7 +521,7 @@ export default function RFPDetailsPage() {
   const handleSubmit = () => {
     setHasAttemptedSubmit(true)
     
-    console.log({
+    console.warn({
       uploadedDoc,
       promptText,
       capabilityDocs,
@@ -680,7 +680,7 @@ export default function RFPDetailsPage() {
                 value={formatPromptText}
                 onChange={(e) => setFormatPromptText(e.target.value)}
                 minHeight={160}
-                renderToolbar={(handle) => (
+                renderToolbar={() => (
                   <div className={styles.toolbarRowDividedBetween}>
                     <div className={styles.toolbarLeft}>
                       <input
