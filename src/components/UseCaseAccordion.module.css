@@ -154,6 +154,7 @@
 }
 
 .sectionContainer {
+  position: relative;
   padding: var(--space-6) var(--space-8);
   background-color: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
@@ -166,6 +167,39 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-4);
+  position: relative;
+}
+
+.sectionActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sectionContainer:hover .sectionActions {
+  opacity: 1;
+}
+
+.sectionActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sectionActionBtn:hover {
+  background-color: var(--action-secondary-bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
 }
 
 .sectionHeaderLeft {
@@ -667,5 +701,59 @@
     opacity: 1;
     transform: translate(-50%, 0);
   }
+}
+
+/* Stage 3 Technical Views specific styles */
+.diagramPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  margin-top: var(--space-4);
+  background: var(--bg-surface-2);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+}
+
+.diagramPlaceholder p {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.paragraphContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding-left: var(--space-6);
+}
+
+.paragraphContainer p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.chipsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-left: var(--space-6);
+  margin-top: var(--space-3);
+}
+
+.sectionChip {
+  background-color: var(--action-secondary-bg-hover);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
 }
 

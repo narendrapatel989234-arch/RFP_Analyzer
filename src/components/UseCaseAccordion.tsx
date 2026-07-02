@@ -20,9 +20,16 @@ export interface UseCase {
   status: string
   modulesCount: number
   actionStatus?: 'Approved' | 'Modified' | null
+  // Stage 2 fields
   problemUnderstanding: string[]
   technoFunctionalScope: UseCaseModule[]
   assumptions: string[]
+  // Stage 3 fields
+  architectureDiagram?: string
+  architectureSummary?: string[]
+  techstackUsed?: string[]
+  dataflow?: string
+  security?: string[]
 }
 
 const defaultUseCases: UseCase[] = [
@@ -33,7 +40,7 @@ const defaultUseCases: UseCase[] = [
     subtext: 'UC1 — Conversational AI assistant for legal queries with avatar interface',
     status: 'Awaiting review',
     modulesCount: 5,
-    actionStatus: 'Approved',
+    actionStatus: null,
     problemUnderstanding: [
       'Citizens cannot locate the right law or article without legal expertise — they give up or pay lawyers for basic queries.',
       'Legal texts in Arabic are dense; non-native speakers face a double barrier of language and jargon.',
@@ -127,6 +134,20 @@ const defaultUseCases: UseCase[] = [
       'ADJD\'s existing IAM exposes OAuth 2.0 or SAML endpoints we can connect to.',
       'A dedicated ADJD corpus administrator is available to approve and upload new legislation versions.',
       'ADJD defines the list of approved legislation in scope before development begins; changes go through change control.'
+    ],
+    architectureDiagram: 'placeholder',
+    architectureSummary: [
+      'The architecture follows a microservices pattern deployed on scalable cloud infrastructure. The Conversational AI Engine acts as the orchestrator, integrating with a robust Vector Database for Retrieval-Augmented Generation (RAG).',
+      'The Frontend is a lightweight React/Next.js application communicating via secure APIs to the backend, rendering the Digital Avatar in real-time through WebRTC and WebSockets.',
+      'All legal documents are securely ingested through the ETL pipeline, processed, and indexed in the Vector Database, ensuring strict separation from public models.'
+    ],
+    techstackUsed: ['React', 'Next.js', 'Node.js', 'PostgreSQL', 'Python', 'LangChain', 'Pinecone', 'Docker', 'AWS ECS', 'Terraform'],
+    dataflow: 'User initiates a query via the frontend avatar interface. The query is sent securely to the API Gateway, which routes it to the AI Engine. The AI Engine retrieves context from the Vector Database, synthesizes an answer, and streams the response back to the Avatar service, which generates the lip-sync and audio payload in real-time.',
+    security: [
+      'End-to-end encryption for all data in transit (TLS 1.3) and at rest (AES-256).',
+      'Role-based access control (RBAC) integrated with the existing ADJD IAM.',
+      'Immutable audit logging of every query and AI response.',
+      'No PII is sent to external LLMs; strictly uses isolated, privately hosted instances.'
     ]
   },
   {
@@ -135,11 +156,93 @@ const defaultUseCases: UseCase[] = [
     title: 'Smart Case Filing Portal',
     subtext: 'UC2 — AI-guided self-service portal for citizens to file legal cases without a lawyer',
     status: 'Awaiting review',
-    modulesCount: 12,
-    actionStatus: 'Modified',
-    problemUnderstanding: ['Dummy problem 1'],
-    technoFunctionalScope: [],
-    assumptions: ['Dummy assumption 1']
+    modulesCount: 5,
+    actionStatus: null,
+    problemUnderstanding: [
+      'Citizens struggle to understand the complex forms and prerequisites required to formally file a case.',
+      'High rejection rate of initial filings due to missing documents, costing the court administrative time.',
+      'Language barriers prevent expatriates from properly submitting claims in Arabic.',
+      'Lack of transparency around the expected timeline and fees for different case types.'
+    ],
+    technoFunctionalScope: [
+      {
+        id: 'uc2-m1',
+        identifier: 'M1',
+        title: 'Intelligent Intake Triage',
+        description: 'Conversational form-filling wizard that uses NLP to understand the citizen\'s grievance and dynamically generates the correct case application.',
+        includedInScope: [
+          'Dynamic question branching based on user answers',
+          'Automated categorization of case type (e.g., labor, civil, family)',
+          'Real-time translation of user input into formal Arabic legal text'
+        ],
+        outOfScope: [
+          'Handling criminal cases',
+          'Providing legally binding predictions on case outcomes'
+        ]
+      },
+      {
+        id: 'uc2-m2',
+        identifier: 'M2',
+        title: 'Automated Document Verification',
+        description: 'OCR and Vision AI module to scan uploaded evidence (IDs, contracts) and verify completeness before submission.',
+        includedInScope: [
+          'Emirates ID extraction and validation',
+          'Detection of missing signatures or required stamps',
+          'Quality assessment of scanned documents (blur, glare)'
+        ],
+        outOfScope: [
+          'Deepfake detection for video evidence',
+          'Handwriting analysis for forgery detection'
+        ]
+      },
+      {
+        id: 'uc2-m3',
+        identifier: 'M3',
+        title: 'Fee Calculation Engine',
+        description: 'Rules-based engine that calculates exact court fees based on claim amount and case type, integrating with payment gateways.',
+        includedInScope: [
+          'Dynamic fee calculation rules engine',
+          'Integration with Abu Dhabi Pay gateway',
+          'Automated invoice generation'
+        ],
+        outOfScope: [
+          'Handling crypto or international wire transfers',
+          'Post-judgment financial settlements'
+        ]
+      },
+      {
+        id: 'uc2-m4',
+        identifier: 'M4',
+        title: 'Case Tracking Dashboard',
+        description: 'Citizen-facing portal to track the real-time status of their filed cases, upcoming hearings, and required actions.',
+        includedInScope: [
+          'Push notifications via SMS and email',
+          'Timeline view of case lifecycle',
+          'Secure document download area'
+        ],
+        outOfScope: [
+          'Direct messaging with the assigned judge'
+        ]
+      }
+    ],
+    assumptions: [
+      'ADJD provides a comprehensive matrix of all case types and their required prerequisites.',
+      'Integration with Abu Dhabi Pay is supported via standard REST APIs.',
+      'Citizens have a valid UAE Pass for SSO authentication.'
+    ],
+    architectureDiagram: 'placeholder',
+    architectureSummary: [
+      'A serverless event-driven architecture processes incoming citizen applications asynchronously. The NLP Engine acts as a triage layer, parsing intent before hitting the core transactional database.',
+      'Document processing is handled by dedicated ML worker queues to perform OCR and validation without blocking the main user thread.',
+      'The payment gateway is isolated via a dedicated API microservice for compliance and retry-logic robustness.'
+    ],
+    techstackUsed: ['React', 'Next.js', 'TypeScript', 'AWS Lambda', 'DynamoDB', 'AWS Textract', 'S3', 'API Gateway'],
+    dataflow: 'Citizen uploads documents through the portal. The payload is stored in S3, triggering an event to the ML worker which performs OCR. Results are saved to DynamoDB and the status updates the frontend via WebSockets. Upon fee calculation, the payment microservice is invoked.',
+    security: [
+      'Data sovereignty compliance with data stored entirely in UAE data centers.',
+      'Strict API rate limiting and WAF rules to prevent DDoS on public forms.',
+      'Automatic PII redaction from logs during OCR processing.'
+    ]
   },
   {
     id: 'uc3',
@@ -147,11 +250,79 @@ const defaultUseCases: UseCase[] = [
     title: 'Judicial Analytics Dashboard',
     subtext: 'UC3 — Real-time insight platform for ADJD leadership to monitor court performance and backlog',
     status: 'Awaiting review',
-    modulesCount: 8,
+    modulesCount: 5,
     actionStatus: null,
-    problemUnderstanding: ['Dummy problem 1'],
-    technoFunctionalScope: [],
-    assumptions: ['Dummy assumption 1']
+    problemUnderstanding: [
+      'Court administrators lack real-time visibility into case backlogs across different jurisdictions.',
+      'Identifying bottlenecks in the judicial process requires manual data extraction and reporting.',
+      'Resource allocation (judges, clerks) is currently reactive rather than predictive.',
+      'No unified view of operational metrics across the various specialized courts.'
+    ],
+    technoFunctionalScope: [
+      {
+        id: 'uc3-m1',
+        identifier: 'M1',
+        title: 'Data Ingestion & Aggregation Pipeline',
+        description: 'ETL pipelines that securely extract case metadata from legacy court management systems into a central data warehouse.',
+        includedInScope: [
+          'Nightly batch processing of legacy SQL databases',
+          'Data cleansing and normalization of case statuses',
+          'Anonymization of PII for high-level reporting'
+        ],
+        outOfScope: [
+          'Real-time streaming (sub-second latency) of case updates',
+          'Migration of legacy data to a new transactional system'
+        ]
+      },
+      {
+        id: 'uc3-m2',
+        identifier: 'M2',
+        title: 'Predictive Backlog Analytics',
+        description: 'Machine learning models that forecast future case volumes and identify potential delays before they become critical.',
+        includedInScope: [
+          'Time-series forecasting for seasonal case influxes',
+          'Anomaly detection for abnormally long case durations',
+          'Scenario modeling for resource allocation'
+        ],
+        outOfScope: [
+          'Predicting individual judge rulings or verdicts',
+          'Automated reassignment of cases without human approval'
+        ]
+      },
+      {
+        id: 'uc3-m3',
+        identifier: 'M3',
+        title: 'Executive Visualization Portal',
+        description: 'Interactive Tableau/PowerBI embedded dashboards customized for Chief Justices and Court Managers.',
+        includedInScope: [
+          'Role-based access control (RBAC) for dashboards',
+          'Drill-down capabilities from Emirate level to specific courts',
+          'Automated generation of monthly PDF performance reports'
+        ],
+        outOfScope: [
+          'Publicly accessible transparency portals (internal only)',
+          'Ad-hoc SQL query builder for non-technical users'
+        ]
+      }
+    ],
+    assumptions: [
+      'ADJD data engineering team will provide read-only access to legacy database replicas.',
+      'Data sovereignty rules allow for aggregated, anonymized analytics to be processed in the approved local cloud.',
+      'Leadership agrees on standard KPIs before visualization development begins.'
+    ],
+    architectureDiagram: 'placeholder',
+    architectureSummary: [
+      'A modern data stack utilizing a cloud data warehouse as the single source of truth. ETL pipelines run nightly using Apache Airflow to orchestrate data ingestion from legacy on-premise systems.',
+      'The Predictive Engine is built on Spark, training models on historical data and writing forecasting results back to the warehouse.',
+      'The Executive Portal is an embedded analytics layer that queries the warehouse using highly optimized materialized views for sub-second dashboard rendering.'
+    ],
+    techstackUsed: ['Snowflake', 'dbt', 'Apache Airflow', 'PySpark', 'PowerBI Embedded', 'React', 'Node.js', 'Kafka'],
+    dataflow: 'Legacy systems push daily deltas via secure Kafka topics. Airflow orchestrates the dbt transformations into Snowflake. PySpark models read from Snowflake, generate backlog predictions, and write back. The embedded PowerBI dashboard queries the aggregated Snowflake views for the end-user.',
+    security: [
+      'Data anonymization applied at the ingestion layer before entering the data warehouse.',
+      'Row-level security (RLS) ensuring Chief Justices only see data pertaining to their jurisdiction.',
+      'MFA required for all executive access to the dashboard.'
+    ]
   }
 ]
 
@@ -216,20 +387,20 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
         </div>
         <div className={styles.moduleRight}>
           <button className={styles.moduleActionBtn} onClick={(e) => { e.stopPropagation(); setIsEditModalOpen(true); }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
             Edit
           </button>
           <button className={styles.moduleActionBtn} onClick={(e) => { e.stopPropagation(); setIsRegenerateModalOpen(true); }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
             Regenerate
           </button>
-          <svg className={`${styles.moduleChevron} ${expanded ? styles.chevronOpen : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg className={`${styles.moduleChevron} ${expanded ? styles.chevronOpen : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
       </div>
       {expanded && (
         <div className={styles.moduleDetails}>
           <p className={styles.moduleDesc}>{localMod.description}</p>
-          
+
           {(localMod.includedInScope || localMod.outOfScope) && (
             <div className={styles.scopeGrid}>
               {localMod.includedInScope && (
@@ -274,12 +445,12 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
           <div className={styles.modalContent}>
             <div className={styles.modalHeaderRow}>
               <div className={styles.modalHeaderIcon}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
               </div>
               <h3 className={styles.modalTitle}>Edit — {mod.title}</h3>
             </div>
             <p className={styles.modalDesc}>Update the scope description, include or exclude items for this module.</p>
-            
+
             <div className={styles.modalFormGroup}>
               <label className={styles.modalLabel}>Module description</label>
               <textarea className={styles.modalTextarea} value={editDesc} onChange={e => setEditDesc(e.target.value)} />
@@ -309,16 +480,16 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
           <div className={styles.modalContent}>
             <div className={styles.modalHeaderRow}>
               <div className={styles.modalHeaderIcon}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
               </div>
               <h3 className={styles.modalTitle}>Regenerate — {mod.title}</h3>
             </div>
             <p className={styles.modalDesc}>Describe what to change. The agent will update the Problem Understanding and Techno-functional Scope for this module accordingly.</p>
-            
+
             <div className={styles.modalFormGroup}>
               <label className={styles.modalLabel}>What should change?</label>
-              <textarea 
-                className={styles.modalTextarea} 
+              <textarea
+                className={styles.modalTextarea}
                 placeholder="e.g. Remove voice interface — text only. Add support for dialectal Arabic. Split corpus management into its own module..."
                 value={regenPrompt}
                 onChange={e => setRegenPrompt(e.target.value)}
@@ -342,11 +513,14 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
   )
 }
 
-export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: UseCase[] }) {
+export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false }: { useCases?: UseCase[], isStage3?: boolean }) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [cases, setCases] = useState<UseCase[]>(useCases)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalType, setModalType] = useState<'usecase' | 'edit-section' | 'regenerate-section'>('usecase')
   const [modifyingId, setModifyingId] = useState<string | null>(null)
+  const [modifyingSection, setModifyingSection] = useState<number | null>(null)
+  const [regeneratingSectionId, setRegeneratingSectionId] = useState<string | null>(null)
   const [prompt, setPrompt] = useState('')
   const [toastMessage, setToastMessage] = useState('')
   const [showToast, setShowToast] = useState(false)
@@ -363,9 +537,11 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
     setExpandedId((prev) => (prev === id ? null : id))
   }
 
-  const openModifyModal = (e: React.MouseEvent, id: string) => {
+  const openModifyModal = (e: React.MouseEvent, id: string, type: 'usecase' | 'edit-section' | 'regenerate-section' = 'usecase', section: number | null = null) => {
     e.stopPropagation()
     setModifyingId(id)
+    setModalType(type)
+    setModifyingSection(section)
     setPrompt('')
     setIsModalOpen(true)
   }
@@ -373,6 +549,24 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
   const handleRegenerate = () => {
     if (!modifyingId) return
 
+    setIsModalOpen(false)
+
+    if (modalType === 'regenerate-section') {
+      const sectionKey = `${modifyingId}-${modifyingSection}`
+      setRegeneratingSectionId(sectionKey)
+      setTimeout(() => {
+        setRegeneratingSectionId(null)
+        triggerToast('Section regenerated successfully!')
+      }, 2000)
+      return
+    }
+
+    if (modalType === 'edit-section') {
+      triggerToast('Section saved successfully!')
+      return
+    }
+
+    // Default for Use Case regenerate
     setCases((prev) => prev.map((uc) => {
       if (uc.id === modifyingId) {
         return {
@@ -382,8 +576,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
       }
       return uc
     }))
-    
-    setIsModalOpen(false)
+
     triggerToast('Usecase regenerated successfully!')
   }
 
@@ -423,8 +616,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                 </div>
               </div>
               <div className={styles.headerRight}>
-                <button 
-                  className={styles.modifyCtaBtn} 
+                <button
+                  className={styles.modifyCtaBtn}
                   onClick={(e) => openModifyModal(e, uc.id)}
                 >
                   Modify
@@ -442,19 +635,36 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                 </svg>
               </div>
             </div>
-            {isExpanded && (
+            {isExpanded && !isStage3 && (
               <div className={styles.accordionContent}>
-                
+
                 {/* SECTION 1: Problem Understanding */}
                 <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-1` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
                   <div className={styles.sectionHeader}>
                     <div className={styles.sectionHeaderLeft}>
                       <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                       </div>
                       <h4 className={styles.sectionTitle}>1 — Problem Understanding</h4>
                     </div>
-                    <span className={styles.sectionSubtitle}>User pain points we are addressing</span>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
                   </div>
                   <ul className={styles.bulletList}>
                     {uc.problemUnderstanding.map((point, idx) => (
@@ -470,7 +680,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
                   <div className={styles.sectionHeader}>
                     <div className={styles.sectionHeaderLeft}>
                       <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>
                       </div>
                       <h4 className={styles.sectionTitle}>2 — Techno-functional Scope</h4>
                     </div>
@@ -485,14 +695,31 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
 
                 {/* SECTION 3: Assumptions & Dependencies */}
                 <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-3` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
                   <div className={styles.sectionHeader}>
                     <div className={styles.sectionHeaderLeft}>
                       <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                       </div>
                       <h4 className={styles.sectionTitle}>3 — Assumptions & Dependencies</h4>
                     </div>
-                    <span className={styles.sectionSubtitle}>What must be true for us to deliver</span>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
                   </div>
                   <ul className={styles.bulletList}>
                     {uc.assumptions.map((point, idx) => (
@@ -506,6 +733,190 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
 
               </div>
             )}
+
+            {isExpanded && isStage3 && (
+              <div className={styles.accordionContent}>
+
+                {/* STAGE 3 SECTION 1: Architecture Diagram */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-1` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>1 — Architecture Diagram</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.diagramPlaceholder}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" width="48" height="48">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <p>Architecture Diagram Mock</p>
+                  </div>
+                </div>
+
+                {/* STAGE 3 SECTION 2: Architecture Summary */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-2` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>2 — Architecture Summary</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 2) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 2) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.paragraphContainer}>
+                    {uc.architectureSummary?.map((para, idx) => (
+                      <p key={idx}>{para}</p>
+                    ))}
+                  </div>
+                </div>
+
+                {/* STAGE 3 SECTION 3: Techstack Used */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-3` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>3 — Techstack Used</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.chipsWrap}>
+                    {uc.techstackUsed?.map((tech, idx) => (
+                      <span key={idx} className={styles.sectionChip}>{tech}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* STAGE 3 SECTION 4: Dataflow Understanding */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-4` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>4 — Data Flow Understanding</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 4) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 4) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.paragraphContainer}>
+                    <p>{uc.dataflow}</p>
+                  </div>
+                </div>
+
+                {/* STAGE 3 SECTION 5: Security */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-5` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>5 — Security</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 5) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 5) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <ul className={styles.bulletList}>
+                    {uc.security?.map((point, idx) => (
+                      <li key={idx}>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+              </div>
+            )}
           </div>
         )
       })}
@@ -514,20 +925,28 @@ export function UseCaseAccordion({ useCases = defaultUseCases }: { useCases?: Us
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <h3 className={styles.modalTitle}>Modify Use Case</h3>
-            <p className={styles.modalDesc}>Provide instructions on how to regenerate this use case.</p>
+            <h3 className={styles.modalTitle}>
+              {modalType === 'usecase' ? 'Modify Use Case' : modalType === 'edit-section' ? 'Edit Section' : 'Regenerate Section'}
+            </h3>
+            <p className={styles.modalDesc}>
+              {modalType === 'usecase'
+                ? 'Provide instructions on how to regenerate this use case.'
+                : modalType === 'edit-section'
+                  ? 'Provide the updated content for this section.'
+                  : 'Provide instructions on how to regenerate this section.'}
+            </p>
             <textarea
               className={styles.useCaseModifyTextarea}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g., Focus more on compliance features..."
+              placeholder={modalType === 'edit-section' ? "Enter section content..." : "e.g., Focus more on compliance features..."}
             />
             <div className={styles.modalActions}>
               <button className={styles.modalCancelBtn} onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
               <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={!prompt.trim()}>
-                Regenerate Use Case
+                {modalType === 'usecase' ? 'Regenerate Use Case' : modalType === 'regenerate-section' ? 'Regenerate Section' : 'Save'}
               </button>
             </div>
           </div>

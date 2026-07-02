@@ -11,6 +11,17 @@ import styles from './page.module.css'
 export default function RFPDetail() {
   const { id } = useParams<{ id: string }>()
   const [isValidated, setIsValidated] = useState(false)
+  const [isTechStackExpanded, setIsTechStackExpanded] = useState(false)
+
+  const isStage3 = id === 'RFP-003'
+  const activeStep = isStage3 ? 3 : 2
+
+  const techStack = [
+    'Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 
+    'Docker', 'Kubernetes', 'AWS', 'Terraform', 'GraphQL', 
+    'Redis', 'Elasticsearch', 'Kafka', 'MongoDB', 'GitHub Actions'
+  ]
+  const visibleTechStack = isTechStackExpanded ? techStack : techStack.slice(0, 7)
 
   return (
     <div className={styles.page}>
@@ -35,7 +46,7 @@ export default function RFPDetail() {
         </Link>
 
         <section className={styles.section}>
-          <ProgressStepper />
+          <ProgressStepper activeStep={activeStep} />
         </section>
 
         <section className={styles.section}>
@@ -81,7 +92,51 @@ export default function RFPDetail() {
             {/* <p className={styles.rfpId}>RFP ID: {id}</p> */}
           </div>
 
-          <UseCaseAccordion />
+          {isStage3 && (
+            <div className={styles.techStackBlock}>
+              <div className={styles.techStackHeader}>
+                <div className={styles.techStackHeaderLeft}>
+                  <div className={styles.techStackIcon}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                      <polyline points="2 17 12 22 22 17" />
+                      <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                  </div>
+                  <h3 className={styles.techStackTitle}>Project Techstack</h3>
+                </div>
+              </div>
+              <div className={styles.techStackContent}>
+                <div className={styles.techStackChips}>
+                  {visibleTechStack.map((tech, idx) => (
+                    <span key={idx} className={styles.techChip}>{tech}</span>
+                  ))}
+                  {techStack.length > 7 && (
+                    <button 
+                      className={styles.techStackToggleBtn}
+                      onClick={() => setIsTechStackExpanded(!isTechStackExpanded)}
+                    >
+                      {isTechStackExpanded ? 'Collapse' : `+${techStack.length - 7} more`}
+                      <svg 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        className={styles.techStackChevron}
+                        style={{ transform: isTechStackExpanded ? 'rotate(180deg)' : 'none' }}
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <UseCaseAccordion isStage3={isStage3} />
 
           <div className={styles.validationContainer}>
             <h3 className={styles.validationSectionTitle}>Validate Use Cases</h3>
@@ -107,7 +162,7 @@ export default function RFPDetail() {
                 className={styles.proceedBtn}
                 disabled={!isValidated}
               >
-                Proceed
+                Confirm
               </button>
             </div>
           </div>
