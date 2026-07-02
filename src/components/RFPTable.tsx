@@ -382,7 +382,13 @@ export function RFPTable() {
               </tr>
             ) : (
               currentRows.map((row) => (
-                <tr key={row.id}>
+                <tr key={row.id} onClick={() => {
+                  if (row.id === 'RFP-002') {
+                    router.push('/rfp/step4-demo')
+                  } else {
+                    router.push(`/rfp/${row.id}`)
+                  }
+                }}>
                   <td className={styles.colId}>{row.id}</td>
                   <td className={styles.colName}>{row.name}</td>
                   <td className={styles.colText}>{row.uploadedBy}</td>
@@ -394,13 +400,7 @@ export function RFPTable() {
                   </td>
                   <td className={styles.colText}>{getRelativeTime(row.lastModifiedDate)}</td>
                   <td style={{ textAlign: 'center' }}>
-                    <button className={styles.actionBtn} aria-label="Open RFP" onClick={() => {
-                      if (row.id === 'RFP-002') {
-                        router.push('/rfp/step4-demo')
-                      } else {
-                        router.push(`/rfp/${row.id}`)
-                      }
-                    }}>
+                    <button className={styles.actionBtn} aria-label="Open RFP">
                       <svg
                         width="20"
                         height="20"
@@ -424,19 +424,46 @@ export function RFPTable() {
         <div className={styles.paginationFooter}>
           <div className={styles.paginationLeft}>
             <span className={styles.paginationLabel}>Rows per page:</span>
-            <select
-              className={styles.rowsSelect}
-              value={rowsPerPage}
-              onChange={(e) => {
-                setRowsPerPage(Number(e.target.value))
-                setCurrentPage(1)
-              }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
+            <div className={styles.dropdownContainer} style={{ marginLeft: 'var(--space-2)' }}>
+              <button
+                className={styles.rowsSelect}
+                aria-haspopup="listbox"
+                onClick={() => toggleDropdown('rowsPerPage')}
+                style={{ width: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginLeft: 0 }}
+              >
+                <span>{rowsPerPage}</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={styles.chevronIcon}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {openDropdown === 'rowsPerPage' && (
+                <div className={styles.dropdownPopover} style={{ top: 'auto', bottom: 'calc(100% + var(--space-1))', minWidth: '100%' }}>
+                  {[5, 10, 15, 20].map((option) => (
+                    <button
+                      key={option}
+                      className={styles.dropdownOption}
+                      style={{ padding: '0 var(--space-2)' }}
+                      onClick={() => {
+                        setRowsPerPage(option)
+                        setCurrentPage(1)
+                        setOpenDropdown(null)
+                      }}
+                    >
+                      <span>{option}</span>
+                      {rowsPerPage === option && <CheckIcon />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div className={styles.paginationRight}>
             <span className={styles.paginationLabel}>
