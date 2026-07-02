@@ -320,98 +320,7 @@
   margin-top: var(--space-2);
 }
 
-.formatGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
-}
 
-.radioCard {
-  background-color: #ffffff;
-  border: 1px solid #dddbe4;
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  transition: all var(--duration-fast);
-  box-shadow: none;
-  overflow: visible;
-  box-sizing: border-box;
-}
-
-.radioCard:hover:not(.selected) {
-  border-color: #9a9da8;
-}
-
-.radioCard.selected {
-  border: 2px solid var(--action-primary-bg-default);
-  padding: calc(var(--space-4) - 1px);
-  /* Prevent layout shift */
-  background: rgba(145, 255, 1, 0.04);
-}
-
-.radioTopRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.radioIconWrapper {
-  width: 24px;
-  height: 24px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.radioCard.selected .radioIconWrapper {
-  color: var(--action-primary-bg-pressed);
-}
-
-.radioCircle {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #dddbe4;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: border-color var(--duration-fast);
-}
-
-.radioCard.selected .radioCircle {
-  border-color: var(--action-primary-bg-default);
-}
-
-.radioInner {
-  width: 8px;
-  height: 8px;
-  background: var(--action-primary-bg-default);
-  border-radius: 50%;
-}
-
-.radioBottomRow {
-  display: flex;
-  flex-direction: column;
-  margin-top: var(--space-3);
-}
-
-.radioLabel {
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-}
-
-.radioSubText {
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  margin-top: var(--space-1);
-}
 
 .textareaFormat {
   width: 100%;
@@ -767,12 +676,16 @@
   align-items: center;
   gap: var(--space-2);
   cursor: pointer;
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  user-select: none;
+}
+
+.outlineHeaderExpanded {
   padding-bottom: var(--space-3);
   margin-bottom: var(--space-3);
   border-bottom: 1px solid #dddbe4;
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  user-select: none;
 }
 
 .outlineList {
@@ -819,7 +732,7 @@
 }
 
 .outlineParent .outlineLabel {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: var(--weight-medium);
   color: var(--text-primary);
 }
@@ -829,7 +742,7 @@
 }
 
 .outlineChild .outlineLabel {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--text-secondary);
 }
 
@@ -843,7 +756,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity var(--duration-fast);
+  transition: opacity var(--duration-fast), color var(--duration-fast);
+}
+
+.inlineEditBtn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .outlineNodeRow:hover .inlineEditBtn {
@@ -851,7 +769,7 @@
 }
 
 .inlineEditBtn:hover {
-  color: var(--action-primary-bg-default);
+  color: var(--text-primary);
 }
 
 .inlineInput {
@@ -895,4 +813,36 @@
   text-overflow: ellipsis;
   color: var(--text-primary);
   font-size: var(--text-xs);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #E8F8ED; /* Solid light green instead of translucent */
+  border: 1px solid var(--status-success-border);
+  color: var(--status-success-text);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-2);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  z-index: 1000;
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }

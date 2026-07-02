@@ -407,17 +407,17 @@ function ParsedOutlineTree({ data, onUpdate }: { data: OutlineNode[], onUpdate: 
                 }}
               />
             ) : (
-              <span className={styles.outlineLabel}>{node.label}</span>
+              <>
+                <span className={styles.outlineLabel}>{node.label}</span>
+                <button className={styles.inlineEditBtn} onClick={() => setEditingId(node.id)} aria-label="Edit section">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </button>
+              </>
             )}
           </div>
-          {!isEditing && (
-            <button className={styles.inlineEditBtn} onClick={() => setEditingId(node.id)} aria-label="Edit section">
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
-            </button>
-          )}
         </div>
         {hasChildren && !isNodeCollapsed && (
           <div className={styles.outlineList}>
@@ -430,8 +430,8 @@ function ParsedOutlineTree({ data, onUpdate }: { data: OutlineNode[], onUpdate: 
 
   return (
     <div className={styles.outlineCard}>
-      <div className={styles.outlineHeader} onClick={() => setIsCollapsed(!isCollapsed)}>
-        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'none', transition: 'transform 0.2s' }}>
+      <div className={`${styles.outlineHeader} ${!isCollapsed ? styles.outlineHeaderExpanded : ''}`} onClick={() => setIsCollapsed(!isCollapsed)}>
+        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'none', transition: 'transform 0.2s' }}>
           <polyline points="6 9 12 15 18 9" />
         </svg>
         <span>Parsed Outline ({totalSections} sections)</span>
@@ -453,16 +453,26 @@ export default function RFPDetailsPage() {
   const [supportingDocs, setSupportingDocs] = useState<File[]>([])
   const [addComponentsDocs, setAddComponentsDocs] = useState<File[]>([])
   const [partnerCapabilitiesDocs, setPartnerCapabilitiesDocs] = useState<File[]>([])
-  const [formatType, setFormatType] = useState<'ai' | 'manual' | null>('ai')
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false)
   
   // Format state
-  const [aiPromptText, setAiPromptText] = useState('')
-  const [manualInputText, setManualInputText] = useState('')
-  const [manualAttachedFile, setManualAttachedFile] = useState<File | null>(null)
+  const [formatPromptText, setFormatPromptText] = useState('')
+  const [formatAttachedFile, setFormatAttachedFile] = useState<File | null>(null)
+  const [formatFileError, setFormatFileError] = useState('')
   const [isGeneratingOutline, setIsGeneratingOutline] = useState(false)
   const [outlineVisible, setOutlineVisible] = useState(false)
   const [outlineData, setOutlineData] = useState<OutlineNode[]>([])
+  const [toastMessage, setToastMessage] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  
+  const triggerToast = (msg: string) => {
+    setToastMessage(msg)
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+      router.push('/')
+    }, 2500)
+  }
   
   const manualFileInputRef = useRef<HTMLInputElement>(null)
 
@@ -476,16 +486,17 @@ export default function RFPDetailsPage() {
     }, 4000) // Simulate generation delay
   }
 
-  const handleManualFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormatFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormatFileError('')
     if (e.target.files?.length) {
       const file = e.target.files[0]
       const ext = file.name.toLowerCase()
       const isValidExt = ext.endsWith('.pdf') || ext.endsWith('.docx') || ext.endsWith('.doc')
       const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword']
       if ((validTypes.includes(file.type) || isValidExt) && file.size <= 25 * 1024 * 1024) {
-        setManualAttachedFile(file)
+        setFormatAttachedFile(file)
       } else {
-        alert('Please attach a valid PDF or DOC/DOCX file under 25MB.')
+        setFormatFileError('Please attach a valid PDF or DOC/DOCX file under 25MB.')
       }
     }
     e.target.value = ''
@@ -498,11 +509,10 @@ export default function RFPDetailsPage() {
     setSupportingDocs([])
     setAddComponentsDocs([])
     setPartnerCapabilitiesDocs([])
-    setFormatType('ai')
     setHasAttemptedSubmit(false)
-    setAiPromptText('')
-    setManualInputText('')
-    setManualAttachedFile(null)
+    setFormatPromptText('')
+    setFormatAttachedFile(null)
+    setFormatFileError('')
     setIsGeneratingOutline(false)
     setOutlineVisible(false)
     setOutlineData([])
@@ -510,7 +520,6 @@ export default function RFPDetailsPage() {
 
   const handleSubmit = () => {
     setHasAttemptedSubmit(true)
-    if (formatType === null) return
     
     console.log({
       uploadedDoc,
@@ -519,12 +528,19 @@ export default function RFPDetailsPage() {
       supportingDocs,
       addComponentsDocs,
       partnerCapabilitiesDocs,
-      formatType,
-      aiPromptText: formatType === 'ai' ? aiPromptText : undefined,
-      manualInputText: formatType === 'manual' ? manualInputText : undefined,
-      manualAttachedFile: formatType === 'manual' ? manualAttachedFile : undefined,
+      formatPromptText,
+      formatAttachedFile,
       outlineData
     })
+    
+    triggerToast("RFP submitted successfully!")
+  }
+
+  let formatBtnLabel = 'Generate with AI'
+  if (formatAttachedFile) {
+    formatBtnLabel = 'Extract'
+  } else if (formatPromptText.trim().length > 0) {
+    formatBtnLabel = 'Regenerate with AI'
   }
 
   return (
@@ -654,106 +670,15 @@ export default function RFPDetailsPage() {
           <label className={styles.sectionLabel}>
             Proposal Template Format <span style={{ color: '#ff4d4d' }}>*</span>
           </label>
-          <div className={styles.formatGrid} style={{ gridTemplateColumns: '1fr 1fr' }}>
-            <label className={`${styles.radioCard} ${formatType === 'ai' ? styles.selected : ''}`}>
-              <input
-                type="radio"
-                name="formatType"
-                value="ai"
-                checked={formatType === 'ai'}
-                onChange={() => {
-                  setFormatType('ai')
-                  setOutlineVisible(false)
-                }}
-                style={{ display: 'none' }}
-              />
-              <div className={styles.radioTopRow}>
-                <div className={styles.radioIconWrapper}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z" />
-                    <path d="M5 3l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" />
-                  </svg>
-                </div>
-                <div className={styles.radioCircle}>
-                  {formatType === 'ai' && <div className={styles.radioInner} />}
-                </div>
-              </div>
-              <div className={styles.radioBottomRow}>
-                <span className={styles.radioLabel}>AI to Generate</span>
-                <span className={styles.radioSubText}>Let AI analyze the RFP and suggest a response format</span>
-              </div>
-            </label>
-            <label className={`${styles.radioCard} ${formatType === 'manual' ? styles.selected : ''}`}>
-              <input
-                type="radio"
-                name="formatType"
-                value="manual"
-                checked={formatType === 'manual'}
-                onChange={() => {
-                  setFormatType('manual')
-                  setOutlineVisible(false)
-                }}
-                style={{ display: 'none' }}
-              />
-              <div className={styles.radioTopRow}>
-                <div className={styles.radioIconWrapper}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
-                </div>
-                <div className={styles.radioCircle}>
-                  {formatType === 'manual' && <div className={styles.radioInner} />}
-                </div>
-              </div>
-              <div className={styles.radioBottomRow}>
-                <span className={styles.radioLabel}>Write Manually</span>
-                <span className={styles.radioSubText}>Type your preferred response format in a text field</span>
-              </div>
-            </label>
-          </div>
 
-          {formatType === null && hasAttemptedSubmit && (
-            <div className={styles.errorText} style={{ marginTop: '0', marginBottom: 'var(--space-4)' }}>
-              Please select a format to continue
-            </div>
-          )}
-
-          {formatType === 'ai' && !outlineVisible && (
-            <div className={styles.promptCard}>
-              <label htmlFor="aiFormatTextarea" className="sr-only" style={{ display: 'none' }}>AI Command</label>
+          <div className={styles.promptCard}>
+              <label htmlFor="formatTextarea" className="sr-only" style={{ display: 'none' }}>Proposal Format</label>
               <ResizableTextarea
-                id="aiFormatTextarea"
+                id="formatTextarea"
                 className={styles.promptTextarea}
-                placeholder="Give instructions to AI for generating the format outline..."
-                value={aiPromptText}
-                onChange={(e) => setAiPromptText(e.target.value)}
-                minHeight={160}
-                renderToolbar={(handle) => (
-                  <div className={styles.toolbarRowDividedEnd}>
-                    <button
-                      className={styles.smallGenerateBtn}
-                      onClick={handleGenerateOutline}
-                      disabled={isGeneratingOutline}
-                    >
-                      {isGeneratingOutline && <div className={styles.buttonSpinner} />}
-                      {isGeneratingOutline ? 'Generating...' : 'Generate'}
-                    </button>
-                  </div>
-                )}
-              />
-            </div>
-          )}
-          
-          {formatType === 'manual' && !outlineVisible && (
-            <div className={styles.promptCard}>
-              <label htmlFor="manualFormatTextarea" className="sr-only" style={{ display: 'none' }}>Manual Format Text</label>
-              <ResizableTextarea
-                id="manualFormatTextarea"
-                className={styles.promptTextarea}
-                placeholder="Describe the format you want the solution to follow..."
-                value={manualInputText}
-                onChange={(e) => setManualInputText(e.target.value)}
+                placeholder="Add instructions or leave blank to auto-generate…"
+                value={formatPromptText}
+                onChange={(e) => setFormatPromptText(e.target.value)}
                 minHeight={160}
                 renderToolbar={(handle) => (
                   <div className={styles.toolbarRowDividedBetween}>
@@ -763,7 +688,7 @@ export default function RFPDetailsPage() {
                         ref={manualFileInputRef}
                         style={{ display: 'none' }}
                         accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                        onChange={handleManualFileAttach}
+                        onChange={handleFormatFileAttach}
                       />
                       <button 
                         className={styles.paperclipBtn} 
@@ -774,10 +699,10 @@ export default function RFPDetailsPage() {
                           <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                         </svg>
                       </button>
-                      {manualAttachedFile && (
+                      {formatAttachedFile && (
                         <div className={styles.attachedFile}>
-                          <span className={styles.paperclipFileName} title={manualAttachedFile.name}>{manualAttachedFile.name}</span>
-                          <button onClick={() => setManualAttachedFile(null)} aria-label="Remove attachment">
+                          <span className={styles.paperclipFileName} title={formatAttachedFile.name}>{formatAttachedFile.name}</span>
+                          <button onClick={() => setFormatAttachedFile(null)} aria-label="Remove attachment">
                             <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                               <line x1="18" y1="6" x2="6" y2="18" />
                               <line x1="6" y1="6" x2="18" y2="18" />
@@ -793,20 +718,20 @@ export default function RFPDetailsPage() {
                         disabled={isGeneratingOutline}
                       >
                         {isGeneratingOutline && <div className={styles.buttonSpinner} />}
-                        {isGeneratingOutline ? 'Extracting...' : 'Extract'}
+                        {isGeneratingOutline ? (formatAttachedFile ? 'Extracting...' : 'Generating...') : formatBtnLabel}
                       </button>
                     </div>
                   </div>
                 )}
               />
             </div>
+          {formatFileError && (
+             <div className={styles.errorText} style={{ marginTop: 'var(--space-2)' }}>{formatFileError}</div>
           )}
-
           {outlineVisible && outlineData.length > 0 && (
             <ParsedOutlineTree data={outlineData} onUpdate={setOutlineData} />
           )}
         </section>
-
         {/* Action Row */}
         <div className={styles.actionRow}>
           <button className={styles.clearBtn} onClick={handleClearAll} aria-label="Clear all fields">
@@ -815,13 +740,23 @@ export default function RFPDetailsPage() {
           <button 
             className={styles.submitBtn} 
             onClick={handleSubmit} 
-            disabled={formatType === null}
+            disabled={!outlineVisible}
             aria-label="Submit RFP details"
           >
             Submit
           </button>
         </div>
+
+        {showToast && (
+          <div className={styles.toast}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            {toastMessage}
+          </div>
+        )}
       </main>
     </div>
   )
 }
+
