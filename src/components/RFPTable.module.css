@@ -218,7 +218,7 @@
 }
 
 .table thead tr {
-  background-color: var(--colors-neutral-100);
+  background-color: var(--bg-pressed);
   height: 44px;
   border-bottom: 1px solid var(--border-default);
 }
@@ -423,5 +423,5 @@
 .pageBtn:hover:not(:disabled) {
   border-color: var(--border-strong);
   color: var(--text-primary);
-  background-color: var(--border-subtle);
+  background-color: var(--bg-pressed);
 }
