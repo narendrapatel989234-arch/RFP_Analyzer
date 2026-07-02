@@ -459,7 +459,7 @@ interface ExtractedDocument {
   isExpanded: boolean;
 }
 
-function ExtractionDropzone({ label, onDrop }: { label: string, onDrop: (f: File) => void }) {
+function ExtractionDropzone({ label: _label, onDrop }: { label: string, onDrop: (f: File) => void }) {
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 

@@ -131,7 +131,7 @@ export default function RFPUploadReviewPage() {
 
   const renderExtractedCard = (
     title: string,
-    data: any,
+    data: { file: { name: string; size: string }; description: string; tableData: { id: string; name: string; description: string }[] },
     isExpanded: boolean,
     toggleExpanded: () => void
   ) => (
@@ -174,7 +174,7 @@ export default function RFPUploadReviewPage() {
                 </tr>
               </thead>
               <tbody>
-                {data.tableData.map((row: any) => (
+                {data.tableData.map((row) => (
                   <tr key={row.id}>
                     <td className={styles.extractedCardTd}>{row.name}</td>
                     <td className={styles.extractedCardTd}>{row.description}</td>
