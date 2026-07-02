@@ -7,11 +7,28 @@
 
 .content {
   width: 100%;
-  padding: 96px var(--space-8) var(--space-8) var(--space-8); /* 96px top padding is critical to clear TopNav */
+  padding: 96px 15% var(--space-8) 15%;
   display: flex;
   flex-direction: column;
   gap: var(--space-10);
   box-sizing: border-box;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  margin-bottom: calc(var(--space-8) * -1);
+  width: fit-content;
+  transition: opacity 0.2s;
+}
+
+.backBtn:hover {
+  opacity: 0.8;
 }
 
 .centerContainer {

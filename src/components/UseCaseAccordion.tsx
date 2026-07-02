@@ -778,13 +778,22 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <div className={styles.diagramPlaceholder}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" width="48" height="48">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <circle cx="8.5" cy="8.5" r="1.5" />
-                      <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p>Architecture Diagram Mock</p>
+                  <div className={styles.architectureDiagramWrapper}>
+                    <div className={styles.architectureLayer}>
+                      <p className={styles.architectureLayerTitle}>CLIENT LAYER</p>
+                      <div className={styles.architectureBoxContainer}>
+                        <div className={styles.architectureBox}>Web Portal UI</div>
+                        <div className={styles.architectureBox}>Mobile App UI</div>
+                      </div>
+                    </div>
+                    <div className={styles.architectureConnector}>↓ HTTPS / API Gateway</div>
+                    <div className={styles.architectureLayer}>
+                      <p className={styles.architectureLayerTitle}>API LAYER</p>
+                      <div className={styles.architectureBoxContainer}>
+                        <div className={styles.architectureBox}>Avatar Service API</div>
+                        <div className={styles.architectureBox}>RAG / LLM Orchestrator</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
