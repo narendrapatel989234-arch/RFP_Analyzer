@@ -1,21 +1,22 @@
 .topnav {
   position: fixed;
-  top: var(--space-5);
-  left: var(--space-8);
-  right: var(--space-8);
-  width: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   height: 68px;
-  border-radius: var(--radius-md);
+  border-radius: 0;
   /* Always solid Foundation Black — this bar is fixed brand chrome and
      intentionally doesn't flip with the app theme. No blur. */
   background: var(--colors-neutral-900);
-  border: 1px solid var(--colors-neutral-800);
+  border: none;
+  border-bottom: 1px solid var(--colors-neutral-800);
   box-shadow: var(--shadow-solid-2);
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-5);
+  padding: 0 var(--space-6);
   box-sizing: border-box;
 }
 

@@ -307,7 +307,7 @@
   background-color: var(--bg-surface-2);
   border: none;
   border-radius: var(--radius-sm);
-  color: var(--text-secondary);
+  color: var(--action-primary-bg-default);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -316,8 +316,8 @@
 }
 
 .actionBtn:hover {
-  background-color: var(--bg-hover);
-  color: var(--text-primary);
+  background-color: var(--action-primary-bg-soft);
+  color: var(--action-primary-bg-hover);
 }
 
 .actionBtn:focus-visible {

@@ -58,12 +58,14 @@
   --shadow-3: var(--shadow-solid-dark-3);
   --shadow-focus: var(--shadow-focus-neutral-dark);
 
-  /* Action — primary: solid white-on-dark CTA */
-  --action-primary-bg-default: var(--colors-neutral-0);
-  --action-primary-bg-hover: var(--colors-neutral-100);
-  --action-primary-bg-pressed: var(--colors-neutral-200);
-  --action-primary-text: var(--colors-neutral-900);
-  --action-primary-bg-soft: var(--colors-neutral-800);
+  /* Action — primary: the theme accent, not white/black. Same solid
+     value as light mode — it's a fixed fill color, not surface-relative. */
+  --action-primary-bg-default: var(--colors-accent-solid);
+  --action-primary-bg-hover: var(--colors-accent-solid-hover);
+  --action-primary-bg-pressed: var(--colors-accent-solid-pressed);
+  --action-primary-text: var(--colors-neutral-0);
+  --action-primary-bg-soft: var(--colors-accent-soft-dark);
+  --action-primary-bg-soft-hover: var(--colors-accent-soft-hover-dark);
 
   /* Action — AI: warm accent, white text, used sparingly */
   --action-ai-bg-default: var(--colors-accent-solid);

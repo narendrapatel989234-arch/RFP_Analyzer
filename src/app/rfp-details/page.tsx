@@ -453,7 +453,6 @@ export default function RFPDetailsPage() {
   const [supportingDocs, setSupportingDocs] = useState<File[]>([])
   const [addComponentsDocs, setAddComponentsDocs] = useState<File[]>([])
   const [partnerCapabilitiesDocs, setPartnerCapabilitiesDocs] = useState<File[]>([])
-  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false)
   
   // Format state
   const [formatPromptText, setFormatPromptText] = useState('')
@@ -509,7 +508,6 @@ export default function RFPDetailsPage() {
     setSupportingDocs([])
     setAddComponentsDocs([])
     setPartnerCapabilitiesDocs([])
-    setHasAttemptedSubmit(false)
     setFormatPromptText('')
     setFormatAttachedFile(null)
     setFormatFileError('')
@@ -519,7 +517,6 @@ export default function RFPDetailsPage() {
   }
 
   const handleSubmit = () => {
-    setHasAttemptedSubmit(true)
     
     console.warn({
       uploadedDoc,

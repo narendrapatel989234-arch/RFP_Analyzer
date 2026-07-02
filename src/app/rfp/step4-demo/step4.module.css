@@ -32,7 +32,7 @@
 }
 
 .sectionTitle {
-  color: var(--colors-neutral-900);
+  color: var(--text-primary);
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);
   font-family: var(--brand-font-body, var(--font-body));
@@ -49,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--action-primary-text);
 }
 
 .sectionSubtitle {
@@ -60,7 +60,7 @@
 
 /* Form Styles */
 .formCard {
-  background-color: #FFFFFF;
+  background-color: var(--bg-surface-1);
   padding: var(--space-6);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-1);
@@ -81,38 +81,35 @@
   color: var(--text-primary);
 }
 
-/* Target the select and textarea elements directly and forcefully */
 .formCard select,
 .formCard textarea,
 .dropdownField,
 .inputField {
   width: 100%;
-  background-color: #FFFFFF !important;
-  border: 1px solid #C2C8D6 !important; /* Forces the grey border */
-  border-radius: 8px !important; /* Rounded edges matching the reference */
-  padding: 12px 16px !important;
-  color: #1E1F1E !important;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 15px;
   box-sizing: border-box;
   margin-top: 8px;
-  appearance: none; /* Removes native OS styling from select dropdowns */
+  appearance: none;
 }
-/* Ensure the focus state also works correctly */
 .formCard select:focus,
 .formCard textarea:focus,
 .dropdownField:focus,
 .inputField:focus {
-  outline: none !important;
-  border-color: #91FF01 !important; /* Progress Green focus */
-  box-shadow: 0 0 0 3px rgba(145, 255, 1, 0.2) !important;
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-focus);
 }
-/* Ensure labels have some spacing from the fields if they don't already */
 .formCard label {
   display: block;
   font-weight: 500;
   margin-bottom: 4px;
-  color: var(--colors-neutral-900);
+  color: var(--text-primary);
 }
 
 .inputField {
@@ -227,7 +224,7 @@
 
 /* Success View Mock Data */
 .successCard {
-  background-color: #FFFFFF;
+  background-color: var(--bg-surface-1);
   padding: var(--space-6);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-1);
@@ -323,8 +320,8 @@
 
 .ctaSecondary {
   background-color: transparent;
-  color: var(--text-primary, #334155);
-  border: 1px solid var(--border-default, #CBD5E1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   padding: 8px 16px;
   font-size: 14px;
@@ -334,12 +331,13 @@
 }
 
 .ctaSecondary:hover {
-  background-color: var(--bg-surface-2, #F1F5F9);
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
 }
 
 .ctaPrimary {
-  background-color: var(--action-primary-bg-default, #91FF01); /* Progress Green */
-  color: var(--action-primary-text, #1E1F1E);
+  background-color: var(--action-primary-bg-default);
+  color: var(--action-primary-text);
   border: 1px solid transparent;
   border-radius: 6px;
   padding: 8px 20px;
@@ -347,11 +345,11 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-1);
 }
 
 .ctaPrimary:hover {
-  opacity: 0.9;
+  background-color: var(--action-primary-bg-hover);
   transform: translateY(-1px);
 }
 
@@ -385,7 +383,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #91FF01;
+  background-color: var(--action-primary-bg-default);
 }
 
 .tabContent {
@@ -393,20 +391,19 @@
 }
 
 .summaryCard {
-  background: var(--bg-surface-1, #FFFFFF);
-  border: 1px solid var(--border-default, #E2E8F0);
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-default);
   border-radius: 8px;
-  overflow: hidden; 
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
   margin-bottom: 24px;
 }
 
-/* Update the summary card header to be light grey with dark text */
 .summaryCardHeader {
-  background-color: #E2E8F0; /* Clearly visible light grey */
-  border-bottom: 1px solid #CBD5E1;
+  background-color: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-default);
   padding: 24px 32px;
-  color: #0F172A; /* Dark slate/black text */
+  color: var(--text-primary);
 }
 .summaryCardHeader h3 {
   margin: 0 0 4px 0;
@@ -416,7 +413,7 @@
 .summaryCardHeader p {
   margin: 0;
   font-size: 14px;
-  color: var(--text-secondary, #64748B);
+  color: var(--text-secondary);
 }
 
 .summaryCardBody {
@@ -433,19 +430,19 @@
   margin: 0;
   font-size: 16px;
   font-weight: bold;
-  color: #111827; /* Dark almost-black */
+  color: var(--text-primary);
 }
 
 .sectionText {
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
-  color: #4B5563; /* Medium grey for readable body text */
+  color: var(--text-secondary);
 }
 
 .divider {
   border: 0;
-  border-bottom: 1px solid #E5E7EB; /* Light grey line */
+  border-bottom: 1px solid var(--border-default);
   margin: 20px 0;
 }
 
@@ -461,13 +458,9 @@
   gap: 12px;
 }
 
-/* 
-  CRITICAL: The badge MUST have a solid fill and white text, 
-  do not make it transparent! 
-*/
 .summaryBadge {
-  background-color: #4B5563; /* Solid Medium/Dark Grey */
-  color: #FFFFFF;
+  background-color: var(--action-primary-bg-default);
+  color: var(--action-primary-text);
   border-radius: 4px;
   padding: 4px 10px;
   font-weight: bold;
@@ -478,12 +471,12 @@
   margin: 0;
   font-size: 15px;
   font-weight: 600;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .summaryItemTitleBlock span {
   font-size: 12px;
-  color: #6B7280;
+  color: var(--text-secondary);
 }
 
 .summaryChips {
@@ -493,35 +486,32 @@
   margin-top: 4px;
 }
 
-/* 
-  CRITICAL: Chips MUST have a visible border, padding, and rounded edges. 
-*/
 .chip {
-  border: 1px solid #D1D5DB; /* Solid Grey Border */
-  background-color: #F9FAFB; /* Very light grey background */
-  border-radius: 9999px; 
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface-2);
+  border-radius: 9999px;
   padding: 4px 12px;
   font-size: 12px;
-  color: #4B5563;
+  color: var(--text-secondary);
 }
 
 /* ==================================================
    PROPOSAL TAB STYLES
    ================================================== */
 .proposalCard {
-  background-color: #FFFFFF;
-  border: 1px solid var(--border-default, #E2E8F0);
+  background-color: var(--bg-surface-1);
+  border: 1px solid var(--border-default);
   border-radius: 8px;
-  overflow: hidden; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  margin-bottom: 32px; /* Large gap between separate sections */
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  margin-bottom: 32px;
 }
 
 .proposalCardHeader {
-  background-color: #E2E8F0;
-  border-bottom: 1px solid #CBD5E1;
+  background-color: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-default);
   padding: 24px 32px;
-  color: #0F172A; 
+  color: var(--text-primary);
 }
 
 .proposalCardHeader h3 {
@@ -538,8 +528,8 @@
 }
 
 .ucSectionTitle {
-  border-left: 3px solid #00B894; /* Cyan/Green accent */
-  color: #00B894;
+  border-left: 3px solid var(--action-primary-bg-default);
+  color: var(--action-primary-bg-default);
   padding-left: 8px;
   font-weight: bold;
   font-size: 12px;
@@ -549,12 +539,12 @@
 }
 
 .problemCard {
-  border-left: 3px solid #FF7675; /* Red accent */
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
+  border-left: 3px solid var(--status-error-icon);
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-default);
   padding: 16px;
   border-radius: 4px;
-  color: #1E1F1E;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
@@ -569,17 +559,17 @@
   gap: 8px;
   margin-bottom: 12px;
   font-size: 14px;
-  color: #4B5563;
+  color: var(--text-secondary);
 }
 
 .architectureDiagramWrapper {
-  border: 1px solid #A7F3D0;
+  border: 1px solid var(--border-default);
   padding: 24px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background-color: #F8FAFC;
+  background-color: var(--bg-surface-2);
 }
 .architectureLayer {
   display: flex;
@@ -589,7 +579,7 @@
 .architectureLayerTitle {
   font-size: 12px;
   font-weight: bold;
-  color: #64748B;
+  color: var(--text-secondary);
   text-transform: uppercase;
   margin: 0;
 }
@@ -599,19 +589,19 @@
 }
 .architectureBox {
   flex: 1;
-  background-color: #FFFFFF;
-  border: 1px solid #A7F3D0;
+  background-color: var(--bg-surface-1);
+  border: 1px solid var(--border-default);
   border-radius: 4px;
   padding: 12px;
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: #0F172A;
+  color: var(--text-primary);
 }
 .architectureConnector {
   text-align: center;
   font-size: 12px;
-  color: #64748B;
+  color: var(--text-secondary);
 }
 
 /* ==================================================
@@ -633,7 +623,7 @@
   gap: 8px;
 }
 .iconBtn {
-  border: 1px solid var(--border-default, #E2E8F0);
+  border: 1px solid var(--border-default);
   background: transparent;
   padding: 6px;
   border-radius: 4px;
@@ -642,16 +632,17 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  color: var(--text-secondary, #64748B);
+  color: var(--action-primary-bg-default);
 }
 .iconBtn:hover {
-  background: var(--bg-surface-2, #F1F5F9);
-  color: var(--text-primary, #0F172A);
+  background: var(--action-primary-bg-soft);
+  border-color: var(--action-primary-bg-default);
+  color: var(--action-primary-bg-hover);
 }
 .infoChip {
-  border: 1px solid #A7F3D0;
-  background: #ECFDF5;
-  color: #065F46;
+  border: 1px solid var(--status-success-border);
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
   padding: 4px 12px;
   border-radius: 4px;
   font-size: 12px;
@@ -663,11 +654,11 @@
 .editTextArea {
   width: 100%;
   min-height: 200px;
-  border: 1px solid #C2C8D6 !important;
-  border-radius: 8px !important;
-  padding: 12px 16px !important;
-  background-color: #FFFFFF !important;
-  color: #1E1F1E !important;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 15px;
   box-sizing: border-box;
@@ -676,8 +667,8 @@
   margin-bottom: 16px;
 }
 .editTextArea:focus {
-  border-color: #00B894 !important;
-  box-shadow: 0 0 0 1px #00B894 !important;
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-focus);
 }
 .editActions {
   display: flex;
@@ -687,34 +678,34 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
+  background: var(--bg-overlay);
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .modalCard {
-  background: white;
+  background: var(--bg-modal);
   padding: 24px;
   border-radius: 8px;
   width: 400px;
   max-width: 90%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-3);
 }
 .modalCard h3 {
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #0F172A;
+  color: var(--text-primary);
 }
 .modalInput {
   width: 100%;
   min-height: 120px;
-  border: 1px solid #C2C8D6 !important;
-  border-radius: 8px !important;
-  padding: 12px 16px !important;
-  background-color: #FFFFFF !important;
-  color: #1E1F1E !important;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 15px;
   box-sizing: border-box;
@@ -723,8 +714,8 @@
   margin-bottom: 20px;
 }
 .modalInput:focus {
-  border-color: #00B894 !important;
-  box-shadow: 0 0 0 1px #00B894 !important;
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-focus);
 }
 .modalActions {
   display: flex;

@@ -93,8 +93,11 @@
    * --------------------------------------------------------------- */
   --colors-accent-soft: #f7f0e2;
   --colors-accent-soft-dark: rgba(200, 148, 72, 0.18);
+  --colors-accent-soft-hover: #efdfc2;
+  --colors-accent-soft-hover-dark: rgba(200, 148, 72, 0.28);
   --colors-accent-solid: #8c6026;
   --colors-accent-solid-hover: #74501f;
+  --colors-accent-solid-pressed: #5c3f18;
   --colors-accent-text: #6b4a1d;
   --colors-accent-text-dark: #e0b579;
 

@@ -16,11 +16,13 @@
 }
 
 .uploadZone:hover {
-  background-color: var(--bg-selected);
+  background-color: var(--action-primary-bg-soft-hover);
+  border-color: var(--action-primary-bg-hover);
 }
 
 .uploadZone.isDragging {
-  background-color: var(--bg-selected);
+  background-color: var(--action-primary-bg-soft-hover);
+  border-color: var(--action-primary-bg-hover);
   border-style: solid;
 }
 
@@ -56,7 +58,7 @@
 }
 
 .errorText {
-  color: var(--status-error-text, #ef4444);
+  color: var(--status-error-text);
   font-size: var(--text-sm);
   margin-top: var(--space-2);
 }
@@ -111,7 +113,7 @@
 }
 
 .clearBtn:hover {
-  color: var(--status-error-text, #ef4444);
+  color: var(--status-error-text);
 }
 
 .modalOverlay {

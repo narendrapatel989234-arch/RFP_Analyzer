@@ -61,12 +61,15 @@
   --shadow-3: var(--shadow-solid-3);
   --shadow-focus: var(--shadow-focus-neutral);
 
-  /* Action — primary: solid Foundation Black CTA */
-  --action-primary-bg-default: var(--colors-neutral-900);
-  --action-primary-bg-hover: var(--colors-neutral-800);
-  --action-primary-bg-pressed: var(--colors-neutral-700);
+  /* Action — primary: the theme accent, not black. Every CTA (Submit,
+     Proceed, Confirm) and every actionable icon (Edit, Regenerate)
+     draws from this. */
+  --action-primary-bg-default: var(--colors-accent-solid);
+  --action-primary-bg-hover: var(--colors-accent-solid-hover);
+  --action-primary-bg-pressed: var(--colors-accent-solid-pressed);
   --action-primary-text: var(--colors-neutral-0);
-  --action-primary-bg-soft: var(--colors-neutral-50);
+  --action-primary-bg-soft: var(--colors-accent-soft);
+  --action-primary-bg-soft-hover: var(--colors-accent-soft-hover);
 
   /* Action — AI: warm accent, white text, used sparingly */
   --action-ai-bg-default: var(--colors-accent-solid);
