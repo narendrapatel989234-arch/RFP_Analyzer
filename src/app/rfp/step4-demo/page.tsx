@@ -186,6 +186,7 @@ export default function Step4Demo() {
                       <div className={styles.proposalCardHeader}>
                         <div className={styles.cardHeaderFlex}>
                           <div className={styles.cardHeaderLeft}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
                             <h3>Scope</h3>
                           </div>
                           <div className={styles.cardHeaderRight}>
@@ -234,23 +235,27 @@ export default function Step4Demo() {
                                   </div>
                                 </div>
                               </div>
+                              <div className={styles.ucSectionTitle} style={{ marginTop: '32px' }}>ARCHITECTURE SUMMARY</div>
+                              <p className={styles.sectionText}>
+                                The architecture utilizes a highly available API gateway that securely routes incoming citizen requests from web and mobile endpoints into a specialized conversational orchestrator. This orchestrator manages the state of the interaction and coordinates in real-time between the RAG microservice—responsible for retrieving legally sound responses—and the external Avatar streaming service, ensuring seamless audio-visual sync before returning the payload to the frontend.
+                              </p>
                             </div>
     
                             <div>
                               <div className={styles.ucSectionTitle}>SCOPE COVERAGE</div>
                               <ul className={styles.checkList}>
-                                <li>✅ Custom LLM fine-tuning and prompt engineering specifically optimized for UAE Federal Law and ADJD local regulations.</li>
-                                <li>✅ Real-time bilingual (Arabic/English) voice interaction with dynamic language switching and sub-second latency.</li>
-                                <li>✅ Real-time photorealistic avatar streaming with localized cultural attire and context-aware conversational gestures.</li>
-                                <li>✅ Automated corpus ingestion pipelines to keep the legal database updated continuously without system downtime.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Custom LLM fine-tuning and prompt engineering specifically optimized for UAE Federal Law and ADJD local regulations.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Real-time bilingual (Arabic/English) voice interaction with dynamic language switching and sub-second latency.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Real-time photorealistic avatar streaming with localized cultural attire and context-aware conversational gestures.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Automated corpus ingestion pipelines to keep the legal database updated continuously without system downtime.</li>
                               </ul>
                             </div>
     
                             <div>
                               <div className={styles.ucSectionTitle}>ASSUMPTIONS & DEPENDENCIES</div>
                               <ul className={styles.checkList}>
-                                <li>✅ API rate limits and concurrency caps from the external avatar streaming provider remain scalable to at least 1,000 concurrent sessions.</li>
-                                <li>✅ ADJD supplies the fully vetted, translated, and structured XML/JSON formatted legal corpus no later than Project Week 2.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> API rate limits and concurrency caps from the external avatar streaming provider remain scalable to at least 1,000 concurrent sessions.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> ADJD supplies the fully vetted, translated, and structured XML/JSON formatted legal corpus no later than Project Week 2.</li>
                               </ul>
                             </div>
                           </div>
@@ -291,23 +296,27 @@ export default function Step4Demo() {
                                   </div>
                                 </div>
                               </div>
+                              <div className={styles.ucSectionTitle} style={{ marginTop: '32px' }}>ARCHITECTURE SUMMARY</div>
+                              <p className={styles.sectionText}>
+                                The proposed design establishes a decoupled API-first infrastructure where a scalable Node.js gateway handles all frontend logic, validation, and AI inferences. Upon successful preliminary classification and document OCR via internal AI services, the gateway translates these structured payloads into SOAP envelopes, communicating securely with the legacy ADJD backend through an isolated bridge layer to guarantee zero disruption to existing core systems.
+                              </p>
                             </div>
     
                             <div>
                               <div className={styles.ucSectionTitle}>SCOPE COVERAGE</div>
                               <ul className={styles.checkList}>
-                                <li>✅ AI-driven preliminary case classification achieving at least 92% confidence based on historical benchmarking data.</li>
-                                <li>✅ Secure, chunked document upload service with automated OCR validation for UAE ID and Passport scans.</li>
-                                <li>✅ Seamless, bidirectional integration with the legacy ADJD CMS via enterprise SOAP bridges and dedicated message queues.</li>
-                                <li>✅ Built-in UAE Pass authentication integration for instant citizen identity verification and secure digital signatures.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> AI-driven preliminary case classification achieving at least 92% confidence based on historical benchmarking data.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Secure, chunked document upload service with automated OCR validation for UAE ID and Passport scans.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Seamless, bidirectional integration with the legacy ADJD CMS via enterprise SOAP bridges and dedicated message queues.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Built-in UAE Pass authentication integration for instant citizen identity verification and secure digital signatures.</li>
                               </ul>
                             </div>
     
                             <div>
                               <div className={styles.ucSectionTitle}>ASSUMPTIONS & DEPENDENCIES</div>
                               <ul className={styles.checkList}>
-                                <li>✅ Existing legacy SOAP endpoints remain completely stable, well-documented, and do not undergo breaking changes during the implementation phase.</li>
-                                <li>✅ UAE Pass staging environments and API credentials will be provisioned by the relevant authorities without significant bureaucratic delays.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> Existing legacy SOAP endpoints remain completely stable, well-documented, and do not undergo breaking changes during the implementation phase.</li>
+                                <li><span style={{color: '#64748B'}}>•</span> UAE Pass staging environments and API credentials will be provisioned by the relevant authorities without significant bureaucratic delays.</li>
                               </ul>
                             </div>
                           </div>
@@ -320,6 +329,7 @@ export default function Step4Demo() {
                       <div className={styles.proposalCardHeader}>
                         <div className={styles.cardHeaderFlex}>
                           <div className={styles.cardHeaderLeft}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                             <h3>Deliverables</h3>
                           </div>
                           <div className={styles.cardHeaderRight}>
@@ -346,10 +356,10 @@ export default function Step4Demo() {
                           </div>
                         ) : (
                           <ul className={styles.checkList}>
-                            <li>✅ Fully documented source code stored in a secure, ADJD-hosted Git repository, complete with comprehensive inline comments and architectural decision records (ADRs).</li>
-                            <li>✅ Complete Infrastructure as Code (IaC) Terraform and Ansible scripts for repeatable, automated deployments across staging and production environments.</li>
-                            <li>✅ Comprehensive Administrator, Operations, and User Manuals, including video walkthroughs and standard operating procedures (SOPs) for the L1 support team.</li>
-                            <li>✅ A fully populated Postman API collection covering all microservices, complete with mock data payloads and automated test assertions.</li>
+                            <li><span style={{color: '#64748B'}}>•</span> Fully documented source code stored in a secure, ADJD-hosted Git repository, complete with comprehensive inline comments and architectural decision records (ADRs).</li>
+                            <li><span style={{color: '#64748B'}}>•</span> Complete Infrastructure as Code (IaC) Terraform and Ansible scripts for repeatable, automated deployments across staging and production environments.</li>
+                            <li><span style={{color: '#64748B'}}>•</span> Comprehensive Administrator, Operations, and User Manuals, including video walkthroughs and standard operating procedures (SOPs) for the L1 support team.</li>
+                            <li><span style={{color: '#64748B'}}>•</span> A fully populated Postman API collection covering all microservices, complete with mock data payloads and automated test assertions.</li>
                           </ul>
                         )}
                       </div>
@@ -360,6 +370,7 @@ export default function Step4Demo() {
                       <div className={styles.proposalCardHeader}>
                         <div className={styles.cardHeaderFlex}>
                           <div className={styles.cardHeaderLeft}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                             <h3>Risks & Mitigations</h3>
                           </div>
                           <div className={styles.cardHeaderRight}>
@@ -399,6 +410,7 @@ export default function Step4Demo() {
                       <div className={styles.proposalCardHeader}>
                         <div className={styles.cardHeaderFlex}>
                           <div className={styles.cardHeaderLeft}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                             <h3>Case Studies</h3>
                           </div>
                           <div className={styles.cardHeaderRight}>

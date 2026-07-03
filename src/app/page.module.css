@@ -25,12 +25,19 @@
   width: 100%;
 }
 
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
 .sectionTitle {
   color: var(--text-primary);
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
   font-family: var(--brand-font-body, var(--font-body));
-  margin: 0 0 var(--space-4) 0;
+  margin: 0;
 }
 
 .divider {

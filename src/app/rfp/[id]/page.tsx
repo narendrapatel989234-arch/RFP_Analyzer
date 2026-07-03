@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
 import { UseCaseAccordion } from '@/components/UseCaseAccordion'
+import { ListChecks, Code2 } from 'lucide-react'
 import styles from './page.module.css'
 
 export default function RFPDetail() {
@@ -70,19 +71,11 @@ export default function RFPDetail() {
                   color: 'var(--colors-neutral-0)',
                 }}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <polyline points="9 12 11 14 15 10" />
-                </svg>
+                {isStage3 ? (
+                  <Code2 size={20} strokeWidth={2.5} />
+                ) : (
+                  <ListChecks size={20} strokeWidth={2.5} />
+                )}
               </div>
               {isStage3 ? 'Validate Technical Requirements' : 'Validate Functional Requirements'}
             </h2>

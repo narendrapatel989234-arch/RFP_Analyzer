@@ -3,7 +3,7 @@
   /* Backgrounds — solid, opaque, white. No glass/blur, no tan. Only
      interactive feedback states (hover/pressed/selected) get a faint
      neutral tint — everything static is white. */
-  --bg-default: var(--colors-page-base-light);
+  --bg-default: var(--colors-neutral-0);
   --bg-page: var(--colors-neutral-0);
   --bg-page-tint: var(--colors-page-tint-light);
   --bg-surface-1: var(--colors-neutral-0);

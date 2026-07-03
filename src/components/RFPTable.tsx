@@ -59,17 +59,21 @@ const mockData: RFP[] = [
 
 const FILTER_OPTIONS = {
   status: ['In Progress', 'Approved'],
-  uploadedDate: ['Today', 'Last 7 days', 'Last 30 days', 'Last 3 months'],
   uploadedBy: ['Alice Smith', 'Bob Johnson', 'Carol Lee', 'David Kim', 'Emma Davis'],
 }
 
-export function RFPTable() {
+interface RFPTableProps {
+  dateFilterValue?: string
+  customDateRange?: { start: Date | null, end: Date | null }
+  onDateFilterChange?: (value: string, range?: { start: Date | null, end: Date | null }) => void
+}
+
+export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterChange }: RFPTableProps) {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState({
     status: '',
     uploadedBy: '',
-    uploadedDate: '',
   })
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
@@ -79,7 +83,7 @@ export function RFPTable() {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchQuery, filters])
+  }, [searchQuery, filters, dateFilterValue, customDateRange])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -120,41 +124,46 @@ export function RFPTable() {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName)
   }
 
-  const selectFilter = (key: keyof typeof filters, value: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: prev[key] === value ? '' : value,
-    }))
+  const selectFilter = (type: 'status' | 'uploadedBy', value: string) => {
+    if (filters[type] === value) {
+      setFilters((prev) => ({ ...prev, [type]: '' }))
+    } else {
+      setFilters((prev) => ({ ...prev, [type]: value }))
+    }
     setOpenDropdown(null)
   }
 
   const clearAllFilters = () => {
     setSearchQuery('')
-    setFilters({
-      status: '',
-      uploadedBy: '',
-      uploadedDate: '',
-    })
-    setOpenDropdown(null)
+    setFilters({ status: '', uploadedBy: '' })
   }
 
-  const isFilterActive = searchQuery !== '' || Object.values(filters).some((val) => val !== '')
+  const isFilterActive = searchQuery !== '' || filters.status !== '' || filters.uploadedBy !== ''
 
   const filteredData = mockData.filter((row) => {
     const matchesSearch = row.name.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesStatus = filters.status ? row.status === filters.status : true
     const matchesUploadedBy = filters.uploadedBy ? row.uploadedBy === filters.uploadedBy : true
     
-    const matchesUploadedDate = filters.uploadedDate ? (() => {
-      const rowTime = new Date(row.uploadedDate).getTime();
+    const matchesUploadedDate = (() => {
+      if (!dateFilterValue) return true;
+      const rowTime = row.lastModifiedDate;
       const now = Date.now();
       const diffDays = (now - rowTime) / (1000 * 60 * 60 * 24);
-      if (filters.uploadedDate === 'Today') return diffDays < 1;
-      if (filters.uploadedDate === 'Last 7 days') return diffDays <= 7;
-      if (filters.uploadedDate === 'Last 30 days') return diffDays <= 30;
-      if (filters.uploadedDate === 'Last 3 months') return diffDays <= 90;
+      if (dateFilterValue === 'Today') return diffDays < 1;
+      if (dateFilterValue === 'Last 7 days') return diffDays <= 7;
+      if (dateFilterValue === 'Last 30 days') return diffDays <= 30;
+      if (dateFilterValue === 'Last 3 months') return diffDays <= 90;
+      if (dateFilterValue === 'Custom Range' && customDateRange?.start && customDateRange?.end) {
+        const rowDate = new Date(rowTime)
+        const start = new Date(customDateRange.start)
+        start.setHours(0, 0, 0, 0)
+        const end = new Date(customDateRange.end)
+        end.setHours(23, 59, 59, 999)
+        return rowDate >= start && rowDate <= end
+      }
       return true;
-    })() : true;
+    })();
 
     return matchesSearch && matchesStatus && matchesUploadedBy && matchesUploadedDate
   })
@@ -260,58 +269,6 @@ export function RFPTable() {
                   >
                     <span>{option}</span>
                     {filters.uploadedBy === option && <CheckIcon />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className={styles.dropdownContainer}>
-            <button
-              className={`${styles.filterDropdown} ${filters.uploadedDate ? styles.filterDropdownActive : ''}`}
-              aria-haspopup="listbox"
-              style={{ width: '160px' }}
-              onClick={() => toggleDropdown('uploadedDate')}
-            >
-              <div className={styles.dropdownLeftContent}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className={styles.calendarIcon}
-                >
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                <span>{filters.uploadedDate || 'Uploaded Date'}</span>
-              </div>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={styles.chevronIcon}
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-            {openDropdown === 'uploadedDate' && (
-              <div className={styles.dropdownPopover}>
-                {FILTER_OPTIONS.uploadedDate.map((option) => (
-                  <button
-                    key={option}
-                    className={styles.dropdownOption}
-                    onClick={() => selectFilter('uploadedDate', option)}
-                  >
-                    <span>{option}</span>
-                    {filters.uploadedDate === option && <CheckIcon />}
                   </button>
                 ))}
               </div>

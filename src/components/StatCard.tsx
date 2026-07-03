@@ -7,10 +7,11 @@ interface StatCardProps {
   trend?: { value: number; direction: 'up' | 'down' }
   trendColor?: string
   accentColor?: string
+  trendLabel?: string
   icon: React.ReactNode
 }
 
-export function StatCard({ title, count, trend, trendColor, accentColor, icon }: StatCardProps) {
+export function StatCard({ title, count, trend, trendColor, accentColor, trendLabel, icon }: StatCardProps) {
   const iconColor = accentColor || 'var(--text-secondary)'
   const iconBgColor = accentColor
     ? `color-mix(in srgb, ${accentColor} 14%, transparent)`
@@ -44,7 +45,7 @@ export function StatCard({ title, count, trend, trendColor, accentColor, icon }:
             <span>{trend.direction === 'up' ? '↑' : '↓'}</span>
             <span>{trend.value}%</span>
           </div>
-          <span className={styles.trendText}>vs last month</span>
+          <span className={styles.trendText}>{trendLabel || 'vs last month'}</span>
         </div>
       )}
     </div>
