@@ -525,7 +525,7 @@
 }
 
 .proposalCardHeader {
-  background-color: var(--bg-surface-2);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft) 30%, var(--bg-surface-1));
   border-bottom: 1px solid var(--border-default);
   padding: 24px 32px;
   color: var(--text-primary);

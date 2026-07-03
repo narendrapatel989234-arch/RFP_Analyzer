@@ -30,7 +30,7 @@
 }
 
 .accordionHeader:hover {
-  background-color: var(--bg-hover);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft) 30%, var(--bg-surface-1));
 }
 
 .headerLeft {

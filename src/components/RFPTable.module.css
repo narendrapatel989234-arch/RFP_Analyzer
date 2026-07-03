@@ -70,8 +70,8 @@
 }
 
 .searchInput:focus {
-  border-color: var(--action-primary-bg-default);
-  box-shadow: var(--shadow-focus);
+  border-color: var(--border-hover);
+  box-shadow: 0 0 0 1px var(--border-hover);
 }
 
 .dropdownContainer {
@@ -241,7 +241,7 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--bg-hover);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft) 30%, var(--bg-surface-1));
 }
 
 .table td {
