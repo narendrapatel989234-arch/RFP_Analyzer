@@ -190,7 +190,7 @@
   width: 32px;
   height: 32px;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: none;
   border-radius: var(--radius-sm);
   color: var(--action-primary-bg-default);
   cursor: pointer;
@@ -200,7 +200,6 @@
 .sectionActionBtn:hover {
   background-color: var(--action-primary-bg-soft);
   color: var(--action-primary-bg-hover);
-  border-color: var(--action-primary-bg-default);
 }
 
 .sectionHeaderLeft {

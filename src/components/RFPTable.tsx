@@ -37,7 +37,7 @@ function getRelativeTime(timestamp: number): string {
 const mockData: RFP[] = [
   { id: 'RFP-001', name: 'Cloud Migration RFP – ACME Corp', uploadedBy: 'Alice Smith', uploadedDate: '2023-10-15', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 1 * HOUR },
   { id: 'RFP-002', name: 'Security Audit Services – GlobalNet', uploadedBy: 'Bob Johnson', uploadedDate: '2023-10-12', status: 'In Progress', stage: 'Proposal Review', lastModifiedDate: Date.now() - 3 * HOUR },
-  { id: 'RFP-003', name: 'Q4 Marketing Agency Pitch', uploadedBy: 'Carol Lee', uploadedDate: '2023-10-05', status: 'Approved', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-003', name: 'Q4 Marketing Agency Pitch', uploadedBy: 'Carol Lee', uploadedDate: '2023-10-05', status: 'Approved', stage: 'Technical Confirmation', lastModifiedDate: Date.now() - 1 * DAY },
   { id: 'RFP-004', name: 'ERP Implementation – Falcon Industries', uploadedBy: 'David Kim', uploadedDate: '2023-09-28', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 2 * DAY },
   { id: 'RFP-005', name: 'Data Analytics Platform – BrightEdge', uploadedBy: 'Alice Smith', uploadedDate: '2023-09-20', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() },
   { id: 'RFP-006', name: 'Cybersecurity Assessment – NovaTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-09-15', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 5 * HOUR },
