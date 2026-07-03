@@ -14,7 +14,7 @@ export default function RFPDetail() {
   const router = useRouter()
   const [isValidated, setIsValidated] = useState(false)
 
-  const isStage3 = id === 'RFP-003'
+  const isStage3 = id === 'RFP-002'
   const activeStep = isStage3 ? 3 : 2
 
   const techStack = [
