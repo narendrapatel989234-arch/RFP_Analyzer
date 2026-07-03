@@ -272,7 +272,7 @@ export function MultiUploadZone({ label, files, setFiles }: MultiUploadProps) {
           Browse
         </div>
         <div className={styles.uploadHint}>
-          PDF, DOCX, DOC â€” multiple files allowed
+          PDF, DOCX &amp; Max file size: 25 MB &mdash; multiple files allowed
         </div>
       </div>
       {error && <div className={styles.errorText}>{error}</div>}
@@ -528,7 +528,7 @@ export function ExtractionDropzone({ label: _label, onDrop }: { label: string, o
         Browse
       </div>
       <div className={styles.uploadHint}>
-        Format: PDF, DOCX, DOC &amp; Max file size: 25 MB
+        Format: PDF, DOCX &mdash; Max file size: 25 MB
       </div>
     </div>
   )
