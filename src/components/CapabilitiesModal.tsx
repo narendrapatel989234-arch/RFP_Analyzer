@@ -13,7 +13,8 @@ import {
 
 export interface CapabilitiesModalProps {
   isOpen: boolean
-  onClose: () => void
+  onCancel: () => void
+  onSave: () => void
   activeTab: number
   onTabChange: (tab: number) => void
 
@@ -78,7 +79,7 @@ function PendingExtractionCard({ pending }: { pending: PendingExtraction }) {
 }
 
 export function CapabilitiesModal({
-  isOpen, onClose, activeTab, onTabChange,
+  isOpen, onCancel, onSave, activeTab, onTabChange,
   handleExtractionUpload, addComponentsDocs, partnerCapabilitiesDocs, renderExtractedDoc,
   formatPromptText, setFormatPromptText, handleFormatFileAttach, formatAttachedFile,
   setFormatAttachedFile, handleGenerateOutline, isGeneratingOutline, formatBtnLabel,
@@ -93,7 +94,9 @@ export function CapabilitiesModal({
       <div className={styles.modal}>
         <div className={styles.header}>
           <h2 className={styles.title}>Capabilities</h2>
-          <button className={styles.closeBtn} onClick={onClose}><X size={20} /></button>
+          <button className={styles.closeBtn} onClick={onCancel}>
+            <X size={20} />
+          </button>
         </div>
         <div className={styles.tabsContainer}>
           {['Components', 'Capabilities', 'Proposal Template Format'].map((tabName, idx) => (
@@ -204,15 +207,14 @@ export function CapabilitiesModal({
                           disabled={isGeneratingOutline}
                         >
                           {isGeneratingOutline && <div className={pageStyles.buttonSpinner} />}
-                          {isGeneratingOutline ? (formatAttachedFile ? 'Extracting...' : 'Generating...') : formatBtnLabel}
+                          {isGeneratingOutline 
+                            ? (outlineVisible ? 'Regenerating with AI...' : formatAttachedFile ? 'Extracting...' : formatPromptText.trim().length > 0 ? 'Regenerating with AI...' : 'Generating...') 
+                            : formatBtnLabel}
                         </button>
                       </div>
                     </div>
                   )}
                 />
-              </div>
-              <div className={styles.fileList}>
-                {pendingExtractions.filter(p => p.type === 'format').map(p => <PendingExtractionCard key={p.id} pending={p} />)}
               </div>
               {formatFileError && (
                 <div className={pageStyles.errorText} style={{ marginTop: 'var(--space-2)' }}>{formatFileError}</div>
@@ -222,6 +224,10 @@ export function CapabilitiesModal({
               )}
             </div>
           )}
+        </div>
+        <div className={styles.modalFooter}>
+          <button className={styles.cancelBtn} onClick={onCancel}>Cancel</button>
+          <button className={styles.saveBtn} onClick={onSave}>Save</button>
         </div>
       </div>
     </div>

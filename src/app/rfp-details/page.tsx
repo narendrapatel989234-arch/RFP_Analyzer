@@ -31,6 +31,45 @@ export default function RFPDetailsPage() {
   const [pendingExtractions, setPendingExtractions] = useState<PendingExtraction[]>([])
   const [editingCell, setEditingCell] = useState<{ docId: string, rowId: string, field: 'name' | 'description' | 'docDescription' } | null>(null)
 
+  // Snapshot state for Cancel/Save functionality
+  const [capabilitiesSnapshot, setCapabilitiesSnapshot] = useState<{
+    addComponentsDocs: ExtractedDocument[],
+    partnerCapabilitiesDocs: ExtractedDocument[],
+    formatPromptText: string,
+    formatAttachedFile: File | null,
+    outlineVisible: boolean,
+    outlineData: OutlineNode[]
+  } | null>(null)
+
+  const openCapabilitiesModal = () => {
+    setCapabilitiesSnapshot({
+      addComponentsDocs,
+      partnerCapabilitiesDocs,
+      formatPromptText,
+      formatAttachedFile,
+      outlineVisible,
+      outlineData
+    })
+    setIsCapabilitiesModalOpen(true)
+  }
+
+  const handleCancelCapabilitiesModal = () => {
+    if (capabilitiesSnapshot) {
+      setAddComponentsDocs(capabilitiesSnapshot.addComponentsDocs)
+      setPartnerCapabilitiesDocs(capabilitiesSnapshot.partnerCapabilitiesDocs)
+      setFormatPromptText(capabilitiesSnapshot.formatPromptText)
+      setFormatAttachedFile(capabilitiesSnapshot.formatAttachedFile)
+      setOutlineVisible(capabilitiesSnapshot.outlineVisible)
+      setOutlineData(capabilitiesSnapshot.outlineData)
+    }
+    setIsCapabilitiesModalOpen(false)
+  }
+
+  const handleSaveCapabilitiesModal = () => {
+    setCapabilitiesSnapshot(null)
+    setIsCapabilitiesModalOpen(false)
+  }
+
   const handleExtractionUpload = (file: File, type: 'components' | 'partner') => {
     const id = Math.random().toString(36).substr(2, 9)
     setPendingExtractions(prev => [...prev, { id, file, type, stage: 1 }])
@@ -308,16 +347,7 @@ export default function RFPDetailsPage() {
       const isValidExt = ext.endsWith('.pdf') || ext.endsWith('.docx') || ext.endsWith('.doc')
       const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword']
       if ((validTypes.includes(file.type) || isValidExt) && file.size <= 25 * 1024 * 1024) {
-        const id = Math.random().toString(36).substr(2, 9)
-        setPendingExtractions(prev => [...prev, { id, file, type: 'format', stage: 1 }])
-        
-        setTimeout(() => {
-          setPendingExtractions(prev => prev.map(p => p.id === id ? { ...p, stage: 2 } : p))
-          setTimeout(() => {
-            setPendingExtractions(prev => prev.filter(p => p.id !== id))
-            setFormatAttachedFile(file)
-          }, 1000)
-        }, 1500)
+        setFormatAttachedFile(file)
       } else {
         setFormatFileError('Please attach a valid PDF or DOC/DOCX file under 25MB.')
       }
@@ -356,7 +386,9 @@ export default function RFPDetailsPage() {
   }
 
   let formatBtnLabel = 'Generate with AI'
-  if (formatAttachedFile) {
+  if (outlineVisible) {
+    formatBtnLabel = 'Regenerate with AI'
+  } else if (formatAttachedFile) {
     formatBtnLabel = 'Extract'
   } else if (formatPromptText.trim().length > 0) {
     formatBtnLabel = 'Regenerate with AI'
@@ -472,7 +504,7 @@ export default function RFPDetailsPage() {
             <label className={styles.sectionLabel}>Capabilities</label>
             <button 
               className={styles.addCapabilitiesBtn} 
-              onClick={() => setIsCapabilitiesModalOpen(true)}
+              onClick={openCapabilitiesModal}
             >
               <Plus size={16} /> Add Capabilities
             </button>
@@ -529,7 +561,8 @@ export default function RFPDetailsPage() {
         )}
         <CapabilitiesModal
           isOpen={isCapabilitiesModalOpen}
-          onClose={() => setIsCapabilitiesModalOpen(false)}
+          onCancel={handleCancelCapabilitiesModal}
+          onSave={handleSaveCapabilitiesModal}
           activeTab={activeCapabilityTab}
           onTabChange={setActiveCapabilityTab}
           handleExtractionUpload={handleExtractionUpload}

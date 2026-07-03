@@ -60,6 +60,7 @@ const mockData: RFP[] = [
 const FILTER_OPTIONS = {
   status: ['In Progress', 'Approved'],
   uploadedBy: ['Alice Smith', 'Bob Johnson', 'Carol Lee', 'David Kim', 'Emma Davis'],
+  stage: ['All', 'Functional Confirmation', 'Technical Confirmation', 'Proposal Review'],
 }
 
 interface RFPTableProps {
@@ -74,6 +75,7 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
   const [filters, setFilters] = useState({
     status: '',
     uploadedBy: '',
+    stage: '',
   })
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
@@ -124,8 +126,10 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName)
   }
 
-  const selectFilter = (type: 'status' | 'uploadedBy', value: string) => {
-    if (filters[type] === value) {
+  const selectFilter = (type: 'status' | 'uploadedBy' | 'stage', value: string) => {
+    if (value === 'All') {
+      setFilters((prev) => ({ ...prev, [type]: '' }))
+    } else if (filters[type] === value) {
       setFilters((prev) => ({ ...prev, [type]: '' }))
     } else {
       setFilters((prev) => ({ ...prev, [type]: value }))
@@ -135,15 +139,16 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
 
   const clearAllFilters = () => {
     setSearchQuery('')
-    setFilters({ status: '', uploadedBy: '' })
+    setFilters({ status: '', uploadedBy: '', stage: '' })
   }
 
-  const isFilterActive = searchQuery !== '' || filters.status !== '' || filters.uploadedBy !== ''
+  const isFilterActive = searchQuery !== '' || filters.status !== '' || filters.uploadedBy !== '' || filters.stage !== ''
 
   const filteredData = mockData.filter((row) => {
     const matchesSearch = row.name.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesStatus = filters.status ? row.status === filters.status : true
     const matchesUploadedBy = filters.uploadedBy ? row.uploadedBy === filters.uploadedBy : true
+    const matchesStage = filters.stage ? row.stage === filters.stage : true
     
     const matchesUploadedDate = (() => {
       if (!dateFilterValue) return true;
@@ -165,7 +170,7 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
       return true;
     })();
 
-    return matchesSearch && matchesStatus && matchesUploadedBy && matchesUploadedDate
+    return matchesSearch && matchesStatus && matchesUploadedBy && matchesStage && matchesUploadedDate
   })
 
   const totalItems = filteredData.length
@@ -233,6 +238,42 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
                   >
                     <span>{option}</span>
                     {filters.status === option && <CheckIcon />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className={styles.dropdownContainer}>
+            <button
+              className={`${styles.filterDropdown} ${filters.stage ? styles.filterDropdownActive : ''}`}
+              aria-haspopup="listbox"
+              style={{ width: '150px' }}
+              onClick={() => toggleDropdown('stage')}
+            >
+              <span>{filters.stage || 'Stage'}</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={styles.chevronIcon}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            {openDropdown === 'stage' && (
+              <div className={styles.dropdownPopover}>
+                {FILTER_OPTIONS.stage.map((option) => (
+                  <button
+                    key={option}
+                    className={styles.dropdownOption}
+                    onClick={() => selectFilter('stage', option)}
+                  >
+                    <span>{option}</span>
+                    {((filters.stage === option) || (!filters.stage && option === 'All')) && <CheckIcon />}
                   </button>
                 ))}
               </div>
