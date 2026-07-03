@@ -245,7 +245,7 @@
 }
 
 .uploadZone {
-  background: var(--action-primary-bg-soft);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft) 30%, var(--bg-surface-1));
   border: 2px dashed var(--action-primary-bg-default);
   border-radius: var(--radius-md);
   padding: var(--space-6);
@@ -262,13 +262,13 @@
 }
 
 .uploadZone:hover {
-  background: var(--action-primary-bg-soft-hover);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft-hover) 40%, var(--bg-surface-1));
   border-color: var(--action-primary-bg-hover);
 }
 
 .uploadZone.isDragging {
   border-style: solid;
-  background: var(--action-primary-bg-soft-hover);
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft-hover) 50%, var(--bg-surface-1));
   border-color: var(--action-primary-bg-hover);
 }
 
