@@ -22,7 +22,6 @@
   text-decoration: none;
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
-  margin-bottom: calc(var(--space-8) * -1);
   width: fit-content;
   transition: opacity 0.2s;
 }
