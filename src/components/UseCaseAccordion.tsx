@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import styles from './UseCaseAccordion.module.css'
+import { ArchitectureDiagram } from './ArchitectureDiagram'
 
 export interface UseCaseModule {
   id: string
@@ -778,23 +779,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <div className={styles.architectureDiagramWrapper}>
-                    <div className={styles.architectureLayer}>
-                      <p className={styles.architectureLayerTitle}>CLIENT LAYER</p>
-                      <div className={styles.architectureBoxContainer}>
-                        <div className={styles.architectureBox}>Web Portal UI</div>
-                        <div className={styles.architectureBox}>Mobile App UI</div>
-                      </div>
-                    </div>
-                    <div className={styles.architectureConnector}>↓ HTTPS / API Gateway</div>
-                    <div className={styles.architectureLayer}>
-                      <p className={styles.architectureLayerTitle}>API LAYER</p>
-                      <div className={styles.architectureBoxContainer}>
-                        <div className={styles.architectureBox}>Avatar Service API</div>
-                        <div className={styles.architectureBox}>RAG / LLM Orchestrator</div>
-                      </div>
-                    </div>
-                  </div>
+                  <ArchitectureDiagram />
                 </div>
 
                 {/* STAGE 3 SECTION 2: Architecture Summary */}

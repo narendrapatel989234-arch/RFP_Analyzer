@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
+import { ArchitectureDiagram } from '@/components/ArchitectureDiagram'
 
 import styles from './step4.module.css'
 
@@ -218,23 +219,7 @@ export default function Step4Demo() {
     
                             <div>
                               <div className={styles.ucSectionTitle}>ARCHITECTURE DIAGRAM</div>
-                              <div className={styles.architectureDiagramWrapper}>
-                                <div className={styles.architectureLayer}>
-                                  <p className={styles.architectureLayerTitle}>CLIENT LAYER</p>
-                                  <div className={styles.architectureBoxContainer}>
-                                    <div className={styles.architectureBox}>Web Portal UI</div>
-                                    <div className={styles.architectureBox}>Mobile App UI</div>
-                                  </div>
-                                </div>
-                                <div className={styles.architectureConnector}>↓ HTTPS / API Gateway</div>
-                                <div className={styles.architectureLayer}>
-                                  <p className={styles.architectureLayerTitle}>API LAYER</p>
-                                  <div className={styles.architectureBoxContainer}>
-                                    <div className={styles.architectureBox}>Avatar Service API</div>
-                                    <div className={styles.architectureBox}>RAG / LLM Orchestrator</div>
-                                  </div>
-                                </div>
-                              </div>
+                              <ArchitectureDiagram />
                               <div className={styles.ucSectionTitle} style={{ marginTop: '32px' }}>ARCHITECTURE SUMMARY</div>
                               <p className={styles.sectionText}>
                                 The architecture utilizes a highly available API gateway that securely routes incoming citizen requests from web and mobile endpoints into a specialized conversational orchestrator. This orchestrator manages the state of the interaction and coordinates in real-time between the RAG microservice—responsible for retrieving legally sound responses—and the external Avatar streaming service, ensuring seamless audio-visual sync before returning the payload to the frontend.
@@ -280,22 +265,7 @@ export default function Step4Demo() {
     
                             <div>
                               <div className={styles.ucSectionTitle}>ARCHITECTURE DIAGRAM</div>
-                              <div className={styles.architectureDiagramWrapper}>
-                                <div className={styles.architectureLayer}>
-                                  <p className={styles.architectureLayerTitle}>CLIENT LAYER</p>
-                                  <div className={styles.architectureBoxContainer}>
-                                    <div className={styles.architectureBox}>React Web Application</div>
-                                  </div>
-                                </div>
-                                <div className={styles.architectureConnector}>↓ HTTPS / REST APIs</div>
-                                <div className={styles.architectureLayer}>
-                                  <p className={styles.architectureLayerTitle}>API LAYER</p>
-                                  <div className={styles.architectureBoxContainer}>
-                                    <div className={styles.architectureBox}>Node.js API Gateway</div>
-                                    <div className={styles.architectureBox}>Legacy SOAP Bridge</div>
-                                  </div>
-                                </div>
-                              </div>
+                              <ArchitectureDiagram />
                               <div className={styles.ucSectionTitle} style={{ marginTop: '32px' }}>ARCHITECTURE SUMMARY</div>
                               <p className={styles.sectionText}>
                                 The proposed design establishes a decoupled API-first infrastructure where a scalable Node.js gateway handles all frontend logic, validation, and AI inferences. Upon successful preliminary classification and document OCR via internal AI services, the gateway translates these structured payloads into SOAP envelopes, communicating securely with the legacy ADJD backend through an isolated bridge layer to guarantee zero disruption to existing core systems.
