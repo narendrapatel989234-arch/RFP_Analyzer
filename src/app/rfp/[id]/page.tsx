@@ -84,14 +84,13 @@ export default function RFPDetail() {
                   <polyline points="9 12 11 14 15 10" />
                 </svg>
               </div>
-              Our understanding of your requirements
+              {isStage3 ? 'Validate Technical Requirements' : 'Validate Functional Requirements'}
             </h2>
 
             <p className={styles.sectionSubtitle}>
-              This is <strong>not</strong> the solution — it is how we have read
-              each use case. Review every use case, comment on individual
-              modules, then approve or request changes. Only once all use cases
-              are approved do we proceed.
+              {isStage3 
+                ? 'Review the technical interpretation for each approved use case. Approve or request changes to continue to the next stage.'
+                : 'This is the AI\'s interpretation of the RFP requirements—not the final solution. Only once all use cases are approved do we proceed.'}
             </p>
 
             {/* Example if you want to display the RFP ID */}
