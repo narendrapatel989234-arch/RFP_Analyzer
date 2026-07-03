@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './RFPTable.module.css'
 
-type StatusType = 'Processing' | 'Pending Review' | 'Completed' | 'Finalised'
+type StatusType = 'In Progress' | 'Approved'
+type StageType = 'Functional Confirmation' | 'Technical Confirmation' | 'Proposal Review'
 
 interface RFP {
   id: string
@@ -12,6 +13,7 @@ interface RFP {
   uploadedBy: string
   uploadedDate: string
   status: StatusType
+  stage: StageType
   lastModifiedDate: number
 }
 
@@ -33,30 +35,30 @@ function getRelativeTime(timestamp: number): string {
 }
 
 const mockData: RFP[] = [
-  { id: 'RFP-001', name: 'Cloud Migration RFP – ACME Corp', uploadedBy: 'Alice Smith', uploadedDate: '2023-10-15', status: 'Processing', lastModifiedDate: Date.now() - 1 * HOUR },
-  { id: 'RFP-002', name: 'Security Audit Services – GlobalNet', uploadedBy: 'Bob Johnson', uploadedDate: '2023-10-12', status: 'Pending Review', lastModifiedDate: Date.now() - 3 * HOUR },
-  { id: 'RFP-003', name: 'Q4 Marketing Agency Pitch', uploadedBy: 'Carol Lee', uploadedDate: '2023-10-05', status: 'Completed', lastModifiedDate: Date.now() - 1 * DAY },
-  { id: 'RFP-004', name: 'ERP Implementation – Falcon Industries', uploadedBy: 'David Kim', uploadedDate: '2023-09-28', status: 'Finalised', lastModifiedDate: Date.now() - 2 * DAY },
-  { id: 'RFP-005', name: 'Data Analytics Platform – BrightEdge', uploadedBy: 'Alice Smith', uploadedDate: '2023-09-20', status: 'Processing', lastModifiedDate: Date.now() },
-  { id: 'RFP-006', name: 'Cybersecurity Assessment – NovaTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-09-15', status: 'Completed', lastModifiedDate: Date.now() - 5 * HOUR },
-  { id: 'RFP-007', name: 'Digital Transformation – Horizon Group', uploadedBy: 'Bob Johnson', uploadedDate: '2023-09-10', status: 'Pending Review', lastModifiedDate: Date.now() - 1 * DAY },
-  { id: 'RFP-008', name: 'Cloud Infrastructure – PeakSystems', uploadedBy: 'Carol Lee', uploadedDate: '2023-09-05', status: 'Finalised', lastModifiedDate: Date.now() - 3 * DAY },
-  { id: 'RFP-009', name: 'AI Integration – Vertex Corp', uploadedBy: 'David Kim', uploadedDate: '2023-08-30', status: 'Processing', lastModifiedDate: Date.now() },
-  { id: 'RFP-010', name: 'Managed Services – BlueStar Ltd', uploadedBy: 'Emma Davis', uploadedDate: '2023-08-25', status: 'Completed', lastModifiedDate: Date.now() - 2 * HOUR },
-  { id: 'RFP-011', name: 'Network Upgrade – Crestline Partners', uploadedBy: 'Alice Smith', uploadedDate: '2023-08-20', status: 'Pending Review', lastModifiedDate: Date.now() - 6 * DAY },
-  { id: 'RFP-012', name: 'DevOps Consulting – Ironclad Solutions', uploadedBy: 'Bob Johnson', uploadedDate: '2023-08-15', status: 'Processing', lastModifiedDate: Date.now() - 1 * DAY },
-  { id: 'RFP-013', name: 'SAP Migration – Quantum Enterprises', uploadedBy: 'Carol Lee', uploadedDate: '2023-08-10', status: 'Finalised', lastModifiedDate: Date.now() - 4 * HOUR },
-  { id: 'RFP-014', name: 'IT Strategy Review – Meridian Group', uploadedBy: 'David Kim', uploadedDate: '2023-08-05', status: 'Completed', lastModifiedDate: Date.now() },
-  { id: 'RFP-015', name: 'Helpdesk Outsourcing – SilverTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-30', status: 'Pending Review', lastModifiedDate: Date.now() - 3 * HOUR },
-  { id: 'RFP-016', name: 'Blockchain Pilot – Apex Ventures', uploadedBy: 'Alice Smith', uploadedDate: '2023-07-25', status: 'Processing', lastModifiedDate: Date.now() - 2 * DAY },
-  { id: 'RFP-017', name: 'IoT Platform – Connected Systems', uploadedBy: 'Bob Johnson', uploadedDate: '2023-07-20', status: 'Completed', lastModifiedDate: Date.now() - 1 * DAY },
-  { id: 'RFP-018', name: 'CRM Implementation – Orion Retail', uploadedBy: 'Carol Lee', uploadedDate: '2023-07-15', status: 'Finalised', lastModifiedDate: Date.now() - 1 * HOUR },
-  { id: 'RFP-019', name: 'Automation Framework – DeltaSoft', uploadedBy: 'David Kim', uploadedDate: '2023-07-10', status: 'Pending Review', lastModifiedDate: Date.now() },
-  { id: 'RFP-020', name: 'Cloud Security – Nexus Financial', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-05', status: 'Processing', lastModifiedDate: Date.now() - 5 * DAY },
+  { id: 'RFP-001', name: 'Cloud Migration RFP – ACME Corp', uploadedBy: 'Alice Smith', uploadedDate: '2023-10-15', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 1 * HOUR },
+  { id: 'RFP-002', name: 'Security Audit Services – GlobalNet', uploadedBy: 'Bob Johnson', uploadedDate: '2023-10-12', status: 'In Progress', stage: 'Technical Confirmation', lastModifiedDate: Date.now() - 3 * HOUR },
+  { id: 'RFP-003', name: 'Q4 Marketing Agency Pitch', uploadedBy: 'Carol Lee', uploadedDate: '2023-10-05', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-004', name: 'ERP Implementation – Falcon Industries', uploadedBy: 'David Kim', uploadedDate: '2023-09-28', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 2 * DAY },
+  { id: 'RFP-005', name: 'Data Analytics Platform – BrightEdge', uploadedBy: 'Alice Smith', uploadedDate: '2023-09-20', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() },
+  { id: 'RFP-006', name: 'Cybersecurity Assessment – NovaTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-09-15', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 5 * HOUR },
+  { id: 'RFP-007', name: 'Digital Transformation – Horizon Group', uploadedBy: 'Bob Johnson', uploadedDate: '2023-09-10', status: 'In Progress', stage: 'Technical Confirmation', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-008', name: 'Cloud Infrastructure – PeakSystems', uploadedBy: 'Carol Lee', uploadedDate: '2023-09-05', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 3 * DAY },
+  { id: 'RFP-009', name: 'AI Integration – Vertex Corp', uploadedBy: 'David Kim', uploadedDate: '2023-08-30', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() },
+  { id: 'RFP-010', name: 'Managed Services – BlueStar Ltd', uploadedBy: 'Emma Davis', uploadedDate: '2023-08-25', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 2 * HOUR },
+  { id: 'RFP-011', name: 'Network Upgrade – Crestline Partners', uploadedBy: 'Alice Smith', uploadedDate: '2023-08-20', status: 'In Progress', stage: 'Technical Confirmation', lastModifiedDate: Date.now() - 6 * DAY },
+  { id: 'RFP-012', name: 'DevOps Consulting – Ironclad Solutions', uploadedBy: 'Bob Johnson', uploadedDate: '2023-08-15', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-013', name: 'SAP Migration – Quantum Enterprises', uploadedBy: 'Carol Lee', uploadedDate: '2023-08-10', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 4 * HOUR },
+  { id: 'RFP-014', name: 'IT Strategy Review – Meridian Group', uploadedBy: 'David Kim', uploadedDate: '2023-08-05', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() },
+  { id: 'RFP-015', name: 'Helpdesk Outsourcing – SilverTech', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-30', status: 'In Progress', stage: 'Technical Confirmation', lastModifiedDate: Date.now() - 3 * HOUR },
+  { id: 'RFP-016', name: 'Blockchain Pilot – Apex Ventures', uploadedBy: 'Alice Smith', uploadedDate: '2023-07-25', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 2 * DAY },
+  { id: 'RFP-017', name: 'IoT Platform – Connected Systems', uploadedBy: 'Bob Johnson', uploadedDate: '2023-07-20', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 1 * DAY },
+  { id: 'RFP-018', name: 'CRM Implementation – Orion Retail', uploadedBy: 'Carol Lee', uploadedDate: '2023-07-15', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 1 * HOUR },
+  { id: 'RFP-019', name: 'Automation Framework – DeltaSoft', uploadedBy: 'David Kim', uploadedDate: '2023-07-10', status: 'In Progress', stage: 'Technical Confirmation', lastModifiedDate: Date.now() },
+  { id: 'RFP-020', name: 'Cloud Security – Nexus Financial', uploadedBy: 'Emma Davis', uploadedDate: '2023-07-05', status: 'In Progress', stage: 'Functional Confirmation', lastModifiedDate: Date.now() - 5 * DAY },
 ]
 
 const FILTER_OPTIONS = {
-  status: ['Processing', 'Pending Review', 'Completed', 'Finalised'],
+  status: ['In Progress', 'Approved'],
   uploadedDate: ['Today', 'Last 7 days', 'Last 30 days', 'Last 3 months'],
   uploadedBy: ['Alice Smith', 'Bob Johnson', 'Carol Lee', 'David Kim', 'Emma Davis'],
 }
@@ -91,14 +93,10 @@ export function RFPTable() {
 
   const getStatusClass = (status: StatusType) => {
     switch (status) {
-      case 'Processing':
+      case 'In Progress':
         return styles.statusInfo
-      case 'Pending Review':
-        return styles.statusWarning
-      case 'Completed':
+      case 'Approved':
         return styles.statusSuccess
-      case 'Finalised':
-        return styles.statusAi
       default:
         return ''
     }
@@ -189,7 +187,7 @@ export function RFPTable() {
             </svg>
             <input
               type="text"
-              placeholder="Search RFP names"
+              placeholder="Search by RFP name or client"
               className={styles.searchInput}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -344,8 +342,11 @@ export function RFPTable() {
               <th scope="col" style={{ width: '140px' }}>
                 UPLOADED DATE
               </th>
-              <th scope="col" style={{ width: '150px' }}>
+              <th scope="col" style={{ width: '130px' }}>
                 STATUS
+              </th>
+              <th scope="col" style={{ width: '180px' }}>
+                STAGE
               </th>
               <th scope="col" style={{ width: '170px' }}>
                 LAST MODIFIED DATE
@@ -356,7 +357,7 @@ export function RFPTable() {
           <tbody>
             {currentRows.length === 0 ? (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={8}>
                   <div className={styles.emptyState}>
                     <svg
                       width="48"
@@ -398,6 +399,7 @@ export function RFPTable() {
                       {row.status}
                     </span>
                   </td>
+                  <td className={styles.colText}>{row.stage}</td>
                   <td className={styles.colText}>{getRelativeTime(row.lastModifiedDate)}</td>
                   <td style={{ textAlign: 'center' }}>
                     <button className={styles.actionBtn} aria-label="Open RFP">

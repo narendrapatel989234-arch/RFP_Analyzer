@@ -204,7 +204,7 @@ export function UploadZone({ onFileSelect }: UploadZoneProps) {
               <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
             <div className={styles.primaryText}>
-              Drop file or <span className={styles.browseLink}>Browse</span>
+              Drop your RFP here or <span className={styles.browseLink}>Browse</span>
             </div>
             <div className={styles.hintText}>
               Format: PDF, DOCX, DOC &amp; Max file size: 25 MB

@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { File, ListChecks, Code2, CheckCircle } from 'lucide-react'
 import styles from './ProgressStepper.module.css'
 
 export type StepStatus = 'completed' | 'in-progress' | 'not-started'
@@ -48,15 +49,10 @@ export function ProgressStepper({ activeStep = 2, onStepClick }: ProgressStepper
               <div className={styles.stepIndicatorContainer}>
                 <div className={`${styles.connector} ${styles.connectorLeft} ${isActiveOrCompleted ? styles.connectorActive : ''}`} style={{ visibility: index === 0 ? 'hidden' : 'visible' }} />
                 <div className={`${styles.iconContainer} ${styles[step.status]}`}>
-                  {step.status === 'completed' ? (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={styles.checkIcon}>
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  ) : step.status === 'in-progress' ? (
-                    <div className={styles.activeDot} />
-                  ) : (
-                    <div className={styles.inactiveDot} />
-                  )}
+                  {step.id === 1 && <File size={16} />}
+                  {step.id === 2 && <ListChecks size={16} />}
+                  {step.id === 3 && <Code2 size={16} />}
+                  {step.id === 4 && <CheckCircle size={16} />}
                 </div>
                 <div className={`${styles.connector} ${styles.connectorRight} ${isConnectorActive ? styles.connectorActive : ''}`} style={{ visibility: isLast ? 'hidden' : 'visible' }} />
               </div>

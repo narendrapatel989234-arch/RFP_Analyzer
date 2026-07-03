@@ -48,8 +48,9 @@
 }
 
 .in-progress {
-  background-color: var(--status-warning-bg);
-  border: 2px solid var(--status-warning-text);
+  background-color: var(--action-primary-bg-soft);
+  border: 2px solid var(--action-primary-bg-default);
+  color: var(--action-primary-bg-default);
 }
 
 .activeDot {
@@ -62,6 +63,7 @@
 .not-started {
   background-color: var(--bg-disabled);
   border: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
 }
 
 .inactiveDot {

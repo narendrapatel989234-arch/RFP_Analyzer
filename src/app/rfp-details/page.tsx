@@ -276,35 +276,39 @@ function MultiUploadZone({ label, files, setFiles }: MultiUploadProps) {
       {error && <div className={styles.errorText}>{error}</div>}
 
       {files.length > 0 && (
-        <div className={styles.fileListStandalone}>
+        <>
           {files.map((file, i) => (
-            <div key={i} className={styles.fileListItem}>
-              <div className={styles.fileListIconWrapper}>
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
+            <div key={i} className={styles.extractedCard}>
+              <div className={styles.extractedCardHeader} style={{ cursor: 'default' }}>
+                <div className={styles.extractedCardIcon}>
+                  <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                </div>
+                <div className={styles.extractedCardInfo}>
+                  <span className={styles.extractedCardName}>{file.name}</span>
+                  <span className={styles.extractedCardSize}>{formatSize(file.size)}</span>
+                </div>
+                <button
+                  className={styles.extractedCardDeleteBtn}
+                  onClick={(e) => removeFile(i, e)}
+                  aria-label={`Remove ${file.name}`}
+                >
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    <line x1="10" y1="11" x2="10" y2="17" />
+                    <line x1="14" y1="11" x2="14" y2="17" />
+                  </svg>
+                </button>
               </div>
-              <span className={styles.fileListName}>{file.name}</span>
-              <span className={styles.fileListSize}>{formatSize(file.size)}</span>
-              <button
-                className={styles.trashBtnList}
-                onClick={(e) => removeFile(i, e)}
-                aria-label={`Remove ${file.name}`}
-              >
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <polyline points="3 6 5 6 21 6" />
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                  <line x1="10" y1="11" x2="10" y2="17" />
-                  <line x1="14" y1="11" x2="14" y2="17" />
-                </svg>
-              </button>
             </div>
           ))}
-        </div>
+        </>
       )}
     </section>
   )
@@ -431,8 +435,8 @@ function ParsedOutlineTree({ data, onUpdate }: { data: OutlineNode[], onUpdate: 
   return (
     <div className={styles.outlineCard}>
       <div className={`${styles.outlineHeader} ${!isCollapsed ? styles.outlineHeaderExpanded : ''}`} onClick={() => setIsCollapsed(!isCollapsed)}>
-        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'none', transition: 'transform 0.2s' }}>
-          <polyline points="6 9 12 15 18 9" />
+        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" style={{ transform: isCollapsed ? 'rotate(0deg)' : 'rotate(90deg)', transition: 'transform var(--duration-fast)' }}>
+          <polyline points="9 18 15 12 9 6" />
         </svg>
         <span>Parsed Outline ({totalSections} sections)</span>
       </div>
@@ -485,11 +489,13 @@ function ExtractionDropzone({ label: _label, onDrop }: { label: string, onDrop: 
         accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
         onChange={(e) => { if (e.target.files?.length) onDrop(e.target.files[0]); e.target.value = '' }}
       />
-      <svg className={styles.extractionDropIcon} width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="17 8 12 3 7 8" />
-        <line x1="12" y1="3" x2="12" y2="15" />
-      </svg>
+      <div className={styles.uploadIconCircle}>
+        <svg fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+      </div>
       <div className={styles.extractionDropText}>Drop file or Browse</div>
       <div className={styles.extractionDropHint}>Format: PDF, DOCX, DOC &amp; Max file size: 25 MB</div>
     </div>
@@ -524,7 +530,7 @@ export default function RFPDetailsPage() {
           description: type === 'components'
             ? "Cortes is Inception42's unified platform for building, running, and scaling AI agents across the G42 product portfolio. It provides a common, secure, sovereign-capable foundation for agent infrastructure."
             : "PartnerX is a certified cloud and AI systems integrator with deep expertise across enterprise transformation programmes in the public and private sector.",
-            tableData: type === 'components'
+          tableData: type === 'components'
             ? [
               { id: '1', name: 'Infrastructure Orchestration', description: 'Kubernetes-based deployment and runtime management with RBAC and IAM controls' },
               { id: '2', name: 'Enterprise RAG Framework', description: 'Hybrid retrieval system combining vector, keyword, and graph search with secure document access' },
@@ -654,7 +660,7 @@ export default function RFPDetailsPage() {
                   style={{ minHeight: '80px', resize: 'vertical' }}
                 />
               ) : (
-                <div 
+                <div
                   key="view-description"
                   className={styles.editableCell}
                   onClick={() => setEditingCell({ docId: doc.id, rowId: '', field: 'docDescription' })}
@@ -693,9 +699,9 @@ export default function RFPDetailsPage() {
                             placeholder="Enter name"
                           />
                         ) : (
-                          <div 
+                          <div
                             key={`view-name-${row.id}`}
-                            className={styles.editableCell} 
+                            className={styles.editableCell}
                             onClick={() => setEditingCell({ docId: doc.id, rowId: row.id, field: 'name' })}
                           >
                             {row.name ? <span>{row.name}</span> : <span className={styles.emptyPlaceholder}>Enter name</span>}
@@ -714,9 +720,9 @@ export default function RFPDetailsPage() {
                             placeholder="Enter description"
                           />
                         ) : (
-                          <div 
+                          <div
                             key={`view-desc-${row.id}`}
-                            className={styles.editableCell} 
+                            className={styles.editableCell}
                             onClick={() => setEditingCell({ docId: doc.id, rowId: row.id, field: 'description' })}
                           >
                             {row.description ? <span>{row.description}</span> : <span className={styles.emptyPlaceholder}>Enter description</span>}
@@ -747,312 +753,313 @@ export default function RFPDetailsPage() {
     )
   }
 
-// Format state
-const [formatPromptText, setFormatPromptText] = useState('')
-const [formatAttachedFile, setFormatAttachedFile] = useState<File | null>(null)
-const [formatFileError, setFormatFileError] = useState('')
-const [isGeneratingOutline, setIsGeneratingOutline] = useState(false)
-const [outlineVisible, setOutlineVisible] = useState(false)
-const [outlineData, setOutlineData] = useState<OutlineNode[]>([])
-const [toastMessage, setToastMessage] = useState('')
-const [showToast, setShowToast] = useState(false)
+  // Format state
+  const [formatPromptText, setFormatPromptText] = useState('')
+  const [formatAttachedFile, setFormatAttachedFile] = useState<File | null>(null)
+  const [formatFileError, setFormatFileError] = useState('')
+  const [isGeneratingOutline, setIsGeneratingOutline] = useState(false)
+  const [outlineVisible, setOutlineVisible] = useState(false)
+  const [outlineData, setOutlineData] = useState<OutlineNode[]>([])
+  const [toastMessage, setToastMessage] = useState('')
+  const [showToast, setShowToast] = useState(false)
 
-const triggerToast = (msg: string) => {
-  setToastMessage(msg)
-  setShowToast(true)
-  setTimeout(() => {
-    setShowToast(false)
-    router.push('/')
-  }, 2500)
-}
-
-const manualFileInputRef = useRef<HTMLInputElement>(null)
-
-const handleGenerateOutline = () => {
-  setIsGeneratingOutline(true)
-  setOutlineVisible(false)
-  setTimeout(() => {
-    setIsGeneratingOutline(false)
-    setOutlineData(DUMMY_OUTLINE_DATA)
-    setOutlineVisible(true)
-  }, 4000) // Simulate generation delay
-}
-
-const handleFormatFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
-  setFormatFileError('')
-  if (e.target.files?.length) {
-    const file = e.target.files[0]
-    const ext = file.name.toLowerCase()
-    const isValidExt = ext.endsWith('.pdf') || ext.endsWith('.docx') || ext.endsWith('.doc')
-    const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword']
-    if ((validTypes.includes(file.type) || isValidExt) && file.size <= 25 * 1024 * 1024) {
-      setFormatAttachedFile(file)
-    } else {
-      setFormatFileError('Please attach a valid PDF or DOC/DOCX file under 25MB.')
-    }
+  const triggerToast = (msg: string) => {
+    setToastMessage(msg)
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+      router.push('/')
+    }, 2500)
   }
-  e.target.value = ''
-}
 
-const handleClearAll = () => {
-  setUploadedDoc(null)
-  setPromptText('')
-  setSupportingDocs([])
-  setAddComponentsDocs([])
-  setPartnerCapabilitiesDocs([])
-  setFormatPromptText('')
-  setFormatAttachedFile(null)
-  setFormatFileError('')
-  setIsGeneratingOutline(false)
-  setOutlineVisible(false)
-  setOutlineData([])
-}
+  const manualFileInputRef = useRef<HTMLInputElement>(null)
 
-const handleSubmit = () => {
+  const handleGenerateOutline = () => {
+    setIsGeneratingOutline(true)
+    setOutlineVisible(false)
+    setTimeout(() => {
+      setIsGeneratingOutline(false)
+      setOutlineData(DUMMY_OUTLINE_DATA)
+      setOutlineVisible(true)
+    }, 4000) // Simulate generation delay
+  }
 
-  console.warn({
-    uploadedDoc,
-    promptText,
-    supportingDocs,
-    addComponentsDocs,
-    partnerCapabilitiesDocs,
-    formatPromptText,
-    formatAttachedFile,
-    outlineData
-  })
+  const handleFormatFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormatFileError('')
+    if (e.target.files?.length) {
+      const file = e.target.files[0]
+      const ext = file.name.toLowerCase()
+      const isValidExt = ext.endsWith('.pdf') || ext.endsWith('.docx') || ext.endsWith('.doc')
+      const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword']
+      if ((validTypes.includes(file.type) || isValidExt) && file.size <= 25 * 1024 * 1024) {
+        setFormatAttachedFile(file)
+      } else {
+        setFormatFileError('Please attach a valid PDF or DOC/DOCX file under 25MB.')
+      }
+    }
+    e.target.value = ''
+  }
 
-  triggerToast("RFP submitted successfully!")
-}
+  const handleClearAll = () => {
+    setUploadedDoc(null)
+    setPromptText('')
+    setSupportingDocs([])
+    setAddComponentsDocs([])
+    setPartnerCapabilitiesDocs([])
+    setFormatPromptText('')
+    setFormatAttachedFile(null)
+    setFormatFileError('')
+    setIsGeneratingOutline(false)
+    setOutlineVisible(false)
+    setOutlineData([])
+  }
 
-let formatBtnLabel = 'Generate with AI'
-if (formatAttachedFile) {
-  formatBtnLabel = 'Extract'
-} else if (formatPromptText.trim().length > 0) {
-  formatBtnLabel = 'Regenerate with AI'
-}
+  const handleSubmit = () => {
 
-return (
-  <div className={styles.page}>
-    <TopNav />
+    console.warn({
+      uploadedDoc,
+      promptText,
+      supportingDocs,
+      addComponentsDocs,
+      partnerCapabilitiesDocs,
+      formatPromptText,
+      formatAttachedFile,
+      outlineData
+    })
 
-    <main className={styles.container}>
-      <div>
-        <button className={styles.backButton} onClick={() => router.push('/')}>
-          <svg
-            className={styles.backButtonIcon}
-            width="16"
-            height="16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
+    triggerToast("RFP submitted successfully!")
+  }
+
+  let formatBtnLabel = 'Generate with AI'
+  if (formatAttachedFile) {
+    formatBtnLabel = 'Extract'
+  } else if (formatPromptText.trim().length > 0) {
+    formatBtnLabel = 'Regenerate with AI'
+  }
+
+  return (
+    <div className={styles.page}>
+      <TopNav />
+
+      <main className={styles.container}>
+        <div>
+          <button className={styles.backButton} onClick={() => router.push('/')}>
+            <svg
+              className={styles.backButtonIcon}
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back
+          </button>
+
+          <div className={styles.pageHeader}>
+            <h1 className={styles.pageTitle}>Configure RFP Response</h1>
+            <p className={styles.pageSubText}>Add your RFP, reference documents, and team inputs so AI can generate a tailored proposal.</p>
+            <hr className={styles.pageDivider} />
+          </div>
+        </div>
+
+        {/* Section 1 - Uploaded Document */}
+        <section>
+          <label className={styles.sectionLabel}>Uploaded Document</label>
+          {uploadedDoc ? (
+            <div className={styles.fileCard}>
+              <div className={styles.fileListItem}>
+                <div className={styles.fileListIconWrapper}>
+                  <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                </div>
+                <span className={styles.fileListName}>{uploadedDoc.name}</span>
+                <span className={styles.fileListSize}>{uploadedDoc.size}</span>
+                <button
+                  className={styles.trashBtnList}
+                  onClick={() => setUploadedDoc(null)}
+                  aria-label="Remove document"
+                >
+                  <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    <line x1="10" y1="11" x2="10" y2="17" />
+                    <line x1="14" y1="11" x2="14" y2="17" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <SingleUploadZone
+              onFileSelect={(file) => {
+                setUploadedDoc({
+                  name: file.name,
+                  size: (file.size / (1024 * 1024)).toFixed(1) + ' MB'
+                })
+              }}
+            />
+          )}
+        </section>
+
+        {/* Section 2 - Prompt */}
+        <section>
+          <label className={styles.sectionLabel}>Add Instruction</label>
+          <div className={styles.promptCard}>
+            <ResizableTextarea
+              id="promptInput"
+              className={styles.promptTextarea}
+              placeholder="Add context and instructions to guide the AI generation…"
+              value={promptText}
+              onChange={(e) => setPromptText(e.target.value)}
+              minHeight={120}
+              renderToolbar={(handle) => (
+                <div className={styles.toolbarRowPrompt}>
+                  <div className={styles.toolbarRight}>
+                    <div className={styles.charCount}>{promptText.length} / 2000</div>
+                    {handle}
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+        </section>
+
+        {/* Section 3 - Upload Documents */}
+        <MultiUploadZone
+          label="Supporting Documents"
+          files={supportingDocs}
+          setFiles={setSupportingDocs}
+        />
+
+        {/* Section 3.1 - Add Components */}
+        <section>
+          <label className={styles.sectionLabel}>Add Components</label>
+          <ExtractionDropzone label="Add Components" onDrop={(f) => handleExtractionUpload(f, 'components')} />
+          {addComponentsDocs.map(doc => renderExtractedDoc(doc, 'components'))}
+        </section>
+
+        {/* Section 3.2 - Add Partner Capabilities */}
+        <section>
+          <label className={styles.sectionLabel}>Add Partner Capabilities</label>
+          <ExtractionDropzone label="Add Partner Capabilities" onDrop={(f) => handleExtractionUpload(f, 'partner')} />
+          {partnerCapabilitiesDocs.map(doc => renderExtractedDoc(doc, 'partner'))}
+        </section>
+
+        {/* Section 4 - Suggested Format */}
+        <section>
+          <label className={styles.sectionLabel}>
+            Proposal Template Format <span style={{ color: '#ff4d4d' }}>*</span>
+          </label>
+
+          <div className={styles.promptCard}>
+            <label htmlFor="formatTextarea" className="sr-only" style={{ display: 'none' }}>Proposal Format</label>
+            <ResizableTextarea
+              id="formatTextarea"
+              className={styles.promptTextarea}
+              placeholder="Add instructions or leave blank to auto-generate…"
+              value={formatPromptText}
+              onChange={(e) => setFormatPromptText(e.target.value)}
+              minHeight={160}
+              renderToolbar={() => (
+                <div className={styles.toolbarRowDividedBetween}>
+                  <div className={styles.toolbarLeft}>
+                    <input
+                      type="file"
+                      ref={manualFileInputRef}
+                      style={{ display: 'none' }}
+                      accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+                      onChange={handleFormatFileAttach}
+                    />
+                    <button
+                      className={styles.paperclipBtn}
+                      onClick={() => manualFileInputRef.current?.click()}
+                      aria-label="Attach document"
+                    >
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                      </svg>
+                    </button>
+                    {formatAttachedFile && (
+                      <div className={styles.attachedFile}>
+                        <span className={styles.paperclipFileName} title={formatAttachedFile.name}>{formatAttachedFile.name}</span>
+                        <button onClick={() => setFormatAttachedFile(null)} aria-label="Remove attachment">
+                          <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.toolbarRight}>
+                    <button
+                      className={styles.smallGenerateBtn}
+                      onClick={handleGenerateOutline}
+                      disabled={isGeneratingOutline}
+                    >
+                      {isGeneratingOutline && <div className={styles.buttonSpinner} />}
+                      {isGeneratingOutline ? (formatAttachedFile ? 'Extracting...' : 'Generating...') : formatBtnLabel}
+                    </button>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+          {formatFileError && (
+            <div className={styles.errorText} style={{ marginTop: 'var(--space-2)' }}>{formatFileError}</div>
+          )}
+          {outlineVisible && outlineData.length > 0 && (
+            <ParsedOutlineTree data={outlineData} onUpdate={setOutlineData} />
+          )}
+        </section>
+        {/* Action Row */}
+        <div className={styles.actionRow}>
+          <button className={styles.clearBtn} onClick={handleClearAll} aria-label="Clear all fields">
+            Clear
+          </button>
+          <button
+            className={styles.submitBtn}
+            onClick={handleSubmit}
+            disabled={!outlineVisible}
+            aria-label="Submit RFP details"
           >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          Back to Dashboard
-        </button>
-
-        <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>RFP Configuration</h1>
-          <p className={styles.pageSubText}>Provide context and documents to help AI generate the best response for your RFP.</p>
-          <hr className={styles.pageDivider} />
+            Submit
+          </button>
         </div>
-      </div>
 
-      {/* Section 1 - Uploaded Document */}
-      <section>
-        <label className={styles.sectionLabel}>Uploaded Document</label>
-        {uploadedDoc ? (
-          <div className={styles.fileCard}>
-            <div className={styles.fileListItem}>
-              <div className={styles.fileListIconWrapper}>
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
+        {showToast && (
+          <div className={styles.toast}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            {toastMessage}
+          </div>
+        )}
+        {extractionModal.isOpen && (
+          <div className={styles.extractionModalOverlay}>
+            <div className={styles.extractionModalCard}>
+              <div className={styles.extractionModalSpinner}></div>
+              <div className={styles.extractionModalText}>
+                {extractionModal.stage === 1
+                  ? "Uploading document..."
+                  : (extractionModal.type === 'components' ? "Extracting components..." : "Extracting capabilities...")}
               </div>
-              <span className={styles.fileListName}>{uploadedDoc.name}</span>
-              <span className={styles.fileListSize}>{uploadedDoc.size}</span>
-              <button
-                className={styles.trashBtnList}
-                onClick={() => setUploadedDoc(null)}
-                aria-label="Remove document"
-              >
-                <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <polyline points="3 6 5 6 21 6" />
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                  <line x1="10" y1="11" x2="10" y2="17" />
-                  <line x1="14" y1="11" x2="14" y2="17" />
-                </svg>
-              </button>
             </div>
           </div>
-        ) : (
-          <SingleUploadZone
-            onFileSelect={(file) => {
-              setUploadedDoc({
-                name: file.name,
-                size: (file.size / (1024 * 1024)).toFixed(1) + ' MB'
-              })
-            }}
-          />
         )}
-      </section>
-
-      {/* Section 2 - Prompt */}
-      <section>
-        <label className={styles.sectionLabel}>Add Instruction</label>
-        <div className={styles.promptCard}>
-          <ResizableTextarea
-            id="promptInput"
-            className={styles.promptTextarea}
-            placeholder="Add any specific instructions, context, or direction for the AI before it starts generating the RFP response…"
-            value={promptText}
-            onChange={(e) => setPromptText(e.target.value)}
-            minHeight={120}
-            renderToolbar={(handle) => (
-              <div className={styles.toolbarRowPrompt}>
-                <div className={styles.toolbarRight}>
-                  <div className={styles.charCount}>{promptText.length} / 2000</div>
-                  {handle}
-                </div>
-              </div>
-            )}
-          />
-        </div>
-      </section>
-
-      {/* Section 3 - Upload Documents */}
-      <MultiUploadZone
-        label="Supporting Documents"
-        files={supportingDocs}
-        setFiles={setSupportingDocs}
-      />
-
-      {/* Section 3.1 - Add Components */}
-      <section>
-        <label className={styles.sectionLabel}>Add Components</label>
-        <ExtractionDropzone label="Add Components" onDrop={(f) => handleExtractionUpload(f, 'components')} />
-        {addComponentsDocs.map(doc => renderExtractedDoc(doc, 'components'))}
-      </section>
-
-      {/* Section 3.2 - Add Partner Capabilities */}
-      <section>
-        <label className={styles.sectionLabel}>Add Partner Capabilities</label>
-        <ExtractionDropzone label="Add Partner Capabilities" onDrop={(f) => handleExtractionUpload(f, 'partner')} />
-        {partnerCapabilitiesDocs.map(doc => renderExtractedDoc(doc, 'partner'))}
-      </section>
-
-      {/* Section 4 - Suggested Format */}
-      <section>
-        <label className={styles.sectionLabel}>
-          Proposal Template Format <span style={{ color: '#ff4d4d' }}>*</span>
-        </label>
-
-        <div className={styles.promptCard}>
-          <label htmlFor="formatTextarea" className="sr-only" style={{ display: 'none' }}>Proposal Format</label>
-          <ResizableTextarea
-            id="formatTextarea"
-            className={styles.promptTextarea}
-            placeholder="Add instructions or leave blank to auto-generate…"
-            value={formatPromptText}
-            onChange={(e) => setFormatPromptText(e.target.value)}
-            minHeight={160}
-            renderToolbar={() => (
-              <div className={styles.toolbarRowDividedBetween}>
-                <div className={styles.toolbarLeft}>
-                  <input
-                    type="file"
-                    ref={manualFileInputRef}
-                    style={{ display: 'none' }}
-                    accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-                    onChange={handleFormatFileAttach}
-                  />
-                  <button
-                    className={styles.paperclipBtn}
-                    onClick={() => manualFileInputRef.current?.click()}
-                    aria-label="Attach document"
-                  >
-                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                    </svg>
-                  </button>
-                  {formatAttachedFile && (
-                    <div className={styles.attachedFile}>
-                      <span className={styles.paperclipFileName} title={formatAttachedFile.name}>{formatAttachedFile.name}</span>
-                      <button onClick={() => setFormatAttachedFile(null)} aria-label="Remove attachment">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                          <line x1="18" y1="6" x2="6" y2="18" />
-                          <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <div className={styles.toolbarRight}>
-                  <button
-                    className={styles.smallGenerateBtn}
-                    onClick={handleGenerateOutline}
-                    disabled={isGeneratingOutline}
-                  >
-                    {isGeneratingOutline && <div className={styles.buttonSpinner} />}
-                    {isGeneratingOutline ? (formatAttachedFile ? 'Extracting...' : 'Generating...') : formatBtnLabel}
-                  </button>
-                </div>
-              </div>
-            )}
-          />
-        </div>
-        {formatFileError && (
-          <div className={styles.errorText} style={{ marginTop: 'var(--space-2)' }}>{formatFileError}</div>
-        )}
-        {outlineVisible && outlineData.length > 0 && (
-          <ParsedOutlineTree data={outlineData} onUpdate={setOutlineData} />
-        )}
-      </section>
-      {/* Action Row */}
-      <div className={styles.actionRow}>
-        <button className={styles.clearBtn} onClick={handleClearAll} aria-label="Clear all fields">
-          Clear
-        </button>
-        <button
-          className={styles.submitBtn}
-          onClick={handleSubmit}
-          disabled={!outlineVisible}
-          aria-label="Submit RFP details"
-        >
-          Submit
-        </button>
-      </div>
-
-      {showToast && (
-        <div className={styles.toast}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-          {toastMessage}
-        </div>
-      )}
-      {extractionModal.isOpen && (
-        <div className={styles.extractionModalOverlay}>
-          <div className={styles.extractionModalCard}>
-            <div className={styles.extractionModalSpinner}></div>
-            <div className={styles.extractionModalText}>
-              {extractionModal.stage === 1
-                ? "Uploading document..."
-                : (extractionModal.type === 'components' ? "Extracting components..." : "Extracting capabilities...")}
-            </div>
-          </div>
-        </div>
-      )}
-    </main>
-  </div>
-)
+      </main>
+    </div>
+  )
 }
 
 
