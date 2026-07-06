@@ -115,7 +115,6 @@ export default function Step4Demo() {
                 </div>
                 <div className={styles.headerActionContainer}>
                   <button className={styles.ctaSecondary}>Export</button>
-                  <button className={styles.ctaSecondary}>Save as draft</button>
                 </div>
               </div>
 

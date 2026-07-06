@@ -494,26 +494,29 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <div className={styles.modalHeaderRow}>
-              <div className={styles.modalHeaderIcon}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
-              </div>
-              <h3 className={styles.modalTitle}>Regenerate — {mod.title}</h3>
+              <h3 className={styles.modalTitle}>Regenerate - {mod.title}</h3>
+              <button className={styles.closeBtn} onClick={() => setIsRegenerateModalOpen(false)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
             </div>
-            <p className={styles.modalDesc}>Describe what to change. The agent will update the Problem Understanding and Techno-functional Scope for this module accordingly.</p>
+            
+            <div className={styles.modalBody}>
+              <p className={styles.modalDesc}>Describe what to change. The agent will update the Problem Understanding and Techno-functional Scope for this module accordingly.</p>
 
-            <div className={styles.modalFormGroup}>
-              <label className={styles.modalLabel}>What should change?</label>
-              <textarea
-                className={styles.modalTextarea}
-                placeholder="e.g. Remove voice interface — text only. Add support for dialectal Arabic. Split corpus management into its own module..."
-                value={regenPrompt}
-                onChange={e => setRegenPrompt(e.target.value)}
-              />
-              <div className={styles.promptChips}>
-                <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' More Arabic detail ')}>More Arabic detail</button>
-                <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Remove from scope ')}>Remove from scope</button>
-                <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Split module ')}>Split module</button>
-                <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Sharpen exclusions ')}>Sharpen exclusions</button>
+              <div className={styles.modalFormGroup}>
+                <label className={styles.modalLabel}>What should change?</label>
+                <textarea
+                  className={styles.modalTextarea}
+                  placeholder="e.g. Remove voice interface — text only. Add support for dialectal Arabic. Split corpus management into its own module..."
+                  value={regenPrompt}
+                  onChange={e => setRegenPrompt(e.target.value)}
+                />
+                <div className={styles.promptChips}>
+                  <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' More Arabic detail ')}>More Arabic detail</button>
+                  <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Remove from scope ')}>Remove from scope</button>
+                  <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Split module ')}>Split module</button>
+                  <button className={styles.promptChipBtn} onClick={() => setRegenPrompt(regenPrompt + ' Sharpen exclusions ')}>Sharpen exclusions</button>
+                </div>
               </div>
             </div>
 
@@ -599,7 +602,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
     e.stopPropagation()
 
     if (type === 'edit-section' && section !== null) {
-      if ((!isStage3 && (section === 1 || section === 3)) || (isStage3 && (section === 2 || section === 3 || section === 4 || section === 5))) {
+      if ((!isStage3 && (section === 1 || section === 3)) || (isStage3 && (section === 1 || section === 3 || section === 4 || section === 5))) {
         setEditingSectionId(`${id}-${section}`)
         const targetUc = cases.find(uc => uc.id === id)
         if (targetUc) {
@@ -607,8 +610,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
             if (section === 1) setEditContent(targetUc.problemUnderstanding.join('\n\n'))
             if (section === 3) setEditContent(targetUc.assumptions.join('\n\n'))
           } else {
-            if (section === 2) setEditContent(targetUc.architectureSummary?.join('\n\n') || '')
-            if (section === 3) setEditContent(targetUc.techstackUsed?.join('\n') || '')
+            if (section === 1) setEditContent(targetUc.techstackUsed?.join('\n') || '')
+            if (section === 3) setEditContent(targetUc.architectureSummary?.join('\n\n') || '')
             if (section === 4) setEditContent(targetUc.dataflow || '')
             if (section === 5) setEditContent(targetUc.security?.join('\n\n') || '')
           }
@@ -635,8 +638,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
           if (section === 1) return { ...uc, problemUnderstanding: editContent.split('\n\n').filter(Boolean) }
           if (section === 3) return { ...uc, assumptions: editContent.split('\n\n').filter(Boolean) }
         } else {
-          if (section === 2) return { ...uc, architectureSummary: editContent.split('\n\n').filter(Boolean) }
-          if (section === 3) return { ...uc, techstackUsed: editContent.split('\n').filter(Boolean) }
+          if (section === 1) return { ...uc, techstackUsed: editContent.split('\n').filter(Boolean) }
+          if (section === 3) return { ...uc, architectureSummary: editContent.split('\n\n').filter(Boolean) }
           if (section === 4) return { ...uc, dataflow: editContent }
           if (section === 5) return { ...uc, security: editContent.split('\n\n').filter(Boolean) }
         }
@@ -815,15 +818,11 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       <h4 className={styles.sectionTitle}>2 — Techno-functional Scope</h4>
                     </div>
                     <div className={styles.sectionActions}>
-                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 2) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
-                      </button>
                       <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 2) }}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                       </button>
                     </div>
                   </div>
-                  <span className={styles.sectionSubtitle} style={{ marginTop: '-12px', display: 'block', marginBottom: '16px' }}>Module-by-module breakdown — include / exclude</span>
                   <div className={styles.modulesList}>
                     {uc.technoFunctionalScope.map((mod) => (
                       <ModuleRow key={mod.id} mod={mod} triggerToast={triggerToast} />
@@ -890,7 +889,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
             {isExpanded && isStage3 && (
               <div className={styles.accordionContent}>
 
-                {/* STAGE 3 SECTION 1: Architecture Diagram */}
+                {/* STAGE 3 SECTION 1: Techstack Used */}
                 <div className={styles.sectionContainer}>
                   {regeneratingSectionId === `${uc.id}-1` && (
                     <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
@@ -905,101 +904,20 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                   <div className={styles.sectionHeader}>
                     <div className={styles.sectionHeaderLeft}>
                       <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" /></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>
                       </div>
-                      <h4 className={styles.sectionTitle}>1 — Architecture Diagram</h4>
+                      <h4 className={styles.sectionTitle}>1 — Tech Stack Used</h4>
                     </div>
                     <div className={styles.sectionActions}>
-                      <button className={styles.sectionActionBtn} title="Upload diagram" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'upload-diagram', 1) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 1) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
                       </button>
                       <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 1) }}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                       </button>
                     </div>
                   </div>
-                  <ArchitectureDiagram />
-                </div>
-
-                {/* STAGE 3 SECTION 2: Architecture Summary */}
-                <div className={styles.sectionContainer}>
-                  {regeneratingSectionId === `${uc.id}-2` && (
-                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
-                      <div className={styles.shimmerText}>
-                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-                        </svg>
-                        Regenerating Section...
-                      </div>
-                    </div>
-                  )}
-                  <div className={styles.sectionHeader}>
-                    <div className={styles.sectionHeaderLeft}>
-                      <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
-                      </div>
-                      <h4 className={styles.sectionTitle}>2 — Architecture Summary</h4>
-                    </div>
-                    <div className={styles.sectionActions}>
-                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 2) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
-                      </button>
-                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 2) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                  {editingSectionId === `${uc.id}-2` ? (
-                    <div style={{ marginTop: '16px' }}>
-                      <textarea
-                        className={styles.useCaseModifyTextarea}
-                        value={editContent}
-                        onChange={(e) => setEditContent(e.target.value)}
-                        style={{ minHeight: '120px' }}
-                      />
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
-                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
-                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={styles.paragraphContainer}>
-                      {uc.architectureSummary?.map((para, idx) => (
-                        <p key={idx}>{para}</p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* STAGE 3 SECTION 3: Techstack Used */}
-                <div className={styles.sectionContainer}>
-                  {regeneratingSectionId === `${uc.id}-3` && (
-                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
-                      <div className={styles.shimmerText}>
-                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-                        </svg>
-                        Regenerating Section...
-                      </div>
-                    </div>
-                  )}
-                  <div className={styles.sectionHeader}>
-                    <div className={styles.sectionHeaderLeft}>
-                      <div className={styles.sectionIcon}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>
-                      </div>
-                      <h4 className={styles.sectionTitle}>3 — Tech Stack Used</h4>
-                    </div>
-                    <div className={styles.sectionActions}>
-                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 3) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
-                      </button>
-                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 3) }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                  {editingSectionId === `${uc.id}-3` ? (
+                  {editingSectionId === `${uc.id}-1` ? (
                     <div style={{ marginTop: '16px' }}>
                       <div className={styles.chipsWrap}>
                         {editContent.split('\n').filter(Boolean).map((tech, idx) => (
@@ -1042,6 +960,84 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                     <div className={styles.chipsWrap}>
                       {uc.techstackUsed?.map((tech, idx) => (
                         <span key={idx} className={styles.sectionChip}>{tech}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* STAGE 3 SECTION 2: Architecture Diagram */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-2` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="9" y1="21" x2="9" y2="9" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>2 — Architecture Diagram</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 2) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <ArchitectureDiagram />
+                </div>
+
+                {/* STAGE 3 SECTION 3: Architecture Summary */}
+                <div className={styles.sectionContainer}>
+                  {regeneratingSectionId === `${uc.id}-3` && (
+                    <div className={styles.shimmerOverlay} style={{ borderRadius: 'var(--radius-md)' }}>
+                      <div className={styles.shimmerText}>
+                        <svg className={styles.shimmerSpinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Regenerating Section...
+                      </div>
+                    </div>
+                  )}
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <div className={styles.sectionIcon}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                      </div>
+                      <h4 className={styles.sectionTitle}>3 — Architecture Summary</h4>
+                    </div>
+                    <div className={styles.sectionActions}>
+                      <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                      </button>
+                      <button className={styles.sectionActionBtn} title="Regenerate section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'regenerate-section', 3) }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                      </button>
+                    </div>
+                  </div>
+                  {editingSectionId === `${uc.id}-3` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.paragraphContainer}>
+                      {uc.architectureSummary?.map((para, idx) => (
+                        <p key={idx}>{para}</p>
                       ))}
                     </div>
                   )}
