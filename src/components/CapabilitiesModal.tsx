@@ -208,8 +208,8 @@ export function CapabilitiesModal({
                         >
                           {isGeneratingOutline && <div className={pageStyles.buttonSpinner} />}
                           {isGeneratingOutline 
-                            ? (outlineVisible ? 'Regenerating with AI...' : formatAttachedFile ? 'Extracting...' : formatPromptText.trim().length > 0 ? 'Regenerating with AI...' : 'Generating...') 
-                            : formatBtnLabel}
+                            ? (outlineVisible ? 'Regenerating with AI...' : formatAttachedFile ? 'Extracting...' : 'Generating...') 
+                            : (outlineVisible ? 'Regenerate with AI' : formatAttachedFile ? 'Extract' : 'Generate with AI')}
                         </button>
                       </div>
                     </div>

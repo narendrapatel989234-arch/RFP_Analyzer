@@ -16,7 +16,7 @@
 }
 
 .uploadZone:hover {
-  background-color: color-mix(in srgb, var(--action-primary-bg-soft-hover) 40%, var(--bg-surface-1));
+  background-color: color-mix(in srgb, var(--action-primary-bg-soft-hover) 35%, var(--bg-surface-1));
   border-color: var(--action-primary-bg-hover);
 }
 
