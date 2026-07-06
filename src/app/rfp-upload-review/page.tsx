@@ -103,9 +103,21 @@ function ReadOnlyOutlineTree({ data }: { data: OutlineNode[] }) {
 
 export default function RFPUploadReviewPage() {
   const router = useRouter()
-  const [componentsExpanded, setComponentsExpanded] = useState(false)
-  const [partnerExpanded, setPartnerExpanded] = useState(false)
-  const [previewDoc, setPreviewDoc] = useState<{ name: string; size: string } | null>(null)
+  const [componentsExpanded, setComponentsExpanded] = useState(true)
+  const [partnerExpanded, setPartnerExpanded] = useState(true)
+  const [previewDoc, setPreviewDoc] = useState<{name: string, size: string} | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const progress = scrollTop / (scrollHeight - clientHeight);
+    let page = 1;
+    if (progress > 0.7) page = 3;
+    else if (progress > 0.25) page = 2;
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+  };
 
   const componentsData = {
     file: { name: 'Solution_Architecture_Components.docx', size: '1.1 MB' },
@@ -336,53 +348,64 @@ export default function RFPUploadReviewPage() {
         </div>
       </main>
 
-      {/* Drawer */}
+      {/* Modal Document Viewer */}
       {previewDoc && (
-        <div className={styles.drawerOverlay} onClick={() => setPreviewDoc(null)}>
-          <div className={styles.drawerPanel} onClick={e => e.stopPropagation()}>
-            <div className={styles.drawerHeader}>
-              <h3 className={styles.drawerTitle}>{previewDoc.name}</h3>
-              <button className={styles.drawerCloseBtn} onClick={() => setPreviewDoc(null)}>
+        <div className={styles.modalOverlay} onClick={() => setPreviewDoc(null)}>
+          <div className={styles.modalPanel} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>{previewDoc.name}</h3>
+              <button className={styles.modalCloseBtn} onClick={() => setPreviewDoc(null)}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
-            <div className={styles.drawerBody}>
-              <div className={styles.drawerRichText}>
-                <h2>Request for Proposal — Cloud Infrastructure Modernisation</h2>
-                
-                <h3>1. Background</h3>
-                <p>The Department of Public Works is seeking proposals from qualified vendors to modernise our legacy infrastructure. Our current on-premise data centres are reaching end-of-life, and we aim to migrate core services to a scalable, highly available cloud-native environment to improve citizen services.</p>
-                
-                <h3>2. Scope of Work</h3>
-                <p>The selected vendor will be responsible for end-to-end migration, including but not limited to:</p>
-                <ul>
-                  <li>Comprehensive audit of existing physical servers and virtual machines.</li>
-                  <li>Design of a secure, sovereign-capable cloud architecture.</li>
-                  <li>Migration of 150+ legacy applications with minimal downtime.</li>
-                  <li>Implementation of Zero-Trust security and federated IAM.</li>
-                </ul>
-                
-                <h3>3. Technical Requirements</h3>
-                <p>All proposed solutions must adhere strictly to the following technical standards:</p>
-                <ul>
-                  <li><strong>Compute:</strong> Kubernetes-based orchestration with automated scaling.</li>
-                  <li><strong>Storage:</strong> Multi-region object storage with 99.999% durability and automated tiering.</li>
-                  <li><strong>Networking:</strong> Dedicated private connections to government networks with deep packet inspection.</li>
-                  <li><strong>Compliance:</strong> Must meet Federal Risk and Authorization Management Program (FedRAMP) High baseline requirements.</li>
-                </ul>
-
-                <h3>4. Evaluation Criteria</h3>
-                <p>Proposals will be evaluated based on the following weighted criteria:</p>
-                <ul>
-                  <li>Technical Approach and Architecture (40%)</li>
-                  <li>Vendor Experience and Past Performance (30%)</li>
-                  <li>Cost and Commercials (20%)</li>
-                  <li>Security and Compliance Posture (10%)</li>
-                </ul>
-
-                <h3>5. Submission Guidelines</h3>
-                <p>All proposals must be submitted electronically via the procurement portal no later than August 15, 2026 at 5:00 PM EST. Late submissions will not be considered under any circumstances. Please ensure all documents are provided in PDF format and do not exceed 50MB in total size.</p>
+            <div className={styles.modalViewerBody} onScroll={handleScroll}>
+              <div className={styles.modalPage}>
+                <div className={styles.drawerRichText}>
+                  <h2>Request for Proposal — Cloud Infrastructure Modernisation</h2>
+                  
+                  <h3>1. Background</h3>
+                  <p>The Department of Public Works is seeking proposals from qualified vendors to modernise our legacy infrastructure. Our current on-premise data centres are reaching end-of-life, and we aim to migrate core services to a scalable, highly available cloud-native environment to improve citizen services.</p>
+                </div>
               </div>
+              <div className={styles.modalPage}>
+                <div className={styles.drawerRichText}>
+                  <h3>2. Scope of Work</h3>
+                  <p>The selected vendor will be responsible for end-to-end migration, including but not limited to:</p>
+                  <ul>
+                    <li>Comprehensive audit of existing physical servers and virtual machines.</li>
+                    <li>Design of a secure, sovereign-capable cloud architecture.</li>
+                    <li>Migration of 150+ legacy applications with minimal downtime.</li>
+                    <li>Implementation of Zero-Trust security and federated IAM.</li>
+                  </ul>
+                  
+                  <h3>3. Technical Requirements</h3>
+                  <p>All proposed solutions must adhere strictly to the following technical standards:</p>
+                  <ul>
+                    <li><strong>Compute:</strong> Kubernetes-based orchestration with automated scaling.</li>
+                    <li><strong>Storage:</strong> Multi-region object storage with 99.999% durability and automated tiering.</li>
+                    <li><strong>Networking:</strong> Dedicated private connections to government networks with deep packet inspection.</li>
+                    <li><strong>Compliance:</strong> Must meet Federal Risk and Authorization Management Program (FedRAMP) High baseline requirements.</li>
+                  </ul>
+                </div>
+              </div>
+              <div className={styles.modalPage}>
+                <div className={styles.drawerRichText}>
+                  <h3>4. Evaluation Criteria</h3>
+                  <p>Proposals will be evaluated based on the following weighted criteria:</p>
+                  <ul>
+                    <li>Technical Approach and Architecture (40%)</li>
+                    <li>Vendor Experience and Past Performance (30%)</li>
+                    <li>Cost and Commercials (20%)</li>
+                    <li>Security and Compliance Posture (10%)</li>
+                  </ul>
+
+                  <h3>5. Submission Guidelines</h3>
+                  <p>All proposals must be submitted electronically via the procurement portal no later than August 15, 2026 at 5:00 PM EST. Late submissions will not be considered under any circumstances. Please ensure all documents are provided in PDF format and do not exceed 50MB in total size.</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalFooterIndicator}>
+              Page {currentPage} of 3
             </div>
           </div>
         </div>

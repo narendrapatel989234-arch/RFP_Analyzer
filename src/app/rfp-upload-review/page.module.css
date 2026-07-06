@@ -218,7 +218,7 @@
   color: var(--text-secondary);
 }
 
-.outlineParent .outlineNodeRow > div > .outlinePrefix:first-child {
+.outlineParent .outlineNodeRow>div>.outlinePrefix:first-child {
   margin-left: calc(16px + var(--space-2));
 }
 
@@ -228,7 +228,7 @@
   padding: var(--space-5) var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-6);
   margin-bottom: var(--space-4);
 }
 
@@ -240,11 +240,7 @@
   padding: var(--space-2);
   margin: calc(-1 * var(--space-2));
   border-radius: var(--radius-md);
-  transition: background-color 0.2s;
-}
-
-.summaryTopRow:hover {
-  background-color: #f7f7f7;
+  background-color: #FAF7F0;
 }
 
 .summaryFileIcon {
@@ -445,55 +441,60 @@
   border-bottom: none;
 }
 
-/* Drawer Styles */
-.drawerOverlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--bg-overlay, rgba(0, 0, 0, 0.5));
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out forwards;
 }
 
-.drawerPanel {
-  width: 40vw;
-  height: 100%;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalPanel {
+  width: 80vw;
+  height: 90vh;
   background: var(--bg-surface-1, #fff);
-  box-shadow: var(--shadow-3, -4px 0 16px rgba(0,0,0,0.1));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-4, 0 8px 32px rgba(0, 0, 0, 0.15));
   display: flex;
   flex-direction: column;
-  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+  animation: scaleUp 0.2s ease-out forwards;
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
-.drawerHeader {
+.modalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--border-subtle, #e5e5e5);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-1, #fff);
 }
 
-.drawerTitle {
+.modalTitle {
   font-size: var(--text-base, 16px);
-  font-weight: var(--weight-bold, 700);
+  font-weight: var(--weight-semibold, 600);
   margin: 0;
   color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 300px;
 }
 
-.drawerCloseBtn {
-  background: none;
+.modalCloseBtn {
+  background: transparent;
   border: none;
   cursor: pointer;
   color: var(--text-secondary);
@@ -505,43 +506,39 @@
   transition: all 0.2s;
 }
 
-.drawerCloseBtn:hover {
+.modalCloseBtn:hover {
   background: var(--bg-hover, #f1f1f1);
   color: var(--text-primary);
 }
 
-.drawerBody {
-  padding: var(--space-6);
+.modalViewerBody {
   flex: 1;
+  background-color: #2d2d2d;
   overflow-y: auto;
+  padding: var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  align-items: center;
+  gap: var(--space-8);
 }
 
-.drawerDetails {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.modalPage {
+  background-color: #ffffff;
+  width: 680px;
+  min-height: 960px;
+  padding: var(--space-10);
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
-.drawerDetailItem {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.drawerDetailLabel {
-  font-size: var(--text-xs, 12px);
-  color: var(--text-secondary);
-  font-weight: var(--weight-semibold, 600);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.drawerDetailValue {
+.modalFooterIndicator {
+  background: var(--bg-surface-1, #fff);
+  padding: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
   font-size: var(--text-sm, 14px);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-weight: var(--weight-medium, 500);
 }
 
