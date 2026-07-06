@@ -591,6 +591,21 @@
   outline: none;
 }
 
+.modalInput {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.modalInput:focus {
+  outline: none;
+}
+
 .useCaseModifyTextarea {
   width: 100%;
   min-height: 80px;

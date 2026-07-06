@@ -335,6 +335,7 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
   const [isRegenerating, setIsRegenerating] = useState(false)
 
   // Edit State
+  const [editTitle, setEditTitle] = useState(localMod.title)
   const [editDesc, setEditDesc] = useState(localMod.description)
   const [editIncluded, setEditIncluded] = useState(localMod.includedInScope?.join('\n') || '')
   const [editExcluded, setEditExcluded] = useState(localMod.outOfScope?.join('\n') || '')
@@ -343,6 +344,13 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
   const [regenPrompt, setRegenPrompt] = useState('')
 
   const handleSaveEdit = () => {
+    setLocalMod(prev => ({
+      ...prev,
+      title: editTitle,
+      description: editDesc,
+      includedInScope: editIncluded ? editIncluded.split('\n') : [],
+      outOfScope: editExcluded ? editExcluded.split('\n') : []
+    }))
     setIsEditModalOpen(false)
     triggerToast('Module changes saved successfully!')
   }
@@ -451,6 +459,11 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
               <h3 className={styles.modalTitle}>Edit — {mod.title}</h3>
             </div>
             <p className={styles.modalDesc}>Update the scope description, include or exclude items for this module.</p>
+
+            <div className={styles.modalFormGroup}>
+              <label className={styles.modalLabel}>Module name</label>
+              <input type="text" className={styles.modalInput} value={editTitle} onChange={e => setEditTitle(e.target.value)} />
+            </div>
 
             <div className={styles.modalFormGroup}>
               <label className={styles.modalLabel}>Module description</label>
