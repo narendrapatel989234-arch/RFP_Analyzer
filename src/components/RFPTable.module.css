@@ -218,7 +218,7 @@
 }
 
 .table thead tr {
-  background-color: var(--bg-pressed);
+  background-color: #eeeeee;
   height: 44px;
   border-bottom: 1px solid var(--border-default);
 }
@@ -231,6 +231,7 @@
   text-transform: uppercase;
   padding: 0 var(--space-4);
   vertical-align: middle;
+  white-space: nowrap;
 }
 
 .table tbody tr {
@@ -241,7 +242,7 @@
 }
 
 .table tbody tr:hover {
-  background-color: color-mix(in srgb, var(--action-primary-bg-soft) 30%, var(--bg-surface-1));
+  background-color: var(--bg-hover);
 }
 
 .table td {

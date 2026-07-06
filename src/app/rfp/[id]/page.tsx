@@ -101,7 +101,7 @@ export default function RFPDetail() {
                       <polyline points="2 12 12 17 22 12" />
                     </svg>
                   </div>
-                  <h3 className={styles.techStackTitle}>Project Techstack</h3>
+                  <h3 className={styles.techStackTitle}>Project Tech Stack</h3>
                 </div>
               </div>
               <div className={styles.techStackContent}>

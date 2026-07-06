@@ -520,9 +520,7 @@
   display: flex;
   flex-direction: column;
   max-height: 90vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-strong) transparent;
+  overflow: hidden;
 }
 
 /* Custom sleek scrollbar */
@@ -550,7 +548,36 @@
 .modalHeaderRow {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.modalBody {
+  padding: var(--space-6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
 }
 
 .modalHeader {
@@ -692,7 +719,9 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--space-3);
-  margin-top: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-1);
 }
 
 .modalFooter {

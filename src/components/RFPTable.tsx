@@ -77,6 +77,7 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
     uploadedBy: '',
     stage: '',
   })
+  const [sortConfig, setSortConfig] = useState<{ key: keyof RFP, direction: 'asc' | 'desc' } | null>(null)
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -142,6 +143,42 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
     setFilters({ status: '', uploadedBy: '', stage: '' })
   }
 
+  const handleSort = (key: keyof RFP) => {
+    let direction: 'asc' | 'desc' = 'asc'
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc'
+    }
+    setSortConfig({ key, direction })
+  }
+
+  const SortIcon = ({ columnKey }: { columnKey: keyof RFP }) => {
+    const isActive = sortConfig?.key === columnKey
+    const isDesc = isActive && sortConfig?.direction === 'desc'
+    return (
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{
+          marginLeft: '4px',
+          opacity: isActive ? 1 : 0.3,
+          transform: isDesc ? 'rotate(180deg)' : 'none',
+          transition: 'transform 0.2s, opacity 0.2s',
+          display: 'inline-block',
+          verticalAlign: 'middle'
+        }}
+      >
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    )
+  }
+
   const isFilterActive = searchQuery !== '' || filters.status !== '' || filters.uploadedBy !== '' || filters.stage !== ''
 
   const filteredData = mockData.filter((row) => {
@@ -173,10 +210,22 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
     return matchesSearch && matchesStatus && matchesUploadedBy && matchesStage && matchesUploadedDate
   })
 
-  const totalItems = filteredData.length
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key] < b[key]) {
+      return direction === 'asc' ? -1 : 1;
+    }
+    if (a[key] > b[key]) {
+      return direction === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const totalItems = sortedData.length
   const startIndex = (currentPage - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
-  const currentRows = filteredData.slice(startIndex, endIndex)
+  const currentRows = sortedData.slice(startIndex, endIndex)
 
   return (
     <div className={styles.wrapper}>
@@ -328,26 +377,26 @@ export function RFPTable({ dateFilterValue = '', customDateRange, onDateFilterCh
         <table className={styles.table}>
           <thead>
             <tr>
-              <th scope="col" style={{ width: '100px' }}>
-                RFP ID
+              <th scope="col" style={{ width: '100px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('id')}>
+                RFP ID <SortIcon columnKey="id" />
               </th>
-              <th scope="col" style={{ width: 'auto' }}>
-                RFP NAME
+              <th scope="col" style={{ width: 'auto', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('name')}>
+                RFP NAME <SortIcon columnKey="name" />
               </th>
-              <th scope="col" style={{ width: '150px' }}>
-                UPLOADED BY
+              <th scope="col" style={{ width: '150px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('uploadedBy')}>
+                UPLOADED BY <SortIcon columnKey="uploadedBy" />
               </th>
-              <th scope="col" style={{ width: '140px' }}>
-                UPLOADED DATE
+              <th scope="col" style={{ width: '140px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('uploadedDate')}>
+                UPLOADED DATE <SortIcon columnKey="uploadedDate" />
               </th>
-              <th scope="col" style={{ width: '130px' }}>
-                STATUS
+              <th scope="col" style={{ width: '130px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('status')}>
+                STATUS <SortIcon columnKey="status" />
               </th>
-              <th scope="col" style={{ width: '180px' }}>
-                STAGE
+              <th scope="col" style={{ width: '180px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('stage')}>
+                STAGE <SortIcon columnKey="stage" />
               </th>
-              <th scope="col" style={{ width: '170px' }}>
-                LAST MODIFIED DATE
+              <th scope="col" style={{ width: '170px', cursor: 'pointer', userSelect: 'none' }} onClick={() => handleSort('lastModifiedDate')}>
+                LAST MODIFIED DATE <SortIcon columnKey="lastModifiedDate" />
               </th>
               <th scope="col" style={{ width: '60px', textAlign: 'center' }}></th>
             </tr>

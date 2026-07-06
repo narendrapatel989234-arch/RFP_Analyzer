@@ -453,31 +453,32 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <div className={styles.modalHeaderRow}>
-              <div className={styles.modalHeaderIcon}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+              <h3 className={styles.modalTitle}>Edit - {mod.title}</h3>
+              <button className={styles.closeBtn} onClick={() => setIsEditModalOpen(false)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+            
+            <div className={styles.modalBody}>
+              <div className={styles.modalFormGroup}>
+                <label className={styles.modalLabel}>Module name</label>
+                <input type="text" className={styles.modalInput} value={editTitle} onChange={e => setEditTitle(e.target.value)} />
               </div>
-              <h3 className={styles.modalTitle}>Edit — {mod.title}</h3>
-            </div>
-            <p className={styles.modalDesc}>Update the scope description, include or exclude items for this module.</p>
 
-            <div className={styles.modalFormGroup}>
-              <label className={styles.modalLabel}>Module name</label>
-              <input type="text" className={styles.modalInput} value={editTitle} onChange={e => setEditTitle(e.target.value)} />
-            </div>
+              <div className={styles.modalFormGroup}>
+                <label className={styles.modalLabel}>Module description</label>
+                <textarea className={styles.modalTextarea} value={editDesc} onChange={e => setEditDesc(e.target.value)} />
+              </div>
 
-            <div className={styles.modalFormGroup}>
-              <label className={styles.modalLabel}>Module description</label>
-              <textarea className={styles.modalTextarea} value={editDesc} onChange={e => setEditDesc(e.target.value)} />
-            </div>
+              <div className={styles.modalFormGroup}>
+                <label className={styles.modalLabel}>Included in scope (one item per line)</label>
+                <textarea className={styles.modalTextarea} value={editIncluded} onChange={e => setEditIncluded(e.target.value)} />
+              </div>
 
-            <div className={styles.modalFormGroup}>
-              <label className={styles.modalLabel}>Included in scope (one item per line)</label>
-              <textarea className={styles.modalTextarea} value={editIncluded} onChange={e => setEditIncluded(e.target.value)} />
-            </div>
-
-            <div className={styles.modalFormGroup}>
-              <label className={styles.modalLabel}>Out of scope (one item per line)</label>
-              <textarea className={styles.modalTextarea} value={editExcluded} onChange={e => setEditExcluded(e.target.value)} />
+              <div className={styles.modalFormGroup}>
+                <label className={styles.modalLabel}>Out of scope (one item per line)</label>
+                <textarea className={styles.modalTextarea} value={editExcluded} onChange={e => setEditExcluded(e.target.value)} />
+              </div>
             </div>
 
             <div className={styles.modalActions}>
@@ -894,7 +895,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       <div className={styles.sectionIcon}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>
                       </div>
-                      <h4 className={styles.sectionTitle}>3 — Techstack Used</h4>
+                      <h4 className={styles.sectionTitle}>3 — Tech Stack Used</h4>
                     </div>
                     <div className={styles.sectionActions}>
                       <button className={styles.sectionActionBtn} title="Edit section" onClick={(e) => { e.stopPropagation(); openModifyModal(e, uc.id, 'edit-section', 3) }}>
