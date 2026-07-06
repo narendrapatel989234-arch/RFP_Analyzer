@@ -75,7 +75,7 @@
 }
 
 .card {
-  background-color: #f6f4fa;
+  background-color: #f7f7f7;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: var(--space-4);
@@ -126,7 +126,7 @@
 
 .footer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   margin-top: var(--space-4);
 }
 
@@ -136,7 +136,7 @@
   font-weight: var(--weight-bold);
   font-size: var(--text-base);
   border-radius: var(--radius-sm);
-  padding: var(--space-3) var(--space-10);
+  padding: var(--space-2) var(--space-4);
   border: 1.5px solid var(--action-primary-bg-default);
   cursor: pointer;
   transition: all 0.2s;
@@ -144,7 +144,7 @@
 }
 
 .nextBtn:hover {
-  background-color: var(--action-primary-bg-hover);
+  background-color: var(--action-primary-bg-hover, #4a3e36);
   color: var(--action-primary-text);
   border-color: var(--action-primary-bg-default);
 }
@@ -236,6 +236,15 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  cursor: pointer;
+  padding: var(--space-2);
+  margin: calc(-1 * var(--space-2));
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s;
+}
+
+.summaryTopRow:hover {
+  background-color: #f7f7f7;
 }
 
 .summaryFileIcon {
@@ -263,7 +272,7 @@
 
 .summaryInstructionRow {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   gap: var(--space-1);
 }
 
@@ -281,26 +290,32 @@
 
 .summarySupportRow {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--space-2);
 }
 
 .summarySupportList {
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  flex-direction: row;
   flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .summarySupportDoc {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  background-color: #ffffff;
-  border-radius: var(--radius-sm);
+  gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle, #e5e5e5);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex: 0 1 auto;
+}
+
+.summarySupportDoc:hover {
+  background-color: #f7f7f7;
 }
 
 .summarySupportIcon {
@@ -323,7 +338,7 @@
 
 /* Extraction Cards (Read Only) */
 .extractedCard {
-  background-color: #f6f4fa;
+  background-color: #f7f7f7;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   display: flex;
@@ -428,4 +443,147 @@
 
 .extractedCardTable tr:last-child .extractedCardTd {
   border-bottom: none;
+}
+
+/* Drawer Styles */
+.drawerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-overlay, rgba(0, 0, 0, 0.5));
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawerPanel {
+  width: 40vw;
+  height: 100%;
+  background: var(--bg-surface-1, #fff);
+  box-shadow: var(--shadow-3, -4px 0 16px rgba(0,0,0,0.1));
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle, #e5e5e5);
+}
+
+.drawerTitle {
+  font-size: var(--text-base, 16px);
+  font-weight: var(--weight-bold, 700);
+  margin: 0;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.drawerCloseBtn:hover {
+  background: var(--bg-hover, #f1f1f1);
+  color: var(--text-primary);
+}
+
+.drawerBody {
+  padding: var(--space-6);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.drawerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.drawerDetailItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.drawerDetailLabel {
+  font-size: var(--text-xs, 12px);
+  color: var(--text-secondary);
+  font-weight: var(--weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.drawerDetailValue {
+  font-size: var(--text-sm, 14px);
+  color: var(--text-primary);
+  font-weight: var(--weight-medium, 500);
+}
+
+.drawerRichText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.drawerRichText h2 {
+  font-size: var(--text-lg, 18px);
+  font-weight: var(--weight-bold, 700);
+  margin: 0 0 var(--space-2) 0;
+  border-bottom: 2px solid var(--border-default);
+  padding-bottom: var(--space-2);
+}
+
+.drawerRichText h3 {
+  font-size: var(--text-base, 16px);
+  font-weight: var(--weight-semibold, 600);
+  margin: var(--space-2) 0 0 0;
+}
+
+.drawerRichText p {
+  font-size: var(--text-sm, 14px);
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.drawerRichText ul {
+  margin: 0;
+  padding-left: var(--space-6);
+  font-size: var(--text-sm, 14px);
+  color: var(--text-secondary);
+}
+
+.drawerRichText li {
+  margin-bottom: var(--space-1);
+}
+
+.drawerRichText strong {
+  color: var(--text-primary);
 }

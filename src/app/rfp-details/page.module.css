@@ -664,7 +664,7 @@
 
 /* Parsed Outline Tree */
 .outlineCard {
-  background-color: #f6f4fa;
+  background-color: #f7f7f7;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--space-4);
@@ -848,7 +848,7 @@
 }
 /* Extraction Cards */
 .extractedCard {
-  background-color: #f6f4fa;
+  background-color: #f7f7f7;
   border: 1px solid #dddbe4;
   border-radius: var(--radius-md);
   display: flex;

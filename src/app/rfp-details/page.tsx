@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { TopNav } from '@/components/TopNav'
-import { Plus } from 'lucide-react'
+import { Plus, File } from 'lucide-react'
 import { CapabilitiesModal } from '../../components/CapabilitiesModal'
 import { 
   SingleUploadZone, 
@@ -419,15 +419,31 @@ export default function RFPDetailsPage() {
           </button>
 
           <div className={styles.pageHeader}>
-            <h1 className={styles.pageTitle}>Configure RFP Response</h1>
+            <h1 className={styles.pageTitle} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <div
+                style={{
+                  backgroundColor: 'var(--colors-neutral-900)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'var(--colors-neutral-0)',
+                }}
+              >
+                <File size={20} strokeWidth={2.5} />
+              </div>
+              Configure RFP Response
+            </h1>
             <p className={styles.pageSubText}>Add your RFP, reference documents, and team inputs so AI can generate a tailored proposal.</p>
             <hr className={styles.pageDivider} />
           </div>
         </div>
 
-        {/* Section 1 - Uploaded Document */}
+        {/* Section 1 - Uploaded RFP */}
         <section>
-          <label className={styles.sectionLabel}>Uploaded Document</label>
+          <label className={styles.sectionLabel}>Uploaded RFP</label>
           {uploadedDoc ? (
             <div className={styles.fileCard}>
               <div className={styles.fileListItem}>

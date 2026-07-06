@@ -101,7 +101,7 @@ export function SingleUploadZone({ onFileSelect }: SingleUploadProps) {
           Browse
         </div>
         <div className={styles.uploadHint}>
-          PDF, DOCX, DOC â€” single file allowed
+          PDF, DOCX — single file allowed
         </div>
       </div>
       {error && <div className={styles.errorText}>{error}</div>}

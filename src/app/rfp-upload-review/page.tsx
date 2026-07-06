@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { File } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
 import styles from './page.module.css'
@@ -104,6 +105,7 @@ export default function RFPUploadReviewPage() {
   const router = useRouter()
   const [componentsExpanded, setComponentsExpanded] = useState(false)
   const [partnerExpanded, setPartnerExpanded] = useState(false)
+  const [previewDoc, setPreviewDoc] = useState<{ name: string; size: string } | null>(null)
 
   const componentsData = {
     file: { name: 'Solution_Architecture_Components.docx', size: '1.1 MB' },
@@ -223,7 +225,23 @@ export default function RFPUploadReviewPage() {
         </section>
 
         <section className={styles.headerContainer}>
-          <h1 className={styles.pageTitle}>RFP Upload Summary</h1>
+          <h1 className={styles.pageTitle} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <div
+              style={{
+                backgroundColor: 'var(--colors-neutral-900)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-sm)',
+                padding: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--colors-neutral-0)',
+              }}
+            >
+              <File size={20} strokeWidth={2.5} />
+            </div>
+            RFP Upload Summary
+          </h1>
           <p className={styles.pageSubtitle}>A read-only snapshot of the configuration submitted for this RFP.</p>
           <hr className={styles.divider} />
         </section>
@@ -231,7 +249,7 @@ export default function RFPUploadReviewPage() {
         {/* Summary Card */}
         <div className={styles.summaryCard}>
           {/* Top row — main document */}
-          <div className={styles.summaryTopRow}>
+          <div className={styles.summaryTopRow} onClick={() => setPreviewDoc({ name: 'RFP_Document.pdf', size: '2.4 MB' })}>
             <div className={styles.summaryFileIcon}>
               <svg width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -250,16 +268,16 @@ export default function RFPUploadReviewPage() {
           {/* Second row — instruction */}
           <div className={styles.summaryInstructionRow}>
             <span className={styles.summaryInstructionLabel}>Instruction: </span>
-            <span className={styles.summaryInstructionText}>Focus on cloud-native architecture and emphasise our delivery track record in the public sector.</span>
+            <span className={styles.summaryInstructionText}>Focus on cloud-native architecture and emphasise our delivery track record in the public sector. Highlight our experience with similar government digitisation projects and reference relevant case studies. Ensure the proposal addresses all compliance and security requirements outlined in the RFP. Keep the tone formal and solution-oriented, with a strong executive summary upfront.</span>
           </div>
 
           {/* Third row — supporting documents */}
           <div className={styles.summarySupportRow}>
             <span className={styles.summaryInstructionLabel}>Supporting Documents: </span>
             <div className={styles.summarySupportList}>
-              <div className={styles.summarySupportDoc}>
+              <div className={styles.summarySupportDoc} onClick={() => setPreviewDoc({ name: 'Compliance_Certificate.pdf', size: '0.9 MB' })}>
                 <div className={styles.summarySupportIcon}>
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                     <line x1="16" y1="13" x2="8" y2="13" />
@@ -267,12 +285,14 @@ export default function RFPUploadReviewPage() {
                     <polyline points="10 9 9 9 8 9" />
                   </svg>
                 </div>
-                <span className={styles.summarySupportName}>Compliance_Certificate.pdf</span>
-                <span className={styles.summarySupportSize}>0.9 MB</span>
+                <div className={styles.summaryDocInfo}>
+                  <span className={styles.summarySupportName}>Compliance_Certificate.pdf</span>
+                  <span className={styles.summarySupportSize}>0.9 MB</span>
+                </div>
               </div>
-              <div className={styles.summarySupportDoc}>
+              <div className={styles.summarySupportDoc} onClick={() => setPreviewDoc({ name: 'Inception42_Proposal_Template.pdf', size: '1.4 MB' })}>
                 <div className={styles.summarySupportIcon}>
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                     <line x1="16" y1="13" x2="8" y2="13" />
@@ -280,8 +300,10 @@ export default function RFPUploadReviewPage() {
                     <polyline points="10 9 9 9 8 9" />
                   </svg>
                 </div>
-                <span className={styles.summarySupportName}>Inception42_Proposal_Template.pdf</span>
-                <span className={styles.summarySupportSize}>1.4 MB</span>
+                <div className={styles.summaryDocInfo}>
+                  <span className={styles.summarySupportName}>Inception42_Proposal_Template.pdf</span>
+                  <span className={styles.summarySupportSize}>1.4 MB</span>
+                </div>
               </div>
             </div>
           </div>
@@ -313,6 +335,58 @@ export default function RFPUploadReviewPage() {
           </button>
         </div>
       </main>
+
+      {/* Drawer */}
+      {previewDoc && (
+        <div className={styles.drawerOverlay} onClick={() => setPreviewDoc(null)}>
+          <div className={styles.drawerPanel} onClick={e => e.stopPropagation()}>
+            <div className={styles.drawerHeader}>
+              <h3 className={styles.drawerTitle}>{previewDoc.name}</h3>
+              <button className={styles.drawerCloseBtn} onClick={() => setPreviewDoc(null)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div className={styles.drawerBody}>
+              <div className={styles.drawerRichText}>
+                <h2>Request for Proposal — Cloud Infrastructure Modernisation</h2>
+                
+                <h3>1. Background</h3>
+                <p>The Department of Public Works is seeking proposals from qualified vendors to modernise our legacy infrastructure. Our current on-premise data centres are reaching end-of-life, and we aim to migrate core services to a scalable, highly available cloud-native environment to improve citizen services.</p>
+                
+                <h3>2. Scope of Work</h3>
+                <p>The selected vendor will be responsible for end-to-end migration, including but not limited to:</p>
+                <ul>
+                  <li>Comprehensive audit of existing physical servers and virtual machines.</li>
+                  <li>Design of a secure, sovereign-capable cloud architecture.</li>
+                  <li>Migration of 150+ legacy applications with minimal downtime.</li>
+                  <li>Implementation of Zero-Trust security and federated IAM.</li>
+                </ul>
+                
+                <h3>3. Technical Requirements</h3>
+                <p>All proposed solutions must adhere strictly to the following technical standards:</p>
+                <ul>
+                  <li><strong>Compute:</strong> Kubernetes-based orchestration with automated scaling.</li>
+                  <li><strong>Storage:</strong> Multi-region object storage with 99.999% durability and automated tiering.</li>
+                  <li><strong>Networking:</strong> Dedicated private connections to government networks with deep packet inspection.</li>
+                  <li><strong>Compliance:</strong> Must meet Federal Risk and Authorization Management Program (FedRAMP) High baseline requirements.</li>
+                </ul>
+
+                <h3>4. Evaluation Criteria</h3>
+                <p>Proposals will be evaluated based on the following weighted criteria:</p>
+                <ul>
+                  <li>Technical Approach and Architecture (40%)</li>
+                  <li>Vendor Experience and Past Performance (30%)</li>
+                  <li>Cost and Commercials (20%)</li>
+                  <li>Security and Compliance Posture (10%)</li>
+                </ul>
+
+                <h3>5. Submission Guidelines</h3>
+                <p>All proposals must be submitted electronically via the procurement portal no later than August 15, 2026 at 5:00 PM EST. Late submissions will not be considered under any circumstances. Please ensure all documents are provided in PDF format and do not exceed 50MB in total size.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

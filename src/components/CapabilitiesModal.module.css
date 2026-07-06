@@ -116,7 +116,7 @@
 
 .emptyState {
   flex: 1;
-  background-color: var(--bg-surface-2, #f6f4fa);
+  background-color: var(--bg-surface-2, #f7f7f7);
   border: none;
   border-radius: var(--radius-md);
   display: flex;

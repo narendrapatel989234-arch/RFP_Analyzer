@@ -718,12 +718,14 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                 </div>
               </div>
               <div className={styles.headerRight}>
-                <button
-                  className={styles.renameCtaBtn}
-                  onClick={(e) => openRenameModal(e, uc.id)}
-                >
-                  Rename
-                </button>
+                {!isStage3 && (
+                  <button
+                    className={styles.renameCtaBtn}
+                    onClick={(e) => openRenameModal(e, uc.id)}
+                  >
+                    Rename
+                  </button>
+                )}
                 <button
                   className={styles.modifyCtaBtn}
                   onClick={(e) => openModifyModal(e, uc.id)}
