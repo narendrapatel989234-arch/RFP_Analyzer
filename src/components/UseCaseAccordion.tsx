@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './UseCaseAccordion.module.css'
 import { ArchitectureDiagram } from './ArchitectureDiagram'
 
@@ -531,7 +531,9 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [cases, setCases] = useState<UseCase[]>(useCases)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalType, setModalType] = useState<'usecase' | 'edit-section' | 'regenerate-section' | 'upload-diagram'>('usecase')
+  const [modalType, setModalType] = useState<'usecase' | 'edit-section' | 'regenerate-section' | 'upload-diagram' | 'rename'>('usecase')
+  const [renameTitle, setRenameTitle] = useState('')
+  const [renameUseCaseLabel, setRenameUseCaseLabel] = useState('')
   const [modifyingId, setModifyingId] = useState<string | null>(null)
   const [modifyingSection, setModifyingSection] = useState<number | null>(null)
   const [regeneratingSectionId, setRegeneratingSectionId] = useState<string | null>(null)
@@ -545,6 +547,45 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
     setTimeout(() => {
       setShowToast(false)
     }, 3000)
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsModalOpen(false)
+    }
+    if (isModalOpen) window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isModalOpen])
+
+  const openRenameModal = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation()
+    const uc = cases.find((c) => c.id === id)
+    if (uc) {
+      setRenameTitle(uc.title)
+      setRenameUseCaseLabel(uc.subtext.split(' — ')[0] || '')
+    }
+    setModifyingId(id)
+    setModalType('rename')
+    setPrompt('')
+    setIsModalOpen(true)
+  }
+
+  const handleRenameSave = () => {
+    if (!modifyingId) return
+    setCases((prev) => prev.map((uc) => {
+      if (uc.id === modifyingId) {
+        const oldPrefix = uc.subtext.split(' — ')[0] || ''
+        const oldSuffix = uc.subtext.substring(oldPrefix.length)
+        return {
+          ...uc,
+          title: renameTitle,
+          subtext: `${renameUseCaseLabel}${oldSuffix}`
+        }
+      }
+      return uc
+    }))
+    setIsModalOpen(false)
+    triggerToast('Rename saved successfully!')
   }
 
   const toggleExpand = (id: string) => {
@@ -630,6 +671,12 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                 </div>
               </div>
               <div className={styles.headerRight}>
+                <button
+                  className={styles.renameCtaBtn}
+                  onClick={(e) => openRenameModal(e, uc.id)}
+                >
+                  Rename
+                </button>
                 <button
                   className={styles.modifyCtaBtn}
                   onClick={(e) => openModifyModal(e, uc.id)}
@@ -943,42 +990,78 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
 
       {/* MODAL POPUP */}
       {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
-            <h3 className={styles.modalTitle}>
-              {modalType === 'usecase' ? 'Modify Use Case' : modalType === 'edit-section' ? 'Edit Section' : modalType === 'upload-diagram' ? 'Upload Architecture Diagram' : 'Regenerate Section'}
-            </h3>
-            <p className={styles.modalDesc}>
-              {modalType === 'usecase'
-                ? 'Provide instructions on how to regenerate this use case.'
-                : modalType === 'edit-section'
-                  ? 'Provide the updated content for this section.'
-                  : modalType === 'upload-diagram'
-                    ? 'Select an image file to upload as the new architecture diagram.'
-                    : 'Provide instructions on how to regenerate this section.'}
-            </p>
+        <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>
+                {modalType === 'usecase' ? 'Modify Use Case' : modalType === 'edit-section' ? 'Edit Section' : modalType === 'upload-diagram' ? 'Upload Architecture Diagram' : modalType === 'rename' ? 'Rename' : 'Regenerate Section'}
+              </h3>
+              <button className={styles.modalCloseBtn} onClick={() => setIsModalOpen(false)} aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div className={styles.modalBody}>
+              {modalType !== 'rename' && (
+                <p className={styles.modalDesc}>
+                  {modalType === 'usecase'
+                    ? 'Provide instructions on how to regenerate this use case.'
+                    : modalType === 'edit-section'
+                      ? 'Provide the updated content for this section.'
+                      : modalType === 'upload-diagram'
+                        ? 'Select an image file to upload as the new architecture diagram.'
+                        : 'Provide instructions on how to regenerate this section.'}
+                </p>
+              )}
+              
+              {modalType === 'upload-diagram' ? (
+                <div className={styles.uploadBox}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.uploadIcon}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                  <p>Drag and drop or <span className={styles.uploadBrowse}>browse files</span></p>
+                </div>
+              ) : modalType === 'rename' ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '8px' }}>
+                  <div className={styles.modalFormGroup}>
+                    <label className={styles.modalLabel}>Title</label>
+                    <input
+                      type="text"
+                      className={styles.modalInput}
+                      value={renameTitle}
+                      onChange={(e) => setRenameTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.modalFormGroup}>
+                    <label className={styles.modalLabel}>Use Case</label>
+                    <input
+                      type="text"
+                      className={styles.modalInput}
+                      value={renameUseCaseLabel}
+                      onChange={(e) => setRenameUseCaseLabel(e.target.value)}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <textarea
+                  className={styles.useCaseModifyTextarea}
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder={modalType === 'edit-section' ? "Enter section content..." : "e.g., Focus more on compliance features..."}
+                />
+              )}
+            </div>
             
-            {modalType === 'upload-diagram' ? (
-              <div className={styles.uploadBox}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.uploadIcon}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
-                <p>Drag and drop or <span className={styles.uploadBrowse}>browse files</span></p>
-              </div>
-            ) : (
-              <textarea
-                className={styles.useCaseModifyTextarea}
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder={modalType === 'edit-section' ? "Enter section content..." : "e.g., Focus more on compliance features..."}
-              />
-            )}
-            
-            <div className={styles.modalActions}>
+            <div className={styles.modalFooter}>
               <button className={styles.modalCancelBtn} onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
-              <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={modalType !== 'upload-diagram' && !prompt.trim()}>
-                {modalType === 'usecase' ? 'Regenerate Use Case' : modalType === 'regenerate-section' ? 'Regenerate Section' : modalType === 'upload-diagram' ? 'Upload' : 'Save'}
-              </button>
+              {modalType === 'rename' ? (
+                <button className={styles.modalRegenerateBtn} onClick={handleRenameSave} disabled={!renameTitle.trim() || !renameUseCaseLabel.trim()}>
+                  Save
+                </button>
+              ) : (
+                <button className={styles.modalRegenerateBtn} onClick={handleRegenerate} disabled={modalType !== 'upload-diagram' && !prompt.trim()}>
+                  {modalType === 'usecase' ? 'Regenerate Use Case' : modalType === 'regenerate-section' ? 'Regenerate Section' : modalType === 'upload-diagram' ? 'Upload' : 'Save'}
+                </button>
+              )}
             </div>
           </div>
         </div>
