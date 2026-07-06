@@ -242,7 +242,7 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--bg-hover);
+  background-color: #f7f7f7;
 }
 
 .table td {

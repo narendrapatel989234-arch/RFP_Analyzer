@@ -114,9 +114,8 @@ export default function Step4Demo() {
                   <p className={styles.reviewSubtext}>Following your instructions, review and add comments to update or regenerate.</p>
                 </div>
                 <div className={styles.headerActionContainer}>
-                  <button className={styles.ctaSecondary}>Export DOCX</button>
+                  <button className={styles.ctaSecondary}>Export</button>
                   <button className={styles.ctaSecondary}>Save as draft</button>
-                  <button className={styles.ctaPrimary}>Approve proposal</button>
                 </div>
               </div>
 
@@ -490,6 +489,10 @@ export default function Step4Demo() {
                     </div>
                   </>
                 )}
+              </div>
+
+              <div className={styles.bottomActionContainer} style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #E2E8F0', paddingTop: '24px' }}>
+                <button className={styles.ctaPrimary}>Approve</button>
               </div>
             </div>
           </section>

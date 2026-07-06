@@ -467,17 +467,17 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
 
               <div className={styles.modalFormGroup}>
                 <label className={styles.modalLabel}>Module description</label>
-                <textarea className={styles.modalTextarea} value={editDesc} onChange={e => setEditDesc(e.target.value)} />
+                <textarea rows={4} className={styles.modalTextarea} value={editDesc} onChange={e => setEditDesc(e.target.value)} />
               </div>
 
               <div className={styles.modalFormGroup}>
                 <label className={styles.modalLabel}>Included in scope (one item per line)</label>
-                <textarea className={styles.modalTextarea} value={editIncluded} onChange={e => setEditIncluded(e.target.value)} />
+                <textarea rows={6} className={styles.modalTextarea} value={editIncluded} onChange={e => setEditIncluded(e.target.value)} />
               </div>
 
               <div className={styles.modalFormGroup}>
                 <label className={styles.modalLabel}>Out of scope (one item per line)</label>
-                <textarea className={styles.modalTextarea} value={editExcluded} onChange={e => setEditExcluded(e.target.value)} />
+                <textarea rows={6} className={styles.modalTextarea} value={editExcluded} onChange={e => setEditExcluded(e.target.value)} />
               </div>
             </div>
 
@@ -538,6 +538,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
   const [modifyingId, setModifyingId] = useState<string | null>(null)
   const [modifyingSection, setModifyingSection] = useState<number | null>(null)
   const [regeneratingSectionId, setRegeneratingSectionId] = useState<string | null>(null)
+  const [editingSectionId, setEditingSectionId] = useState<string | null>(null)
+  const [editContent, setEditContent] = useState<string>('')
   const [prompt, setPrompt] = useState('')
   const [toastMessage, setToastMessage] = useState('')
   const [showToast, setShowToast] = useState(false)
@@ -595,11 +597,55 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
 
   const openModifyModal = (e: React.MouseEvent, id: string, type: 'usecase' | 'edit-section' | 'regenerate-section' | 'upload-diagram' = 'usecase', section: number | null = null) => {
     e.stopPropagation()
+
+    if (type === 'edit-section' && section !== null) {
+      if ((!isStage3 && (section === 1 || section === 3)) || (isStage3 && (section === 2 || section === 3 || section === 4 || section === 5))) {
+        setEditingSectionId(`${id}-${section}`)
+        const targetUc = cases.find(uc => uc.id === id)
+        if (targetUc) {
+          if (!isStage3) {
+            if (section === 1) setEditContent(targetUc.problemUnderstanding.join('\n\n'))
+            if (section === 3) setEditContent(targetUc.assumptions.join('\n\n'))
+          } else {
+            if (section === 2) setEditContent(targetUc.architectureSummary?.join('\n\n') || '')
+            if (section === 3) setEditContent(targetUc.techstackUsed?.join('\n') || '')
+            if (section === 4) setEditContent(targetUc.dataflow || '')
+            if (section === 5) setEditContent(targetUc.security?.join('\n\n') || '')
+          }
+        }
+        return
+      }
+    }
+
     setModifyingId(id)
     setModalType(type)
     setModifyingSection(section)
     setPrompt('')
     setIsModalOpen(true)
+  }
+
+  const handleSaveInlineEdit = () => {
+    if (!editingSectionId) return
+    const [id, secStr] = editingSectionId.split('-')
+    const section = parseInt(secStr, 10)
+    
+    setCases(prev => prev.map(uc => {
+      if (uc.id === id) {
+        if (!isStage3) {
+          if (section === 1) return { ...uc, problemUnderstanding: editContent.split('\n\n').filter(Boolean) }
+          if (section === 3) return { ...uc, assumptions: editContent.split('\n\n').filter(Boolean) }
+        } else {
+          if (section === 2) return { ...uc, architectureSummary: editContent.split('\n\n').filter(Boolean) }
+          if (section === 3) return { ...uc, techstackUsed: editContent.split('\n').filter(Boolean) }
+          if (section === 4) return { ...uc, dataflow: editContent }
+          if (section === 5) return { ...uc, security: editContent.split('\n\n').filter(Boolean) }
+        }
+      }
+      return uc
+    }))
+    
+    setEditingSectionId(null)
+    triggerToast('Section updated successfully!')
   }
 
   const handleRegenerate = () => {
@@ -728,13 +774,28 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <ul className={styles.bulletList}>
-                    {uc.problemUnderstanding.map((point, idx) => (
-                      <li key={idx}>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+                  {editingSectionId === `${uc.id}-1` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <ul className={styles.bulletList}>
+                      {uc.problemUnderstanding.map((point, idx) => (
+                        <li key={idx}>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {/* SECTION 2: Techno-functional Scope */}
@@ -796,13 +857,28 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <ul className={styles.bulletList}>
-                    {uc.assumptions.map((point, idx) => (
-                      <li key={idx}>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+                  {editingSectionId === `${uc.id}-3` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <ul className={styles.bulletList}>
+                      {uc.assumptions.map((point, idx) => (
+                        <li key={idx}>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
 
@@ -871,11 +947,26 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <div className={styles.paragraphContainer}>
-                    {uc.architectureSummary?.map((para, idx) => (
-                      <p key={idx}>{para}</p>
-                    ))}
-                  </div>
+                  {editingSectionId === `${uc.id}-2` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.paragraphContainer}>
+                      {uc.architectureSummary?.map((para, idx) => (
+                        <p key={idx}>{para}</p>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* STAGE 3 SECTION 3: Techstack Used */}
@@ -906,11 +997,52 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <div className={styles.chipsWrap}>
-                    {uc.techstackUsed?.map((tech, idx) => (
-                      <span key={idx} className={styles.sectionChip}>{tech}</span>
-                    ))}
-                  </div>
+                  {editingSectionId === `${uc.id}-3` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <div className={styles.chipsWrap}>
+                        {editContent.split('\n').filter(Boolean).map((tech, idx) => (
+                          <span key={idx} className={styles.sectionChip} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            {tech}
+                            <svg 
+                              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                              style={{ cursor: 'pointer', opacity: 0.7 }}
+                              onClick={() => {
+                                const newTech = editContent.split('\n').filter(Boolean);
+                                newTech.splice(idx, 1);
+                                setEditContent(newTech.join('\n'));
+                              }}
+                            >
+                              <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
+                        <input 
+                          type="text" 
+                          placeholder="Add new tech stack... (Press Enter)" 
+                          style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid var(--border-color)', flex: 1, fontSize: '0.875rem' }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                              const val = e.currentTarget.value.trim();
+                              setEditContent(editContent ? editContent + '\n' + val : val);
+                              e.currentTarget.value = '';
+                            }
+                          }}
+                        />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.chipsWrap}>
+                      {uc.techstackUsed?.map((tech, idx) => (
+                        <span key={idx} className={styles.sectionChip}>{tech}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* STAGE 3 SECTION 4: Dataflow Understanding */}
@@ -941,9 +1073,24 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <div className={styles.paragraphContainer}>
-                    <p>{uc.dataflow}</p>
-                  </div>
+                  {editingSectionId === `${uc.id}-4` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.paragraphContainer}>
+                      <p>{uc.dataflow}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* STAGE 3 SECTION 5: Security */}
@@ -974,13 +1121,28 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                       </button>
                     </div>
                   </div>
-                  <ul className={styles.bulletList}>
-                    {uc.security?.map((point, idx) => (
-                      <li key={idx}>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
+                  {editingSectionId === `${uc.id}-5` ? (
+                    <div style={{ marginTop: '16px' }}>
+                      <textarea
+                        className={styles.useCaseModifyTextarea}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        style={{ minHeight: '120px' }}
+                      />
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                        <button className={styles.modalCancelBtn} onClick={() => setEditingSectionId(null)}>Discard</button>
+                        <button className={styles.modalRegenerateBtn} onClick={handleSaveInlineEdit}>Save Changes</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <ul className={styles.bulletList}>
+                      {uc.security?.map((point, idx) => (
+                        <li key={idx}>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
               </div>
