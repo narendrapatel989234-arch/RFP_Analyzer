@@ -1337,7 +1337,7 @@
 
 .summaryTabsHeader {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-4);
   overflow-x: auto;
   white-space: nowrap;
   /* The border is now provided by the top of .summaryContent */
