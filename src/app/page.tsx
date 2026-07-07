@@ -7,11 +7,14 @@ import { UploadZone } from '@/components/UploadZone'
 import { StatCard } from '@/components/StatCard'
 import { RFPTable } from '@/components/RFPTable'
 import { DateFilterDropdown } from '@/components/DateFilterDropdown'
+import { UploadRFPModal } from '@/components/UploadRFPModal'
 import styles from './page.module.css'
 
 export default function RFPResponderDashboard() {
   const [dateFilter, setDateFilter] = useState('Last 30 days')
   const [customRange, setCustomRange] = useState<{ start: Date | null, end: Date | null }>({ start: null, end: null })
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [mainDocument, setMainDocument] = useState<File | null>(null)
 
   const getMultiplier = (filter: string) => {
     switch (filter) {
@@ -55,7 +58,15 @@ export default function RFPResponderDashboard() {
 
       <main className={styles.content}>
         <section className={styles.section}>
-          <UploadZone />
+          <UploadZone 
+            disableInternalUpload={true}
+            onFileSelect={(file) => {
+              if (file) {
+                setMainDocument(file)
+                setIsModalOpen(true)
+              }
+            }}
+          />
         </section>
 
         <hr className={styles.divider} />
@@ -117,6 +128,12 @@ export default function RFPResponderDashboard() {
           />
         </section>
       </main>
+
+      <UploadRFPModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        mainDocument={mainDocument}
+      />
     </div>
   )
 }

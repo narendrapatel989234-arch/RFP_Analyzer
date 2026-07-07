@@ -13,6 +13,22 @@ export default function RFPDetail() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const [isValidated, setIsValidated] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
+  const [showToast, setShowToast] = useState(false)
+
+  const triggerToast = (msg: string) => {
+    setToastMessage(msg)
+    setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+      router.push('/')
+    }, 2500)
+  }
+
+  const handleConfirm = () => {
+    const msg = isStage3 ? "Technical details approved successfully." : "Functional details approved successfully."
+    triggerToast(msg)
+  }
 
   const isStage3 = id === 'RFP-002'
   const activeStep = isStage3 ? 3 : 2
@@ -139,12 +155,22 @@ export default function RFPDetail() {
               <button
                 className={styles.proceedBtn}
                 disabled={!isValidated}
+                onClick={handleConfirm}
               >
                 Confirm
               </button>
             </div>
           </div>
         </section>
+
+        {showToast && (
+          <div className={styles.toast}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            {toastMessage}
+          </div>
+        )}
       </main>
     </div>
   )

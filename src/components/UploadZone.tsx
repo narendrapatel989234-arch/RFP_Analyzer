@@ -5,9 +5,10 @@ import styles from './UploadZone.module.css'
 
 interface UploadZoneProps {
   onFileSelect?: (file: File | null) => void;
+  disableInternalUpload?: boolean;
 }
 
-export function UploadZone({ onFileSelect }: UploadZoneProps) {
+export function UploadZone({ onFileSelect, disableInternalUpload }: UploadZoneProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
@@ -72,9 +73,11 @@ export function UploadZone({ onFileSelect }: UploadZoneProps) {
     if (validateFile(selectedFile)) {
       setFile(selectedFile)
       if (onFileSelect) onFileSelect(selectedFile)
-      setIsUploading(true)
-      setProgress(0)
-      setUploadComplete(false)
+      if (!disableInternalUpload) {
+        setIsUploading(true)
+        setProgress(0)
+        setUploadComplete(false)
+      }
     }
   }
 

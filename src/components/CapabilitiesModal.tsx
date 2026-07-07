@@ -93,7 +93,7 @@ export function CapabilitiesModal({
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Capabilities</h2>
+          <h2 className={styles.title}>Solution Requirements</h2>
           <button className={styles.closeBtn} onClick={onCancel}>
             <X size={20} />
           </button>

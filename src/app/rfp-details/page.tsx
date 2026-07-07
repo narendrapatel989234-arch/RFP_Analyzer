@@ -3,17 +3,18 @@
 import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { TopNav } from '@/components/TopNav'
-import { Plus, File } from 'lucide-react'
+import { Plus, File, RefreshCw, AlertTriangle } from 'lucide-react'
 import { CapabilitiesModal } from '../../components/CapabilitiesModal'
-import { 
-  SingleUploadZone, 
-  ResizableTextarea, 
-  MultiUploadZone, 
-  OutlineNode, 
-  ParsedOutlineTree, 
-  TableRow, 
-  ExtractedDocument, 
-  PendingExtraction, 
+import modalStyles from '../../components/CapabilitiesModal.module.css'
+import {
+  SingleUploadZone,
+  ResizableTextarea,
+  MultiUploadZone,
+  OutlineNode,
+  ParsedOutlineTree,
+  TableRow,
+  ExtractedDocument,
+  PendingExtraction,
   ExtractionDropzone,
   DUMMY_OUTLINE_DATA
 } from '@/components/rfp-components'
@@ -30,6 +31,28 @@ export default function RFPDetailsPage() {
   const [partnerCapabilitiesDocs, setPartnerCapabilitiesDocs] = useState<ExtractedDocument[]>([])
   const [pendingExtractions, setPendingExtractions] = useState<PendingExtraction[]>([])
   const [editingCell, setEditingCell] = useState<{ docId: string, rowId: string, field: 'name' | 'description' | 'docDescription' } | null>(null)
+  const [dummySupportingDocs, setDummySupportingDocs] = useState(['Compliance.pdf', 'Main_Features.pdf'])
+  const [activeSummaryTab, setActiveSummaryTab] = useState(0)
+  const supportingDocsInputRef = useRef<HTMLInputElement>(null)
+  const [isSummaryRefreshing, setIsSummaryRefreshing] = useState(false)
+  const [documentsChanged, setDocumentsChanged] = useState(false)
+
+  const handleRefreshSummary = () => {
+    setIsSummaryRefreshing(true)
+    setTimeout(() => {
+      setIsSummaryRefreshing(false)
+      setDocumentsChanged(false)
+    }, 2500)
+  }
+
+  const handleAddSupportingDocs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const newFileNames = Array.from(e.target.files).map(f => f.name)
+      setDummySupportingDocs(prev => [...prev, ...newFileNames])
+      setDocumentsChanged(true)
+    }
+    e.target.value = ''
+  }
 
   // Snapshot state for Cancel/Save functionality
   const [capabilitiesSnapshot, setCapabilitiesSnapshot] = useState<{
@@ -73,7 +96,7 @@ export default function RFPDetailsPage() {
   const handleExtractionUpload = (file: File, type: 'components' | 'partner') => {
     const id = Math.random().toString(36).substr(2, 9)
     setPendingExtractions(prev => [...prev, { id, file, type, stage: 1 }])
-    
+
     setTimeout(() => {
       setPendingExtractions(prev => prev.map(p => p.id === id ? { ...p, stage: 2 } : p))
       setTimeout(() => {
@@ -441,9 +464,9 @@ export default function RFPDetailsPage() {
           </div>
         </div>
 
-        {/* Section 1 - Uploaded RFP */}
+        {/* Section 1 - RFP Document */}
         <section>
-          <label className={styles.sectionLabel}>Uploaded RFP</label>
+          <label className={styles.sectionLabel}>RFP Document</label>
           {uploadedDoc ? (
             <div className={styles.fileCard}>
               <div className={styles.fileListItem}>
@@ -460,7 +483,7 @@ export default function RFPDetailsPage() {
                 <span className={styles.fileListSize}>{uploadedDoc.size}</span>
                 <button
                   className={styles.trashBtnList}
-                  onClick={() => setUploadedDoc(null)}
+                  onClick={() => { setUploadedDoc(null); setDocumentsChanged(true); }}
                   aria-label="Remove document"
                 >
                   <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -479,9 +502,313 @@ export default function RFPDetailsPage() {
                   name: file.name,
                   size: (file.size / (1024 * 1024)).toFixed(1) + ' MB'
                 })
+                setDocumentsChanged(true)
               }}
             />
           )}
+        </section>
+
+        {/* Section 1.5 - RFP Supporting Documents */}
+        <section>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
+            <label className={styles.sectionLabel} style={{ marginBottom: 0 }}>RFP Supporting Documents</label>
+            {dummySupportingDocs.length > 0 && (
+              <button
+                className={styles.addCapabilitiesBtn}
+                onClick={() => supportingDocsInputRef.current?.click()}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}
+              >
+                <Plus size={16} strokeWidth={2.5} />
+                Add Document
+              </button>
+            )}
+            <input
+              type="file"
+              accept=".pdf,.docx,.doc"
+              multiple
+              ref={supportingDocsInputRef}
+              style={{ display: 'none' }}
+              onChange={handleAddSupportingDocs}
+            />
+          </div>
+
+          {dummySupportingDocs.length === 0 ? (
+            <div
+              className={styles.uploadZone}
+              role="button"
+              tabIndex={0}
+              aria-label="Upload RFP Supporting Documents"
+              onDragOver={(e) => e.preventDefault()}
+              onDragLeave={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files?.length) {
+                  const newFileNames = Array.from(e.dataTransfer.files).map(f => f.name)
+                  setDummySupportingDocs(prev => [...prev, ...newFileNames])
+                  setDocumentsChanged(true)
+                }
+              }}
+              onClick={() => supportingDocsInputRef.current?.click()}
+            >
+              <div className={styles.uploadIconCircle}>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+              </div>
+              <div className={styles.uploadText}>
+                <span style={{ color: 'var(--text-primary)' }}>Drop files or </span>
+                Browse
+              </div>
+              <div className={styles.uploadHint}>
+                PDF, DOCX &amp; Max file size: 25 MB &mdash; multiple files allowed
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 'var(--space-4)' }}>
+              {dummySupportingDocs.map((doc, idx) => (
+                <div key={idx} className={styles.fileCard}>
+                  <div className={styles.fileListItem}>
+                    <div className={styles.fileListIconWrapper}>
+                      <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                      </svg>
+                    </div>
+                    <span className={styles.fileListName}>{doc}</span>
+                    <button
+                      className={styles.trashBtnList}
+                      onClick={() => { setDummySupportingDocs(prev => prev.filter((_, i) => i !== idx)); setDocumentsChanged(true); }}
+                      aria-label="Remove document"
+                    >
+                      <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        <line x1="10" y1="11" x2="10" y2="17" />
+                        <line x1="14" y1="11" x2="14" y2="17" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Section 1.75 - RFP Summary */}
+        <section>
+          <div className={styles.summaryHeader} style={{ marginBottom: 'var(--space-4)' }}>
+            <label className={styles.sectionLabel} style={{ marginBottom: 0 }}>RFP Summary</label>
+            <button
+              className={styles.refreshBtn}
+              onClick={handleRefreshSummary}
+              disabled={isSummaryRefreshing}
+            >
+              <RefreshCw size={14} className={isSummaryRefreshing ? styles.spinning : ''} />
+              {isSummaryRefreshing ? 'Refreshing...' : 'Refresh Summary'}
+            </button>
+          </div>
+          {documentsChanged && !isSummaryRefreshing && (
+            <div style={{
+              width: '100%',
+              padding: '0 0 var(--space-2) 0',
+              marginBottom: 'var(--space-2)',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', color: '#d97706', fontSize: 'var(--text-sm)', fontWeight: 'var(--weight-medium)' }}>
+                <AlertTriangle size={16} />
+                Documents have changed — refresh RFP Summary to reflect the latest data.
+              </div>
+            </div>
+          )}
+          <div className={styles.summaryTabsHeader}>
+            {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements'].map((tabName, idx) => (
+              <button
+                key={idx}
+                className={`${styles.summaryTabBtn} ${activeSummaryTab === idx ? styles.summaryTabActive : ''}`}
+                onClick={() => setActiveSummaryTab(idx)}
+              >
+                {tabName}
+              </button>
+            ))}
+          </div>
+          <div className={styles.summaryContent}>
+            {isSummaryRefreshing ? (
+              <div className={styles.summaryLoading}>
+                <div className={styles.skeletonRow} style={{ width: '60%' }} />
+                <div className={styles.skeletonRow} style={{ width: '80%' }} />
+                <div className={styles.skeletonRow} style={{ width: '50%' }} />
+              </div>
+            ) : (
+              <>
+                {activeSummaryTab === 0 && (
+                <table className={styles.summaryTable}>
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Customer</td><td>Department of Government Enablement (DGE) & Abu Dhabi Judicial Department (ADJD)</td></tr>
+                    <tr><td>Project</td><td>AI-Native Judiciary System (AINJS)</td></tr>
+                    <tr><td>Objective</td><td>Build an AI-powered judicial platform to assist judges throughout the judicial lifecycle.</td></tr>
+                    <tr><td>Engagement</td><td>End-to-end implementation including AI platform, integrations, UX, deployment, and support.</td></tr>
+                    <tr><td>Duration</td><td>14 Months</td></tr>
+                    <tr><td>Proposal Due</td><td>23 June 2026</td></tr>
+                  </tbody>
+                </table>
+              )}
+              {activeSummaryTab === 1 && (
+                <table className={styles.summaryTable}>
+                  <thead>
+                    <tr>
+                      <th>Area</th>
+                      <th>Customer Expects</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Business</td><td>Faster, transparent judicial decision-making</td></tr>
+                    <tr><td>AI</td><td>Agentic AI with explainable recommendations</td></tr>
+                    <tr><td>Architecture</td><td>API-first platform</td></tr>
+                    <tr><td>Hosting</td><td>UAE Sovereign Cloud</td></tr>
+                    <tr><td>Integration</td><td>Integration with existing ADJD systems</td></tr>
+                    <tr><td>Security</td><td>RBAC, Audit Trails, Data Residency</td></tr>
+                    <tr><td>Languages</td><td>Arabic & English</td></tr>
+                    <tr><td>Support</td><td>Knowledge transfer and post-production support</td></tr>
+                  </tbody>
+                </table>
+              )}
+              {activeSummaryTab === 2 && (
+                <div className={styles.summaryListContainer}>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>Business & AI Capabilities</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>AI-assisted judicial decision support</li>
+                        <li>Legal knowledge retrieval (RAG)</li>
+                        <li>Case analysis & recommendations</li>
+                        <li>Explainable AI with audit trails</li>
+                      </ol>
+                    </div>
+                  </div>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>Functional Capabilities</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>Case intake & classification</li>
+                        <li>Hearing transcription & translation</li>
+                        <li>Legal research assistant</li>
+                        <li>Document forgery verification</li>
+                        <li>API-based integrations</li>
+                      </ol>
+                    </div>
+                  </div>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>In Scope</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>AI Native Judiciary System</li>
+                        <li>Legislative Multi-Agent Avatar</li>
+                        <li>Virtual Court Clerk</li>
+                        <li>Document Forgery Verification</li>
+                        <li>API Integration</li>
+                      </ol>
+                    </div>
+                  </div>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>Out of Scope</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>ADJD-side frontend development</li>
+                        <li>Future implementation phases beyond Phase 1</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSummaryTab === 3 && (
+                <table className={styles.summaryTable}>
+                  <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Architecture</td><td>API-first, Modular Platform</td></tr>
+                    <tr><td>AI</td><td>Agentic AI, RAG, LLM Integration</td></tr>
+                    <tr><td>Infrastructure</td><td>UAE Sovereign Cloud</td></tr>
+                    <tr><td>Integration</td><td>REST APIs, Active Directory, Existing ADJD Systems</td></tr>
+                    <tr><td>Security</td><td>RBAC, Audit Logging, Data Residency</td></tr>
+                    <tr><td>Data</td><td>Arabic NLP, OCR, Audio & Video Processing</td></tr>
+                    <tr><td>Deployment</td><td>CI/CD, Monitoring, High Availability</td></tr>
+                  </tbody>
+                </table>
+              )}
+              {activeSummaryTab === 4 && (
+                <div className={styles.summaryListContainer}>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>Proposal Deliverables</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>Technical Proposal</li>
+                        <li>Solution Architecture</li>
+                        <li>Implementation Plan</li>
+                        <li>Project Timeline</li>
+                      </ol>
+                    </div>
+                  </div>
+                  <div className={styles.summarySubSection}>
+                    <h4 className={styles.summarySubTitle}>Project Deliverables</h4>
+                    <div className={styles.readOnlyBox}>
+                      <ol className={styles.summaryOrderedList}>
+                        <li>Working AI Platform</li>
+                        <li>REST APIs</li>
+                        <li>Documentation</li>
+                        <li>MVP</li>
+                        <li>Training & Knowledge Transfer</li>
+                        <li>Test Reports</li>
+                        <li>Operational Support</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeSummaryTab === 5 && (
+                <table className={styles.summaryTable}>
+                  <thead>
+                    <tr>
+                      <th>Requirement</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>UAE Sovereign Cloud</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>API-first Architecture</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>Arabic Language Support</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>Human Verification</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>Source Code Ownership</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>Knowledge Transfer</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                    <tr><td>Working Software Delivery</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
+                  </tbody>
+                </table>
+              )}
+              </>
+            )}
+          </div>
         </section>
 
         {/* Section 2 - Prompt */}
@@ -517,12 +844,12 @@ export default function RFPDetailsPage() {
         {/* Section 4 - Capabilities Summary */}
         <section>
           <div className={styles.sectionHeaderFlex}>
-            <label className={styles.sectionLabel}>Capabilities</label>
-            <button 
-              className={styles.addCapabilitiesBtn} 
+            <label className={styles.sectionLabel}>Solution Requirements</label>
+            <button
+              className={styles.addCapabilitiesBtn}
               onClick={openCapabilitiesModal}
             >
-              <Plus size={16} /> Add Capabilities
+              <Plus size={16} /> Add Solution Requirements
             </button>
           </div>
           <div className={styles.capabilitiesTable}>
