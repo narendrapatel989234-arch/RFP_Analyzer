@@ -6,6 +6,8 @@ import { TopNav } from '@/components/TopNav'
 import { ProgressStepper } from '@/components/ProgressStepper'
 import { Plus, File, RefreshCw, AlertTriangle, BookOpen, ArrowRight } from 'lucide-react'
 import styles from './page.module.css'
+import { UploadZone } from '@/components/UploadZone'
+import { ExtractedDocument, PendingExtraction, OutlineNode, DUMMY_OUTLINE_DATA } from '@/components/rfp-components'
 
 export default function KnowYourClientPage() {
   const router = useRouter()
@@ -520,13 +522,17 @@ export default function KnowYourClientPage() {
               </div>
             </div>
           ) : (
-            <SingleUploadZone
+            <UploadZone
+              disableInternalUpload
               onFileSelect={(file) => {
+                if (!file) return;
+
                 setUploadedDoc({
                   name: file.name,
                   size: (file.size / (1024 * 1024)).toFixed(1) + ' MB'
-                })
-                setDocumentsChanged(true)
+                });
+
+                setDocumentsChanged(true);
               }}
             />
           )}
