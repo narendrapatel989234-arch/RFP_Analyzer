@@ -1,0 +1,83 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  background-color: #eeeeee;
+  padding: 8px;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.mainContent {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mainContent::-webkit-scrollbar {
+  display: none;
+}
+
+.contentMaxWidth {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header {
+  margin-bottom: 8px;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+  font-family: var(--brand-font-display, inherit);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Row 1 */
+.topRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+}
+
+.statsSection,
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row 2 */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 24px;
+}
+
+.tableSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.insightsSection {
+  display: flex;
+  flex-direction: column;
+}

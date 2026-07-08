@@ -24,7 +24,7 @@ export function TopNav({ showBack }: TopNavProps) {
             </svg>
           </Link>
         )}
-        <Link href="/">
+        <Link href="/dashboard-v2">
           <svg
             className={styles.logoSvg}
             width="161"
