@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
+import { FileText } from 'lucide-react'
 import styles from './RFPTableV2.module.css'
 
 type StatusType = 'In Progress' | 'Approved'
@@ -47,66 +48,16 @@ const mockData: RFP[] = [
   { id: 'RFP-010', name: 'Managed Services – BlueStar Ltd', uploadedBy: 'Emma Davis', uploadedDate: '2023-08-25', status: 'Approved', stage: 'Proposal Review', lastModifiedDate: Date.now() - 2 * HOUR },
 ]
 
-type TabType = 'All Requests' | 'Requests For Approval'
-
 export function RFPTableV2() {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState<TabType>('All Requests')
-
-  const filteredData = mockData.filter(row => {
-    if (activeTab === 'Requests For Approval') {
-      return row.status === 'Approved'
-    }
-    return true
-  })
+  const recentData = mockData.slice(0, 5)
 
   const handleRowClick = () => {
     router.push('/rfp/step1-extraction')
   }
 
-  const allCount = mockData.length
-  const approvalCount = mockData.filter(r => r.status === 'Approved').length
-
-  const ListIcon = () => (
-    <svg className={styles.tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="8" y1="6" x2="21" y2="6"></line>
-      <line x1="8" y1="12" x2="21" y2="12"></line>
-      <line x1="8" y1="18" x2="21" y2="18"></line>
-      <line x1="3" y1="6" x2="3.01" y2="6"></line>
-      <line x1="3" y1="12" x2="3.01" y2="12"></line>
-      <line x1="3" y1="18" x2="3.01" y2="18"></line>
-    </svg>
-  )
-
-  const CheckIcon = () => (
-    <svg className={styles.tabIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-      <polyline points="14 2 14 8 20 8"></polyline>
-      <path d="M9 15l2 2 4-4"></path>
-    </svg>
-  )
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tabsContainer}>
-        <div 
-          className={`${styles.tab} ${activeTab === 'All Requests' ? styles.tabActive : ''}`}
-          onClick={() => setActiveTab('All Requests')}
-        >
-          <ListIcon />
-          <span>All Requests</span>
-          <span className={styles.badge}>{allCount}</span>
-        </div>
-        <div 
-          className={`${styles.tab} ${activeTab === 'Requests For Approval' ? styles.tabActive : ''}`}
-          onClick={() => setActiveTab('Requests For Approval')}
-        >
-          <CheckIcon />
-          <span>Requests For Approval</span>
-          <span className={styles.badge}>{approvalCount}</span>
-        </div>
-      </div>
-
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
@@ -119,11 +70,13 @@ export function RFPTableV2() {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((row) => (
+            {recentData.map((row) => (
               <tr key={row.id} className={styles.tr} onClick={handleRowClick} style={{ cursor: 'pointer' }}>
                 <td className={styles.td}>
                   <div className={styles.rfpInfoCell}>
-                    <div className={styles.placeholderSquare}></div>
+                    <div className={styles.placeholderSquare}>
+                      <FileText size={20} className={styles.rfpIcon} />
+                    </div>
                     <div className={styles.rfpDetails}>
                       <span className={styles.rfpId}>{row.id}</span>
                       <span className={styles.rfpName}>{row.name}</span>
@@ -151,6 +104,10 @@ export function RFPTableV2() {
             ))}
           </tbody>
         </table>
+        
+        <div className={styles.viewAllRow}>
+          <span className={styles.viewAllText}>View all</span>
+        </div>
       </div>
     </div>
   )

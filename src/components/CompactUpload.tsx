@@ -37,25 +37,30 @@ export function CompactUpload() {
   }
 
   return (
-    <div 
-      className={`${styles.uploadContainer} ${isDragging ? styles.dragging : ''}`}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
-      <div className={styles.uploadContent}>
-        <p className={styles.uploadText}>
-          Drop your RFP here or <span className={styles.browseLink} onClick={handleButtonClick}>Browse</span>
-        </p>
+    <div className={styles.uploadWrapper}>
+      <div 
+        className={`${styles.dropZone} ${isDragging ? styles.dragging : ''}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={handleButtonClick}
+      >
+        <p className={styles.uploadText}>Drop your RFP here or Browse</p>
         <p className={styles.subText}>Format: PDF, DOCX — Max file size: 25 MB</p>
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          onChange={handleFileChange} 
+          className={styles.hiddenInput} 
+          multiple 
+        />
       </div>
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        onChange={handleFileChange} 
-        className={styles.hiddenInput} 
-        multiple 
-      />
+
+      <div className={styles.divider}>OR</div>
+
+      <button className={styles.createBtn} onClick={() => router.push('/rfp/step4-demo')}>
+        Create New Request
+      </button>
     </div>
   )
 }

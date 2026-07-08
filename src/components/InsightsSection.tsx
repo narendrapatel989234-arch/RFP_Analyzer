@@ -5,10 +5,8 @@ export function InsightsSection() {
   return (
     <div className={styles.insightsCard}>
       <h3 className={styles.title}>Insights</h3>
-      <div className={styles.content}>
-        <div className={styles.placeholderBlock} />
-        <div className={styles.placeholderBlock} />
-        <div className={styles.placeholderBlock} />
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#6b7280', fontSize: '18px', fontWeight: 600 }}>
+        Coming Soon
       </div>
     </div>
   )

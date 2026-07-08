@@ -21,12 +21,10 @@ export default function DashboardV2() {
 
           <div className={styles.topRow}>
             <section className={styles.statsSection}>
-              <h2 className={styles.sectionTitle}>Statistics</h2>
-              <PortfolioStats allRequests={330} inProgress={27} approved={8} />
+              <PortfolioStats allRequests={1248} functionalPending={312} technicalPending={184} completed={752} />
             </section>
             
             <section className={styles.uploadSection}>
-              <h2 className={styles.sectionTitle}>Upload RFP</h2>
               <CompactUpload />
             </section>
           </div>
@@ -37,7 +35,6 @@ export default function DashboardV2() {
             </section>
 
             <section className={styles.insightsSection}>
-              <h2 className={styles.sectionTitle}>Insights</h2>
               <InsightsSection />
             </section>
           </div>

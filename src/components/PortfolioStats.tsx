@@ -1,50 +1,99 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import styles from './PortfolioStats.module.css'
 
 interface PortfolioStatsProps {
   allRequests: number
-  inProgress: number
-  approved: number
+  functionalPending: number
+  technicalPending: number
+  completed: number
 }
 
-export function PortfolioStats({ allRequests, inProgress, approved }: PortfolioStatsProps) {
+export function PortfolioStats({ allRequests, functionalPending, technicalPending, completed }: PortfolioStatsProps) {
+  const [hoverData, setHoverData] = useState<{label: string, value: number, x: number, y: number} | null>(null)
+
+  const handleMouseMove = (e: React.MouseEvent, label: string, value: number) => {
+    // Get relative mouse position within the chartWrapper
+    const rect = e.currentTarget.getBoundingClientRect()
+    // It's usually better to position tooltip relative to viewport and use fixed positioning, but since chartWrapper is small, 
+    // let's use clientX/clientY relative to viewport.
+    setHoverData({
+      label,
+      value,
+      x: e.clientX,
+      y: e.clientY
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setHoverData(null)
+  }
+
+  const completedPct = (completed / allRequests) * 100 || 0;
+  const functionalPct = (functionalPending / allRequests) * 100 || 0;
+  const technicalPct = (technicalPending / allRequests) * 100 || 0;
+
+  // CSS rotates SVG -90deg so 0 is top
+  const completedDashArray = `${completedPct} ${100 - completedPct}`;
+  const completedDashOffset = 0;
+  
+  const functionalDashArray = `${functionalPct} ${100 - functionalPct}`;
+  const functionalDashOffset = 100 - completedPct;
+  
+  const technicalDashArray = `${technicalPct} ${100 - technicalPct}`;
+  const technicalDashOffset = 100 - (completedPct + functionalPct);
+
   return (
     <div className={styles.statsCard}>
-      <div className={styles.chartContainer}>
-        {/* A simple SVG curve mimicking a trend line */}
-        <svg viewBox="0 0 400 100" preserveAspectRatio="none" className={styles.trendLine}>
-          <defs>
-            <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#7a9aff" stopOpacity="1" />
-              <stop offset="100%" stopColor="#e0e8ff" stopOpacity="0.4" />
-            </linearGradient>
-          </defs>
-          <rect x="20" y="60" width="24" height="40" rx="4" fill="url(#barGrad)" />
-          <rect x="60" y="40" width="24" height="60" rx="4" fill="url(#barGrad)" />
-          <rect x="100" y="50" width="24" height="50" rx="4" fill="url(#barGrad)" />
-          <rect x="140" y="20" width="24" height="80" rx="4" fill="url(#barGrad)" />
-          <rect x="180" y="70" width="24" height="30" rx="4" fill="url(#barGrad)" />
-          <rect x="220" y="45" width="24" height="55" rx="4" fill="url(#barGrad)" />
-          <rect x="260" y="10" width="24" height="90" rx="4" fill="url(#barGrad)" />
-          <rect x="300" y="30" width="24" height="70" rx="4" fill="url(#barGrad)" />
-          <rect x="340" y="55" width="24" height="45" rx="4" fill="url(#barGrad)" />
-        </svg>
+      <div className={styles.topSection}>
+        <div className={styles.titleArea}>
+          <div className={styles.titleLine}>
+            <span className={styles.titleText}>Statistics</span>
+          </div>
+          <span className={styles.largeCount}>{allRequests.toLocaleString()}</span>
+          <span className={styles.subtext}>All Requests</span>
+        </div>
+        <div className={styles.chartArea}>
+          <div className={styles.chartWrapper}>
+            <svg viewBox="0 0 42 42" className={styles.donutChart}>
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#e5e7eb" strokeWidth="6"></circle>
+              
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#374151" strokeWidth="6" strokeDasharray={completedDashArray} strokeDashoffset={completedDashOffset}
+                onMouseMove={(e) => handleMouseMove(e, 'Completed', completed)} onMouseLeave={handleMouseLeave} style={{cursor: 'pointer'}}></circle>
+                
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#9ca3af" strokeWidth="6" strokeDasharray={functionalDashArray} strokeDashoffset={functionalDashOffset}
+                onMouseMove={(e) => handleMouseMove(e, 'Functional', functionalPending)} onMouseLeave={handleMouseLeave} style={{cursor: 'pointer'}}></circle>
+                
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#4b5563" strokeWidth="6" strokeDasharray={technicalDashArray} strokeDashoffset={technicalDashOffset}
+                onMouseMove={(e) => handleMouseMove(e, 'Technical', technicalPending)} onMouseLeave={handleMouseLeave} style={{cursor: 'pointer'}}></circle>
+            </svg>
+          </div>
+        </div>
       </div>
       
-      <div className={styles.metricsContainer}>
-        <div className={styles.metric}>
-          <span className={styles.metricLabel}>All Requests</span>
-          <span className={styles.metricValue}>{allRequests}</span>
+      {hoverData && (
+        <div className={styles.floatingTooltip} style={{ left: hoverData.x + 15, top: hoverData.y + 15 }}>
+          <span className={styles.tooltipLabel}>{hoverData.label}</span>
+          <span className={styles.tooltipValue}>{hoverData.value}</span>
         </div>
-        <div className={styles.metricDivider} />
-        <div className={styles.metric}>
-          <span className={styles.metricLabel}>In Progress</span>
-          <span className={styles.metricValue}>{inProgress}</span>
+      )}
+
+      <div className={styles.bottomSection}>
+        <div className={styles.metricCard}>
+          <span className={styles.cardDot} style={{ backgroundColor: '#9ca3af' }}></span>
+          <span className={styles.metricLabel}>Functional<br/>Pending</span>
+          <span className={styles.metricValue}>{functionalPending}</span>
         </div>
-        <div className={styles.metricDivider} />
-        <div className={styles.metric}>
-          <span className={styles.metricLabel}>Approved</span>
-          <span className={styles.metricValue}>{approved}</span>
+        <div className={styles.metricCard}>
+          <span className={styles.cardDot} style={{ backgroundColor: '#4b5563' }}></span>
+          <span className={styles.metricLabel}>Technical<br/>Pending</span>
+          <span className={styles.metricValue}>{technicalPending}</span>
+        </div>
+        <div className={`${styles.metricCard} ${styles.metricCardHighlighted}`}>
+          <span className={styles.cardDot} style={{ backgroundColor: '#374151' }}></span>
+          <span className={styles.metricLabel}>Completed<br/>Requests</span>
+          <span className={styles.metricValue}>{completed}</span>
         </div>
       </div>
     </div>

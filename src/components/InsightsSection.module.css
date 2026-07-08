@@ -1,11 +1,12 @@
 .insightsCard {
   background-color: var(--bg-surface-1, #ffffff);
-  border-radius: 20px;
+  border-radius: 12px;
   border: 1px solid var(--border-default, #e5e7eb);
-  padding: 24px;
+  padding: 16px 24px;
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .title {

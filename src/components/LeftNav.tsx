@@ -26,8 +26,8 @@ export function LeftNav() {
           <Image
             src="/app-icon.png"
             alt="App Logo"
-            width={32}
-            height={32}
+            width={40}
+            height={40}
             className={styles.logoIcon}
           />
         </Link>
@@ -48,12 +48,13 @@ export function LeftNav() {
       </div>
       
       <div className={styles.bottomSection}>
-        <Link href="#" className={styles.navItem}>
-          <div className={styles.iconWrapper}>
-            <User size={20} />
+        <div className={styles.profileItem}>
+          <div className={styles.profileAvatar}>
+            <img src="https://i.pravatar.cc/150?img=11" alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
           </div>
+          <span className={styles.profileName}>Alex M.</span>
           <span className={styles.tooltip}>Profile</span>
-        </Link>
+        </div>
       </div>
     </nav>
   )
