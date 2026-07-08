@@ -31,11 +31,11 @@ export default function RFPDetail() {
   }
 
   const isStage3 = id === 'RFP-002'
-  const activeStep = isStage3 ? 3 : 2
+  const activeStep = isStage3 ? 4 : 3
 
   const techStack = [
-    'Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 
-    'Docker', 'Kubernetes', 'AWS', 'Terraform', 'GraphQL', 
+    'Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL',
+    'Docker', 'Kubernetes', 'AWS', 'Terraform', 'GraphQL',
     'Redis', 'Elasticsearch', 'Kafka', 'MongoDB', 'GitHub Actions'
   ]
 
@@ -62,11 +62,13 @@ export default function RFPDetail() {
         </Link>
 
         <section className={styles.section}>
-          <ProgressStepper 
-            activeStep={activeStep} 
+          <ProgressStepper
+            activeStep={activeStep}
             onStepClick={(stepId) => {
               if (stepId === 1) {
-                router.push('/rfp-upload-review')
+                router.push(`/know-your-client?from=functional-confirmation&rfpId=${id}`)
+              } else if (stepId === 2) {
+                router.push(`/rfp-details?from=functional-confirmation&rfpId=${id}`)
               }
             }}
           />
@@ -97,7 +99,7 @@ export default function RFPDetail() {
             </h2>
 
             <p className={styles.sectionSubtitle}>
-              {isStage3 
+              {isStage3
                 ? 'Review the technical interpretation for each approved use case. Approve or request changes to continue to the next stage.'
                 : 'This is the AI\'s interpretation of the RFP requirements—not the final solution. Only once all use cases are approved do we proceed.'}
             </p>

@@ -79,8 +79,8 @@ export function UploadRFPModal({ isOpen, onClose, mainDocument }: UploadRFPModal
   }
 
   const handleNext = () => {
-    // Navigate to RFP Details
-    router.push('/rfp-details')
+    // Navigate to Know Your Client
+    router.push('/know-your-client')
   }
 
   return (

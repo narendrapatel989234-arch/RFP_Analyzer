@@ -169,9 +169,10 @@ interface MultiUploadProps {
   label: string;
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  readOnly?: boolean;
 }
 
-export function MultiUploadZone({ label, files, setFiles }: MultiUploadProps) {
+export function MultiUploadZone({ label, files, setFiles, readOnly }: MultiUploadProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -234,48 +235,52 @@ export function MultiUploadZone({ label, files, setFiles }: MultiUploadProps) {
   return (
     <section>
       <label className={styles.sectionLabel}>{label}</label>
-      <div
-        className={`${styles.uploadZone} ${isDragging ? styles.isDragging : ''}`}
-        role="button"
-        tabIndex={0}
-        aria-label={`Upload ${label}`}
-        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
-        onDragLeave={(e) => { e.preventDefault(); setIsDragging(false) }}
-        onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
-        onKeyDown={handleKeyDown}
-      >
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          multiple={true}
-          accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
-          onChange={handleChange}
-        />
-        <div className={styles.uploadIconCircle}>
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
+      {!readOnly && (
+        <>
+          <div
+            className={`${styles.uploadZone} ${isDragging ? styles.isDragging : ''}`}
+            role="button"
+            tabIndex={0}
+            aria-label={`Upload ${label}`}
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+            onDragLeave={(e) => { e.preventDefault(); setIsDragging(false) }}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={handleKeyDown}
           >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
-        </div>
-        <div className={styles.uploadText}>
-          <span style={{ color: 'var(--text-primary)' }}>Drop files or </span>
-          Browse
-        </div>
-        <div className={styles.uploadHint}>
-          PDF, DOCX &amp; Max file size: 25 MB &mdash; multiple files allowed
-        </div>
-      </div>
-      {error && <div className={styles.errorText}>{error}</div>}
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              multiple={true}
+              accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
+              onChange={handleChange}
+            />
+            <div className={styles.uploadIconCircle}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                viewBox="0 0 24 24"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <div className={styles.uploadText}>
+              <span style={{ color: 'var(--text-primary)' }}>Drop files or </span>
+              Browse
+            </div>
+            <div className={styles.uploadHint}>
+              PDF, DOCX &amp; Max file size: 25 MB &mdash; multiple files allowed
+            </div>
+          </div>
+          {error && <div className={styles.errorText}>{error}</div>}
+        </>
+      )}
 
       {files.length > 0 && (
         <>
@@ -295,18 +300,20 @@ export function MultiUploadZone({ label, files, setFiles }: MultiUploadProps) {
                   <span className={styles.extractedCardName}>{file.name}</span>
                   <span className={styles.extractedCardSize}>{formatSize(file.size)}</span>
                 </div>
-                <button
-                  className={styles.extractedCardDeleteBtn}
-                  onClick={(e) => removeFile(i, e)}
-                  aria-label={`Remove ${file.name}`}
-                >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                    <line x1="10" y1="11" x2="10" y2="17" />
-                    <line x1="14" y1="11" x2="14" y2="17" />
-                  </svg>
-                </button>
+                {!readOnly && (
+                  <button
+                    className={styles.extractedCardDeleteBtn}
+                    onClick={(e) => removeFile(i, e)}
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <polyline points="3 6 5 6 21 6" />
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                      <line x1="10" y1="11" x2="10" y2="17" />
+                      <line x1="14" y1="11" x2="14" y2="17" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           ))}
