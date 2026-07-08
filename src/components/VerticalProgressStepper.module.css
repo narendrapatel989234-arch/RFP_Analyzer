@@ -1,0 +1,92 @@
+.stepperContainer {
+  width: 100%;
+  padding: var(--space-4) 0;
+}
+
+.stepperWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  min-height: 80px;
+}
+
+.stepIndicatorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32px;
+  margin-right: var(--space-3);
+}
+
+.iconContainer {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.completed {
+  color: #111827;
+}
+
+.in-progress {
+  color: #111827;
+}
+
+.not-started {
+  color: #9ca3af;
+}
+
+.connector {
+  width: 0;
+  flex: 1;
+  border-left: 2px dotted #9ca3af;
+  transition: border-color 0.3s ease;
+}
+
+.connectorTop {
+  margin-bottom: var(--space-1);
+}
+
+.connectorBottom {
+  margin-top: var(--space-1);
+}
+
+.connectorActive {
+  border-left: 2px solid #111827;
+}
+
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: var(--space-4); /* spacing between steps */
+}
+
+.stepLabel {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.labelActive {
+  color: var(--text-primary);
+}
+
+.stepSublabel {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}

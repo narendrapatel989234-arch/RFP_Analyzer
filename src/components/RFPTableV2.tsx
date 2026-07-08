@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { FileText } from 'lucide-react'
+import { ChevronsUpDown, FileText } from 'lucide-react'
 import styles from './RFPTableV2.module.css'
 
 type StatusType = 'In Progress' | 'Approved'
@@ -52,8 +52,8 @@ export function RFPTableV2() {
   const router = useRouter()
   const recentData = mockData.slice(0, 5)
 
-  const handleRowClick = () => {
-    router.push('/rfp/step1-extraction')
+  const handleRowClick = (id: string) => {
+    router.push(`/rfp-v2/${id}`)
   }
 
   return (
@@ -62,20 +62,28 @@ export function RFPTableV2() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>RFP ID & Name</th>
-              <th className={styles.th}>Status</th>
-              <th className={styles.th}>Modified</th>
-              <th className={styles.th}>Uploaded</th>
+              <th className={styles.th}>
+                <div className={styles.thContent}>RFP ID & Name <ChevronsUpDown size={14} className={styles.sortIcon}/></div>
+              </th>
+              <th className={styles.th}>
+                <div className={styles.thContent}>Status <ChevronsUpDown size={14} className={styles.sortIcon}/></div>
+              </th>
+              <th className={styles.th}>
+                <div className={styles.thContent}>Modified <ChevronsUpDown size={14} className={styles.sortIcon}/></div>
+              </th>
+              <th className={styles.th}>
+                <div className={styles.thContent}>Uploaded <ChevronsUpDown size={14} className={styles.sortIcon}/></div>
+              </th>
               <th className={styles.th}></th>
             </tr>
           </thead>
           <tbody>
             {recentData.map((row) => (
-              <tr key={row.id} className={styles.tr} onClick={handleRowClick} style={{ cursor: 'pointer' }}>
+              <tr key={row.id} className={styles.tr} onClick={() => handleRowClick(row.id)} style={{ cursor: 'pointer' }}>
                 <td className={styles.td}>
                   <div className={styles.rfpInfoCell}>
                     <div className={styles.placeholderSquare}>
-                      <FileText size={20} className={styles.rfpIcon} />
+                      <FileText size={18} className={styles.rfpIcon} />
                     </div>
                     <div className={styles.rfpDetails}>
                       <span className={styles.rfpId}>{row.id}</span>
@@ -84,10 +92,9 @@ export function RFPTableV2() {
                   </div>
                 </td>
                 <td className={styles.td}>
-                  <div className={`${styles.statusPill} ${row.status === 'Approved' ? styles.approved : ''}`}>
-                    <div className={styles.statusDot}></div>
+                  <span className={`${styles.statusText} ${row.status === 'In Progress' ? styles.statusPending : styles.statusActive}`}>
                     {row.stage}
-                  </div>
+                  </span>
                 </td>
                 <td className={styles.td}>
                   <span className={styles.dateText}>{getRelativeTime(row.lastModifiedDate)}</span>
@@ -95,7 +102,7 @@ export function RFPTableV2() {
                 <td className={styles.td}>
                   <span className={styles.dateText}>{row.uploadedDate}</span>
                 </td>
-                <td className={styles.td}>
+                <td className={styles.tdActions}>
                   <svg className={styles.arrowIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
@@ -106,7 +113,7 @@ export function RFPTableV2() {
         </table>
         
         <div className={styles.viewAllRow}>
-          <span className={styles.viewAllText}>View all</span>
+          <span className={styles.viewAllText}>View All</span>
         </div>
       </div>
     </div>

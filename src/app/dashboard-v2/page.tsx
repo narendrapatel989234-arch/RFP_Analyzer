@@ -1,4 +1,5 @@
 'use client'
+// Force recompile to fix hydration mismatch
 
 import React from 'react'
 import { LeftNav } from '@/components/LeftNav'

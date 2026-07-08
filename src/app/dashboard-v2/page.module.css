@@ -13,10 +13,12 @@
   border-radius: 12px;
   padding: 24px 32px;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  min-width: 0;
 }
 
 .mainContent::-webkit-scrollbar {
@@ -30,6 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
 }
 
 .header {
