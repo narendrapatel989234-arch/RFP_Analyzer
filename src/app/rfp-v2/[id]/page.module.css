@@ -185,8 +185,8 @@
 
 .techStackBlock {
   margin-bottom: var(--space-6);
-  background-color: var(--bg-surface-1);
-  border: 1px solid var(--border-subtle);
+  background-color: var(--White, #ffffff);
+  border: 1px solid var(--Background-Plain-300, #EDEDED);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-1);
@@ -197,8 +197,8 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-5);
-  border-bottom: 1px solid var(--border-subtle);
-  background-color: var(--action-secondary-bg-default);
+  background-color: var(--Lavender-100, #F0EFFD);
+  border-bottom: 1px solid var(--Background-Plain-200, #F5F5F5);
 }
 
 .techStackHeaderLeft {
@@ -208,25 +208,26 @@
 }
 
 .techStackIcon {
-  color: var(--text-primary);
+  color: var(--Content-Primary-600, #292929);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background-color: var(--action-secondary-bg-hover);
+  background-color: var(--Lavender-200, #E3E2FB);
 }
 
 .techStackTitle {
   margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  color: var(--Content-Primary-600);
+  color: var(--Content-Primary-600, #292929);
 }
 
 .techStackContent {
   padding: var(--space-5);
+  background-color: var(--White, #ffffff);
 }
 
 .techStackChips {
@@ -237,13 +238,13 @@
 }
 
 .techChip {
-  background-color: var(--action-secondary-bg-hover);
-  color: var(--text-primary);
+  background-color: var(--Lavender-200, #E3E2FB);
+  color: var(--Content-Primary-600, #292929);
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-medium);
   padding: 6px 12px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
+  border: none;
 }
 
 /* Toast */

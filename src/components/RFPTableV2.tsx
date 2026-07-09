@@ -50,7 +50,12 @@ const mockData: RFP[] = [
 
 export function RFPTableV2() {
   const router = useRouter()
+  const [isMounted, setIsMounted] = React.useState(false)
   const recentData = mockData.slice(0, 5)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleRowClick = (id: string) => {
     router.push(`/rfp-v2/${id}`)
@@ -97,7 +102,7 @@ export function RFPTableV2() {
                   </span>
                 </td>
                 <td className={styles.td}>
-                  <span className={styles.dateText}>{getRelativeTime(row.lastModifiedDate)}</span>
+                  <span className={styles.dateText}>{isMounted ? getRelativeTime(row.lastModifiedDate) : '...'}</span>
                 </td>
                 <td className={styles.td}>
                   <span className={styles.dateText}>{row.uploadedDate}</span>
