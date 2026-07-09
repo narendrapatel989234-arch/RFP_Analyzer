@@ -1,7 +1,7 @@
 .layout {
   display: flex;
   height: 100vh;
-  background-color: #eeeeee;
+  background-color: var(--Background-Secondary-Plain, #eeeeee);
   padding: 8px;
   gap: 8px;
   overflow: hidden;
@@ -9,7 +9,7 @@
 
 .mainContent {
   flex: 1;
-  background-color: #ffffff;
+  background-color: var(--White, #ffffff);
   border-radius: 12px;
   padding: 24px 32px;
   overflow-y: auto;
@@ -42,14 +42,14 @@
 .pageTitle {
   font-size: 24px;
   font-weight: 700;
-  color: var(--text-primary, #111827);
+  color: var(--Content-Primary, #111827);
   font-family: var(--brand-font-display, inherit);
 }
 
 .sectionTitle {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary, #111827);
+  color: var(--Content-Primary, #111827);
   margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;

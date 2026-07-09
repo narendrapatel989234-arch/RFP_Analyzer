@@ -1,7 +1,7 @@
 .layout {
   display: flex;
   height: 100vh;
-  background-color: #eeeeee;
+  background-color: var(--Background-Secondary-Plain, #eeeeee);
   padding: 8px;
   gap: 8px;
   overflow: hidden;
@@ -9,7 +9,7 @@
 
 .mainContent {
   flex: 1;
-  background-color: #ffffff;
+  background-color: var(--White, #ffffff);
   border-radius: 12px;
   padding: 24px 32px;
   overflow: hidden;
@@ -33,7 +33,7 @@
 
 .stepperSidebar {
   flex: 0 0 260px;
-  background-color: #f3f4f6;
+  background-color: var(--Background-Secondary-Plain, #f3f4f6);
   padding: 24px 24px;
   border-radius: 12px;
   overflow-y: auto;
@@ -70,14 +70,14 @@
 }
 
 .titleIcon {
-  background-color: #111827;
+  background: var(--Deep-Purple-Dark-1, #111827);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: var(--White, #ffffff);
 }
 
 .sectionTitle {
@@ -149,7 +149,7 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #111827;
+  accent-color: var(--Content-Primary, #111827);
 }
 
 .validationLabel {
@@ -161,8 +161,8 @@
 
 .proceedBtn {
   padding: var(--space-2) var(--space-5);
-  background-color: #111827;
-  color: #ffffff;
+  background: var(--Deep-Purple-Dark-1, #111827);
+  color: var(--White, #ffffff);
   border: none;
   border-radius: 9999px;
   font-weight: var(--weight-bold);

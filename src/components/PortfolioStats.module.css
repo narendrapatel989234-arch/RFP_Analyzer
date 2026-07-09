@@ -1,5 +1,5 @@
 .statsCard {
-  background-color: var(--bg-surface-1, #ffffff);
+  background-color: var(--White, #ffffff);
   border-radius: 16px;
   border: 1px solid var(--border-default, #e5e7eb);
   padding: 16px 24px;
@@ -34,13 +34,13 @@
 .titleText {
   font-size: 13px;
   font-weight: 700;
-  color: #111827;
+  color: var(--Content-Primary, #111827);
 }
 
 .largeCount {
   font-size: 32px;
   font-weight: 300;
-  color: #111827;
+  color: var(--Content-Primary, #111827);
   line-height: 1;
   letter-spacing: -0.5px;
 }
@@ -104,7 +104,7 @@
 }
 
 .metricCard {
-  background-color: #f3f4f6;
+  background-color: var(--Background-Secondary-Plain, #f3f4f6);
   border-radius: 12px;
   padding: 12px;
   display: flex;
@@ -129,11 +129,11 @@
 .metricValue {
   font-size: 16px;
   font-weight: 700;
-  color: #111827;
+  color: var(--Content-Primary, #111827);
 }
 
 .metricCardHighlighted {
-  background-color: #e5e7eb;
+  background-color: var(--Background-Secondary-Plain, #e5e7eb);
   border: 1px solid #d1d5db;
 }
 
@@ -142,5 +142,5 @@
 }
 
 .metricCardHighlighted .metricValue {
-  color: #111827;
+  color: var(--Content-Primary, #111827);
 }

@@ -37,11 +37,11 @@
 }
 
 .completed {
-  color: #111827;
+  color: var(--Content-Primary, #111827);
 }
 
 .in-progress {
-  color: #111827;
+  color: var(--Content-Primary, #111827);
 }
 
 .not-started {
@@ -64,7 +64,7 @@
 }
 
 .connectorActive {
-  border-left: 2px solid #111827;
+  border-left: 2px solid var(--Content-Primary, #111827);
 }
 
 .labelContainer {

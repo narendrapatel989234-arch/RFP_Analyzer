@@ -3,6 +3,7 @@
 @import '../styles/tokens/light.css';
 @import '../styles/tokens/dark.css';
 @import '../styles/tokens/brand.css';
+@import '../styles/tokens/newcolor.css';
 
 body {
   background-color: var(--bg-default);

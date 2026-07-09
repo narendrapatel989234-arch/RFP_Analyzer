@@ -8,7 +8,7 @@
   width: 100%;
   overflow-x: auto;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--White, #ffffff);
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -21,8 +21,8 @@
 
 .th {
   padding: 16px 20px;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: var(--White, #ffffff);
+  color: var(--Content-Primary, #111827);
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
@@ -49,7 +49,7 @@
 }
 
 .tr:hover {
-  background-color: #f9fafb;
+  background-color: var(--Background-Secondary-Plain, #f9fafb);
 }
 
 .td {
@@ -92,7 +92,7 @@
 
 .rfpId {
   font-size: 13px;
-  color: #111827;
+  color: var(--Content-Primary, #111827);
   font-weight: 600;
 }
 
@@ -109,11 +109,11 @@
 }
 
 .statusPending {
-  color: #ef4444; /* muted red */
+  color: var(--status-red, #ef4444); /* muted red */
 }
 
 .statusActive {
-  color: #374151; /* dark gray */
+  color: var(--status-green, #374151); /* dark gray */
 }
 
 .dateText {
@@ -135,7 +135,7 @@
   justify-content: center;
   padding: 16px;
   border-top: 1px solid #e5e7eb;
-  background-color: #ffffff;
+  background-color: var(--White, #ffffff);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }

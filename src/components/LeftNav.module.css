@@ -4,7 +4,7 @@
   justify-content: space-between;
   width: 56px;
   height: 100%;
-  background-color: #ffffff;
+  background-color: var(--White, #ffffff);
   border-radius: 12px;
   padding: 24px 0;
   z-index: 100;
@@ -54,7 +54,7 @@
 .profileAvatar {
   width: 28px;
   height: 28px;
-  background-color: #f3f4f6;
+  background-color: var(--Background-Secondary-Plain, #f3f4f6);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
 .profileName {
   font-size: 9px;
   font-weight: 600;
-  color: #111827;
+  color: var(--Content-Primary, #111827);
   text-align: center;
 }
 
@@ -92,21 +92,21 @@
 }
 
 .navItem:hover {
-  background-color: #f7f7f7;
-  color: #000000;
+  background-color: var(--Background-Secondary-Plain, #f7f7f7);
+  color: var(--Content-Primary, #000000);
 }
 
 .active {
-  background-color: #f0f0f0;
-  color: #000000;
+  background-color: var(--Background-Secondary-Plain, #f0f0f0);
+  color: var(--Content-Primary, #000000);
   font-weight: 500;
 }
 
 .tooltip {
   position: absolute;
   left: calc(100% + 12px);
-  background-color: #111827;
-  color: #ffffff;
+  background-color: var(--Content-Primary, #111827);
+  color: var(--White, #ffffff);
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
@@ -128,7 +128,7 @@
   transform: translateY(-50%);
   border-width: 5px 5px 5px 0;
   border-style: solid;
-  border-color: transparent #111827 transparent transparent;
+  border-color: transparent var(--Content-Primary, #111827) transparent transparent;
 }
 
 .navItem:hover .tooltip {
