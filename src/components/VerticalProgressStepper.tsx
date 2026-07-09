@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { File, ListChecks, Code2, CheckCircle } from 'lucide-react'
+import { File, ListChecks, Code2, CheckCircle, Puzzle } from 'lucide-react'
 import styles from './VerticalProgressStepper.module.css'
 
 export type StepStatus = 'completed' | 'in-progress' | 'not-started'
@@ -19,10 +19,11 @@ export interface VerticalProgressStepperProps {
 
 export function VerticalProgressStepper({ activeStep = 2, onStepClick }: VerticalProgressStepperProps) {
   const steps: Step[] = [
-    { id: 1, label: 'RFP Upload', status: activeStep > 1 ? 'completed' : 'in-progress' },
-    { id: 2, label: 'Functional Confirmation', status: activeStep > 2 ? 'completed' : activeStep === 2 ? 'in-progress' : 'not-started' },
-    { id: 3, label: 'Technical Confirmation', status: activeStep > 3 ? 'completed' : activeStep === 3 ? 'in-progress' : 'not-started' },
-    { id: 4, label: 'Proposal Review', status: activeStep > 4 ? 'completed' : activeStep === 4 ? 'in-progress' : 'not-started' },
+    { id: 1, label: 'Know Your Client', status: activeStep > 1 ? 'completed' : 'in-progress' },
+    { id: 2, label: 'Solution Strategy', status: activeStep > 2 ? 'completed' : activeStep === 2 ? 'in-progress' : 'not-started' },
+    { id: 3, label: 'Business Scope', status: activeStep > 3 ? 'completed' : activeStep === 3 ? 'in-progress' : 'not-started' },
+    { id: 4, label: 'Technical Solution', status: activeStep > 4 ? 'completed' : activeStep === 4 ? 'in-progress' : 'not-started' },
+    { id: 5, label: 'Proposal Review', status: activeStep > 5 ? 'completed' : activeStep === 5 ? 'in-progress' : 'not-started' },
   ]
 
   return (
@@ -46,9 +47,10 @@ export function VerticalProgressStepper({ activeStep = 2, onStepClick }: Vertica
                 <div className={`${styles.connector} ${styles.connectorTop} ${isActiveOrCompleted ? styles.connectorActive : ''}`} style={{ visibility: index === 0 ? 'hidden' : 'visible' }} />
                 <div className={`${styles.iconContainer} ${styles[step.status]}`}>
                   {step.id === 1 && <File size={16} />}
-                  {step.id === 2 && <ListChecks size={16} />}
-                  {step.id === 3 && <Code2 size={16} />}
-                  {step.id === 4 && <CheckCircle size={16} />}
+                  {step.id === 2 && <Puzzle size={16} />}
+                  {step.id === 3 && <ListChecks size={16} />}
+                  {step.id === 4 && <Code2 size={16} />}
+                  {step.id === 5 && <CheckCircle size={16} />}
                 </div>
                 <div className={`${styles.connector} ${styles.connectorBottom} ${isConnectorActive ? styles.connectorActive : ''}`} style={{ visibility: isLast ? 'hidden' : 'visible' }} />
               </div>
