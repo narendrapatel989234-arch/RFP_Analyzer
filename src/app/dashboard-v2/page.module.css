@@ -11,7 +11,7 @@
   flex: 1;
   background-color: var(--White, #ffffff);
   border-radius: 12px;
-  padding: 24px 32px;
+  padding: 24px;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -44,6 +44,7 @@
   font-weight: 700;
   color: var(--Content-Primary, #111827);
   font-family: var(--brand-font-display, inherit);
+  margin: 0;
 }
 
 .sectionTitle {

@@ -2,20 +2,20 @@
   background-color: var(--White, #ffffff);
   border-radius: 16px;
   border: 1px solid var(--border-default, #e5e7eb);
-  padding: 16px 24px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
   height: 100%;
-  min-height: 180px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-height: 220px;
 }
 
 .topSection {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  z-index: 10;
 }
 
 .titleArea {
@@ -37,38 +37,39 @@
   color: var(--Content-Primary, #111827);
 }
 
+.totalArea {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.totalLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: none;
+}
+
 .largeCount {
   font-size: 32px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--Content-Primary, #111827);
   line-height: 1;
-  letter-spacing: -0.5px;
 }
 
-.subtext {
-  font-size: 10px;
-  font-weight: 600;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.chartArea {
-  width: 80px;
-  height: 80px;
+.chartAreaFull {
+  flex: 1;
+  width: 100%;
+  margin-top: -16px;
   position: relative;
+  min-height: 80px;
 }
 
-.chartWrapper {
-  position: relative;
+.areaChart {
   width: 100%;
   height: 100%;
-}
-
-.donutChart {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
+  display: block;
 }
 
 .floatingTooltip {
@@ -98,25 +99,22 @@
 }
 
 .bottomSection {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+  margin-top: auto;
+  z-index: 10;
 }
 
 .metricCard {
-  background-color: var(--Background-Secondary-Plain, #f3f4f6);
-  border-radius: 12px;
-  padding: 12px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.cardDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+  text-align: center;
 }
 
 .metricLabel {
@@ -132,15 +130,8 @@
   color: var(--Content-Primary, #111827);
 }
 
-.metricCardHighlighted {
-  background-color: var(--Background-Secondary-Plain, #e5e7eb);
-  border: 1px solid #d1d5db;
-}
-
-.metricCardHighlighted .metricLabel {
-  color: #4b5563;
-}
-
-.metricCardHighlighted .metricValue {
-  color: var(--Content-Primary, #111827);
+.divider {
+  width: 1px;
+  height: 32px;
+  background-color: #e5e7eb;
 }

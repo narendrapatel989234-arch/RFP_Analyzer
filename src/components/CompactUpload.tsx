@@ -38,6 +38,14 @@ export function CompactUpload() {
 
   return (
     <div className={styles.uploadWrapper}>
+      <div className={styles.topSection}>
+        <div className={styles.titleArea}>
+          <div className={styles.titleLine}>
+            <span className={styles.titleText}>Start From Here</span>
+          </div>
+        </div>
+      </div>
+
       <div 
         className={`${styles.dropZone} ${isDragging ? styles.dragging : ''}`}
         onDragOver={handleDragOver}
