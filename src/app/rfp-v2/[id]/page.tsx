@@ -44,6 +44,15 @@ export default function RFPDetailV2() {
     <div className={styles.layout}>
       <LeftNav />
       <main className={styles.mainContent}>
+        <div style={{ marginBottom: '16px', flexShrink: 0 }}>
+          <Link href="/dashboard-v2" className={styles.backBtn} aria-label="Go back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back
+          </Link>
+        </div>
         <div className={styles.contentMaxWidth}>
           <aside className={styles.stepperSidebar}>
             <VerticalProgressStepper 
@@ -58,13 +67,6 @@ export default function RFPDetailV2() {
 
           <div className={styles.rightContent}>
             <div className={styles.headerContainer}>
-              <Link href="/dashboard-v2" className={styles.backBtn} aria-label="Go back">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Back
-              </Link>
               <h2 className={styles.sectionTitle}>
                 <div className={styles.titleIcon}>
                   {isStage3 ? <Code2 size={20} strokeWidth={2.5} /> : <ListChecks size={20} strokeWidth={2.5} />}

@@ -45,15 +45,15 @@ export function VerticalProgressStepper({ activeStep = 2, onStepClick }: Vertica
               <div className={styles.stepIndicatorContainer}>
                 <div className={`${styles.connector} ${styles.connectorTop} ${isActiveOrCompleted ? styles.connectorActive : ''}`} style={{ visibility: index === 0 ? 'hidden' : 'visible' }} />
                 <div className={`${styles.iconContainer} ${styles[step.status]}`}>
-                  {step.id === 1 && <File size={20} />}
-                  {step.id === 2 && <ListChecks size={20} />}
-                  {step.id === 3 && <Code2 size={20} />}
-                  {step.id === 4 && <CheckCircle size={20} />}
+                  {step.id === 1 && <File size={16} />}
+                  {step.id === 2 && <ListChecks size={16} />}
+                  {step.id === 3 && <Code2 size={16} />}
+                  {step.id === 4 && <CheckCircle size={16} />}
                 </div>
                 <div className={`${styles.connector} ${styles.connectorBottom} ${isConnectorActive ? styles.connectorActive : ''}`} style={{ visibility: isLast ? 'hidden' : 'visible' }} />
               </div>
               <div className={styles.labelContainer}>
-                <div className={`${styles.stepLabel} ${isActiveOrCompleted ? styles.labelActive : ''}`}>
+                <div className={`${styles.stepLabel} ${step.status === 'in-progress' ? styles.labelActive : step.status === 'completed' ? styles.labelCompleted : ''}`}>
                   {step.label}
                 </div>
               </div>

@@ -29,6 +29,7 @@
 .iconContainer {
   width: 32px;
   height: 32px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,21 +38,25 @@
 }
 
 .completed {
-  color: var(--Content-Primary, #111827);
+  background-color: var(--Content-Primary-600);
+  color: var(--White);
 }
 
 .in-progress {
-  color: var(--Content-Primary, #111827);
+  background-color: var(--Lavender-400);
+  color: var(--Content-Primary-600);
 }
 
 .not-started {
-  color: #9ca3af;
+  background-color: transparent;
+  border: 2px solid var(--Background-Plain-500);
+  color: var(--Content-Primary-300);
 }
 
 .connector {
   width: 0;
   flex: 1;
-  border-left: 2px dotted #9ca3af;
+  border-left: 2px dashed var(--Background-Plain-500);
   transition: border-color 0.3s ease;
 }
 
@@ -64,25 +69,30 @@
 }
 
 .connectorActive {
-  border-left: 2px solid var(--Content-Primary, #111827);
+  border-left: 2px solid var(--Content-Primary-300);
 }
 
 .labelContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: var(--space-4); /* spacing between steps */
 }
 
 .stepLabel {
   font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  color: var(--text-secondary);
+  font-weight: var(--weight-regular);
+  color: var(--Content-Primary-300);
   margin-bottom: 2px;
 }
 
 .labelActive {
-  color: var(--text-primary);
+  color: var(--Content-Primary-600);
+  font-weight: var(--weight-semibold);
+}
+
+.labelCompleted {
+  color: var(--Content-Primary-600);
+  font-weight: var(--weight-semibold);
 }
 
 .stepSublabel {

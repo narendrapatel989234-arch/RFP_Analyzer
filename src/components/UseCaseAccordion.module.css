@@ -6,17 +6,11 @@
 }
 
 .accordionItem {
-  background-color: var(--Background-Secondary-Plain, #EEECEC);
-  border: none;
+  background-color: var(--Background-Plain-200);
+  border: 1px solid var(--Background-Plain-400);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: none;
-  transition: background-color var(--duration-fast);
-}
-
-.accordionItem:hover {
-  background-color: var(--Background-Secondary-Plain, #E2E0E0);
-  filter: brightness(0.95);
 }
 
 .accordionHeader {
@@ -26,10 +20,11 @@
   padding: var(--space-4) var(--space-5);
   cursor: pointer;
   background-color: transparent;
+  transition: background-color var(--duration-fast);
 }
 
 .accordionHeader:hover {
-  background-color: transparent;
+  background-color: var(--Background-Plain-300);
 }
 
 .headerLeft {
@@ -88,12 +83,13 @@
 }
 
 .moduleChip {
-  background-color: var(--White, #ffffff);
-  color: var(--Content-Primary, #111827);
+  background-color: var(--Lavender-100);
+  color: var(--Lavender-600);
   font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
-  padding: 4px 8px;
-  border-radius: var(--radius-full);
+  font-weight: var(--weight-medium);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--Lavender-300);
 }
 
 .actionChip {
@@ -132,7 +128,7 @@
   background-color: transparent;
   border: 1px solid transparent;
   color: var(--Content-Primary, #111827);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   padding: 4px 12px;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -147,9 +143,9 @@
 
 .modifyCtaBtn {
   background-color: transparent;
-  border: 1px solid var(--Content-Primary, #111827);
-  color: var(--Content-Primary, #111827);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--Content-Primary-300);
+  color: var(--Content-Primary-500);
+  border-radius: 9999px;
   padding: 4px 12px;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
@@ -176,8 +172,8 @@
 
 .accordionContent {
   padding: var(--space-5);
-  background-color: var(--action-secondary-bg-default);
-  border-top: 1px solid var(--border-subtle);
+  background-color: var(--Background-Plain-200);
+  border-top: 1px solid var(--Background-Plain-400);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
@@ -751,7 +747,7 @@
   background: transparent;
   border: 1px solid var(--border-strong);
   color: var(--text-primary);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
   cursor: pointer;
@@ -767,7 +763,7 @@
   background: var(--Content-Primary, #111827);
   border: none;
   color: var(--White, #ffffff);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   font-weight: var(--weight-bold);
   font-size: var(--text-sm);
   cursor: pointer;
