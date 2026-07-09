@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { UploadCloud } from 'lucide-react'
 import styles from './CompactUpload.module.css'
 
 export function CompactUpload() {
@@ -53,6 +54,9 @@ export function CompactUpload() {
         onDrop={handleDrop}
         onClick={handleButtonClick}
       >
+        <div className={styles.iconWrapper}>
+          <UploadCloud size={24} strokeWidth={2} />
+        </div>
         <p className={styles.uploadText}>Drop your RFP here or Browse</p>
         <p className={styles.subText}>Format: PDF, DOCX — Max file size: 25 MB</p>
         <input 
