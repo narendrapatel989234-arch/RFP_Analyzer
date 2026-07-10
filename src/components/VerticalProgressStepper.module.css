@@ -3,6 +3,13 @@
   padding: var(--space-4) 0;
 }
 
+.stepperTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--Content-Primary-600, #111827);
+  margin-bottom: 24px;
+}
+
 .stepperWrapper {
   display: flex;
   flex-direction: column;

@@ -28,6 +28,7 @@ export function VerticalProgressStepper({ activeStep = 2, onStepClick }: Vertica
 
   return (
     <div className={styles.stepperContainer}>
+      <h3 className={styles.stepperTitle}>Proposal Journey</h3>
       <div className={styles.stepperWrapper}>
         {steps.map((step, index) => {
           const isLast = index === steps.length - 1
