@@ -38,7 +38,7 @@
 }
 
 .dropZone {
-  background-color: var(--Background-Secondary-Plain, #f9fafb);
+  background-color: #f3f4f6;
   border: 2px dashed #d1d5db;
   border-radius: 12px;
   display: flex;
@@ -61,7 +61,7 @@
 }
 
 .dropZone:hover {
-  background-color: #f3f4f6;
+  background-color: var(--Background-Secondary-Plain, #EDEDED);
   border-color: #9ca3af;
 }
 
@@ -83,6 +83,10 @@
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 4px;
+}
+
+.lavenderText {
+  color: var(--Lavender-600, #7673E0);
 }
 
 .subText {

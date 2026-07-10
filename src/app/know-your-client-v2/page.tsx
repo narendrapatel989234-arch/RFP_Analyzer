@@ -523,7 +523,7 @@ export default function KnowYourClientPage() {
             <div className={styles.uploadIconCircle}>
               <Upload size={16} strokeWidth={2} />
             </div>
-            <p className={styles.uploadText}>Drop your RFP here or Browse</p>
+            <p className={styles.uploadText}>Drop your RFP here or <span className={styles.lavenderText}>Browse</span></p>
             <p className={styles.uploadHint}>Format: PDF, DOCX — Max file size: 25 MB</p>
           </div>
 

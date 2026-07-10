@@ -299,7 +299,7 @@
 }
 
 .uploadZone {
-  background-color: var(--Background-Secondary-Plain, #f9fafb);
+  background-color: #f3f4f6;
   border: 2px dashed #d1d5db;
   border-radius: 12px;
   padding: 12px 16px;
@@ -314,7 +314,7 @@
 }
 
 .uploadZone:hover {
-  background-color: #f3f4f6;
+  background-color: var(--Background-Secondary-Plain, #EDEDED);
   border-color: #9ca3af;
 }
 
@@ -350,6 +350,10 @@
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 2px;
+}
+
+.lavenderText {
+  color: var(--Lavender-600, #7673E0);
 }
 
 .uploadHint {

@@ -64,7 +64,7 @@ export function CompactUpload() {
           <div className={styles.iconWrapper}>
             <Upload size={24} strokeWidth={2} />
           </div>
-          <p className={styles.uploadText}>Drop your RFP here or Browse</p>
+          <p className={styles.uploadText}>Drop your RFP here or <span className={styles.lavenderText}>Browse</span></p>
           <p className={styles.subText}>Format: PDF, DOCX — Max file size: 25 MB</p>
           <input 
             type="file" 
