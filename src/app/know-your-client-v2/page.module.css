@@ -187,7 +187,7 @@
 .trashBtnList {
   width: 32px;
   height: 32px;
-  background: color-mix(in srgb, var(--status-red) 12%, transparent);
+  background: transparent;
   color: var(--status-red);
   border: none;
   border-radius: var(--radius-sm);
@@ -195,8 +195,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background var(--duration-fast), color var(--duration-fast);
+  transition: opacity var(--duration-fast), background var(--duration-fast);
   flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fileCard:hover .trashBtnList {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .trashBtnList svg {
@@ -205,8 +212,7 @@
 }
 
 .trashBtnList:hover {
-  background: color-mix(in srgb, var(--status-red) 20%, transparent);
-  color: var(--status-red);
+  background: color-mix(in srgb, var(--status-red) 12%, transparent);
 }
 
 .promptCard {
@@ -293,66 +299,64 @@
 }
 
 .uploadZone {
-  background-color: color-mix(in srgb, var(--Background-Plain-300) 30%, var(--bg-surface-1));
-  border: 2px dashed var(--Lavender-600);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
+  background-color: var(--Background-Secondary-Plain, #f9fafb);
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 12px 16px;
   text-align: center;
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: visible;
-  box-sizing: border-box;
   width: 100%;
 }
 
 .uploadZone:hover {
-  background-color: color-mix(in srgb, var(--Background-Plain-400) 35%, var(--bg-surface-1));
-  border-color: var(--Lavender-500);
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
 }
 
 .uploadZone.isDragging {
-  border-style: solid;
-  background-color: color-mix(in srgb, var(--Background-Plain-400) 50%, var(--bg-surface-1));
-  border-color: var(--Lavender-500);
-}
-
-.uploadZone:focus-visible {
-  border-color: var(--border-focus);
-  box-shadow: var(--shadow-focus);
-  outline: none;
+  opacity: 0.8;
+  transform: scale(0.98);
+  border-color: #111827;
+  background-color: #f3f4f6;
+  border-style: dashed;
 }
 
 .uploadIconCircle {
-  width: 40px;
-  height: 40px;
-  background: var(--Background-Plain-300);
-  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  background-color: var(--White, #ffffff);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-2);
+  margin-bottom: 8px;
+  color: var(--Content-Primary, #111827);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .uploadIconCircle svg {
-  width: 20px;
-  height: 20px;
-  color: var(--text-secondary);
+  width: 16px;
+  height: 16px;
+  color: var(--Content-Primary, #111827);
 }
 
 .uploadText {
-  color: var(--Content-Primary-600);
-  font-size: var(--text-base);
-  font-weight: var(--weight-medium);
+  color: var(--Content-Primary, #111827);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
 }
 
 .uploadHint {
-  color: var(--text-tertiary);
-  font-size: var(--text-sm);
-  margin-top: var(--space-1);
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 0;
 }
 
 .fileListStandalone {
@@ -940,21 +944,28 @@
 }
 
 .extractedCardDeleteBtn {
-  background: color-mix(in srgb, var(--status-red) 12%, transparent);
+  background: transparent;
   border: none;
-  color: var(--status-red);
+  color: var(--text-tertiary);
   cursor: pointer;
   padding: var(--space-1);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
-  transition: color 0.2s, background-color 0.2s;
+  transition: color 0.2s, opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.extractedCard:hover .extractedCardDeleteBtn {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .extractedCardDeleteBtn:hover {
-  color: var(--colors-neutral-0);
-  background-color: var(--action-destructive-bg-default);
+  color: var(--status-red);
+  background-color: transparent;
 }
 
 .extractedCardChevron {
@@ -1672,9 +1683,14 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.outlineNextBtn:hover {
+.outlineNextBtn:hover:not(:disabled) {
   background: var(--Content-Primary-600);
   color: var(--White, #ffffff);
+}
+.outlineNextBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .warningBannerToast {

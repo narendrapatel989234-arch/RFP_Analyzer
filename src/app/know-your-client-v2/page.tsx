@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { LeftNav } from '@/components/LeftNav'
 import { VerticalProgressStepper } from '@/components/VerticalProgressStepper'
-import { Plus, File, RefreshCw, AlertTriangle, BookOpen, ArrowRight } from 'lucide-react'
+import { Plus, File, RefreshCw, AlertTriangle, BookOpen, ArrowRight, Upload } from 'lucide-react'
 import styles from './page.module.css'
 import { UploadZone } from '@/components/UploadZone'
 import { ExtractedDocument, PendingExtraction, OutlineNode, DUMMY_OUTLINE_DATA } from '@/components/rfp-components'
@@ -35,6 +35,7 @@ export default function KnowYourClientPage() {
   const [editingCell, setEditingCell] = useState<{ docId: string, rowId: string, field: 'name' | 'description' | 'docDescription' } | null>(null)
   const [dummySupportingDocs, setDummySupportingDocs] = useState(['RFP_Document.pdf', 'Compliance.pdf', 'Main_Features.pdf'])
   const [activeSummaryTab, setActiveSummaryTab] = useState(0)
+  const [activeSummaryTab2, setActiveSummaryTab2] = useState(0)
   const supportingDocsInputRef = useRef<HTMLInputElement>(null)
   const [isSummaryRefreshing, setIsSummaryRefreshing] = useState(false)
   const [documentsChanged, setDocumentsChanged] = useState(false)
@@ -492,16 +493,6 @@ export default function KnowYourClientPage() {
         <section>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
             <label className={styles.sectionLabel} style={{ marginBottom: 0 }}>RFP Documents</label>
-            {dummySupportingDocs.length > 0 && !isFromFunctionalConfirmation && (
-              <button
-                className={styles.addCapabilitiesBtn}
-                onClick={() => supportingDocsInputRef.current?.click()}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}
-              >
-                <Plus size={16} strokeWidth={2.5} />
-                Add Document
-              </button>
-            )}
             <input
               type="file"
               accept=".pdf,.docx,.doc"
@@ -512,48 +503,32 @@ export default function KnowYourClientPage() {
             />
           </div>
 
-          {dummySupportingDocs.length === 0 ? (
-            <div
-              className={styles.uploadZone}
-              role="button"
-              tabIndex={0}
-              aria-label="Upload RFP Supporting Documents"
-              onDragOver={(e) => e.preventDefault()}
-              onDragLeave={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                if (e.dataTransfer.files?.length) {
-                  const newFileNames = Array.from(e.dataTransfer.files).map(f => f.name)
-                  setDummySupportingDocs(prev => [...prev, ...newFileNames])
-                  setDocumentsChanged(true)
-                }
-              }}
-              onClick={() => supportingDocsInputRef.current?.click()}
-            >
-              <div className={styles.uploadIconCircle}>
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
-              </div>
-              <div className={styles.uploadText}>
-                <span style={{ color: 'var(--text-primary)' }}>Drop files or </span>
-                Browse
-              </div>
-              <div className={styles.uploadHint}>
-                PDF, DOCX &amp; Max file size: 25 MB &mdash; multiple files allowed
-              </div>
+          <div
+            className={styles.uploadZone}
+            role="button"
+            tabIndex={0}
+            aria-label="Upload RFP Supporting Documents"
+            onDragOver={(e) => e.preventDefault()}
+            onDragLeave={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.files?.length) {
+                const newFileNames = Array.from(e.dataTransfer.files).map(f => f.name)
+                setDummySupportingDocs(prev => [...prev, ...newFileNames])
+                setDocumentsChanged(true)
+              }
+            }}
+            onClick={() => supportingDocsInputRef.current?.click()}
+          >
+            <div className={styles.uploadIconCircle}>
+              <Upload size={16} strokeWidth={2} />
             </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 'var(--space-4)' }}>
+            <p className={styles.uploadText}>Drop your RFP here or Browse</p>
+            <p className={styles.uploadHint}>Format: PDF, DOCX — Max file size: 25 MB</p>
+          </div>
+
+          {dummySupportingDocs.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
               {dummySupportingDocs.map((doc, idx) => (
                 <div 
                   key={idx} 
@@ -592,8 +567,8 @@ export default function KnowYourClientPage() {
           )}
         </section>
 
-        {/* Section 1.75 - RFP Summary */}
-        <section>
+        {/* Section 1.8 - RFP Insights */}
+        <section style={{ marginTop: 'var(--space-8)' }}>
           <div className={styles.summaryHeader}>
             <label className={styles.sectionLabel} style={{ marginBottom: 'var(--space-2)' }}>RFP Insights</label>
           </div>
@@ -613,27 +588,28 @@ export default function KnowYourClientPage() {
               </button>
             </div>
           )}
+          
           <div className={styles.summaryTabsHeader}>
             {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements', 'Risks'].map((tabName, idx) => (
               <button
                 key={idx}
-                className={`${styles.summaryTabBtn} ${activeSummaryTab === idx ? styles.summaryTabActive : ''}`}
-                onClick={() => setActiveSummaryTab(idx)}
+                className={`${styles.summaryTabBtn} ${activeSummaryTab2 === idx ? styles.summaryTabActive : ''}`}
+                onClick={() => setActiveSummaryTab2(idx)}
               >
                 {tabName}
               </button>
             ))}
           </div>
           <div className={styles.summaryContent}>
-            {isSummaryRefreshing ? (
-              <div className={styles.summaryLoading}>
-                <div className={styles.skeletonRow} style={{ width: '60%' }} />
-                <div className={styles.skeletonRow} style={{ width: '80%' }} />
-                <div className={styles.skeletonRow} style={{ width: '50%' }} />
-              </div>
-            ) : (
-              <>
-                {activeSummaryTab === 0 && (
+                {isSummaryRefreshing ? (
+                  <div className={styles.summaryLoading}>
+                    <div className={styles.skeletonRow} style={{ width: '60%' }} />
+                    <div className={styles.skeletonRow} style={{ width: '80%' }} />
+                    <div className={styles.skeletonRow} style={{ width: '50%' }} />
+                  </div>
+                ) : (
+                  <>
+                {activeSummaryTab2 === 0 && (
                   <table className={styles.summaryTable}>
                     <thead>
                       <tr>
@@ -651,7 +627,7 @@ export default function KnowYourClientPage() {
                     </tbody>
                   </table>
                 )}
-                {activeSummaryTab === 1 && (
+                {activeSummaryTab2 === 1 && (
                   <table className={styles.summaryTable}>
                     <thead>
                       <tr>
@@ -671,7 +647,7 @@ export default function KnowYourClientPage() {
                     </tbody>
                   </table>
                 )}
-                {activeSummaryTab === 2 && (
+                {activeSummaryTab2 === 2 && (
                   <div className={styles.summaryListContainer}>
                     <div className={styles.summarySubSection}>
                       <h4 className={styles.summarySubTitle}>Business & AI Capabilities</h4>
@@ -719,7 +695,7 @@ export default function KnowYourClientPage() {
                     </div>
                   </div>
                 )}
-                {activeSummaryTab === 3 && (
+                {activeSummaryTab2 === 3 && (
                   <div className={styles.summaryListContainer}>
                     <div className={styles.summarySubSection}>
                       <h4 className={styles.summarySubTitle}>Technical Requirements</h4>
@@ -737,7 +713,7 @@ export default function KnowYourClientPage() {
                     </div>
                   </div>
                 )}
-                {activeSummaryTab === 4 && (
+                {activeSummaryTab2 === 4 && (
                   <div className={styles.summaryListContainer}>
                     <div className={styles.summarySubSection}>
                       <h4 className={styles.summarySubTitle}>Proposal Deliverables</h4>
@@ -766,7 +742,7 @@ export default function KnowYourClientPage() {
                     </div>
                   </div>
                 )}
-                {activeSummaryTab === 5 && (
+                {activeSummaryTab2 === 5 && (
                   <table className={styles.summaryTable}>
                     <thead>
                       <tr>
@@ -785,7 +761,7 @@ export default function KnowYourClientPage() {
                     </tbody>
                   </table>
                 )}
-                {activeSummaryTab === 6 && (
+                {activeSummaryTab2 === 6 && (
                   <div className={styles.summaryListContainer}>
                     <div className={styles.summarySubSection}>
                       <h4 className={styles.summarySubTitle}>Risks</h4>
@@ -794,16 +770,16 @@ export default function KnowYourClientPage() {
                           <li>Aggressive timeline (14 months) for full AI rollout</li>
                           <li>Strict data residency requirements in UAE Sovereign Cloud</li>
                           <li>Integration complexity with legacy ADJD on-premise systems</li>
-                          <li>High accuracy requirement for Arabic NLP processing</li>
-                          <li>Change management and adoption by existing judicial staff</li>
+                          <li>Potential translation gaps for nuanced Arabic legal terminology</li>
+                          <li>High dependency on ADJD providing accurate historical case data</li>
                         </ul>
                       </div>
                     </div>
                   </div>
                 )}
-              </>
-            )}
-          </div>
+                  </>
+                )}
+              </div>
         </section>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-end', marginTop: 'var(--space-4)' }}>
@@ -811,6 +787,7 @@ export default function KnowYourClientPage() {
                 className={styles.outlineNextBtn}
                 onClick={() => router.push('/solution-strategy-v2')}
                 aria-label="Next step"
+                disabled={documentsChanged}
               >
                 Next
                 <ArrowRight size={16} strokeWidth={2.5} />

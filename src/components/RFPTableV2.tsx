@@ -72,7 +72,7 @@ export function RFPTableV2() {
   };
 
   const sortedData = React.useMemo(() => {
-    let sortableItems = [...mockData];
+    const sortableItems = [...mockData];
     if (sortConfig !== null) {
       sortableItems.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
