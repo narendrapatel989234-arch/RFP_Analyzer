@@ -572,22 +572,7 @@ export default function KnowYourClientPage() {
           <div className={styles.summaryHeader}>
             <label className={styles.sectionLabel} style={{ marginBottom: 'var(--space-2)' }}>RFP Insights</label>
           </div>
-          {documentsChanged && !isFromFunctionalConfirmation && (
-            <div className={styles.warningBannerToast}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                <AlertTriangle size={16} />
-                <span>Documents have changed — refresh RFP Summary to reflect the latest data.</span>
-              </div>
-              <button
-                className={styles.toastRefreshBtn}
-                onClick={handleRefreshSummary}
-                disabled={isSummaryRefreshing || !documentsChanged}
-              >
-                <RefreshCw size={14} className={isSummaryRefreshing ? styles.spinning : ''} />
-                {isSummaryRefreshing ? 'Refreshing...' : 'Refresh Summary'}
-              </button>
-            </div>
-          )}
+
           
           <div className={styles.summaryTabsHeader}>
             {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements', 'Risks'].map((tabName, idx) => (
@@ -600,8 +585,36 @@ export default function KnowYourClientPage() {
               </button>
             ))}
           </div>
-          <div className={styles.summaryContent}>
-                {isSummaryRefreshing ? (
+          <div className={styles.summaryContent} style={{ position: 'relative', height: '400px', overflowY: (documentsChanged && !isFromFunctionalConfirmation && !isSummaryRefreshing) ? 'hidden' : 'auto' }}>
+            {documentsChanged && !isFromFunctionalConfirmation && !isSummaryRefreshing ? (
+              <div className={styles.insightsBlurOverlay}>
+                <div className={styles.insightsFakeContent}>
+                  <div className={styles.fakeLine} style={{ width: '80%', height: '24px', marginBottom: '16px' }} />
+                  <div className={styles.fakeLine} style={{ width: '100%', height: '16px', marginBottom: '12px' }} />
+                  <div className={styles.fakeLine} style={{ width: '90%', height: '16px', marginBottom: '12px' }} />
+                  <div className={styles.fakeLine} style={{ width: '95%', height: '16px', marginBottom: '24px' }} />
+                  <div className={styles.fakeLine} style={{ width: '60%', height: '20px', marginBottom: '16px' }} />
+                  <div className={styles.fakeLine} style={{ width: '100%', height: '16px', marginBottom: '12px' }} />
+                  <div className={styles.fakeLine} style={{ width: '85%', height: '16px', marginBottom: '12px' }} />
+                </div>
+                <div className={styles.insightsCardWrapper}>
+                  <div className={styles.insightsBlurCard}>
+                    <div className={styles.insightsBlurIcon}>
+                      <AlertTriangle size={24} />
+                    </div>
+                    <h3 className={styles.insightsBlurTitle}>Documents have changed — refresh to see the latest insights</h3>
+                    <button
+                      className={styles.insightsBlurBtn}
+                      onClick={handleRefreshSummary}
+                      disabled={isSummaryRefreshing}
+                    >
+                      <RefreshCw size={16} className={isSummaryRefreshing ? styles.spinning : ''} />
+                      {isSummaryRefreshing ? 'Refreshing...' : 'Refresh Summary'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : isSummaryRefreshing ? (
                   <div className={styles.summaryLoading}>
                     <div className={styles.skeletonRow} style={{ width: '60%' }} />
                     <div className={styles.skeletonRow} style={{ width: '80%' }} />
@@ -782,7 +795,7 @@ export default function KnowYourClientPage() {
               </div>
         </section>
 
-            <div className={styles.actionRow} style={{ justifyContent: 'flex-end', marginTop: 'var(--space-4)' }}>
+            <div className={styles.actionRow} style={{ justifyContent: 'flex-start', marginTop: 'var(--space-4)' }}>
               <button
                 className={styles.outlineNextBtn}
                 onClick={() => router.push('/solution-strategy-v2')}

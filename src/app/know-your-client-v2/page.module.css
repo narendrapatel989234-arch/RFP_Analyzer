@@ -1703,8 +1703,91 @@
   border-radius: 8px;
   margin-bottom: var(--space-4);
   width: 100%;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+}
+
+.insightsBlurOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.insightsFakeContent {
+  position: absolute;
+  inset: 0;
+  padding: 24px;
+  filter: blur(6px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fakeLine {
+  background-color: #9ca3af;
+  border-radius: 4px;
+}
+
+.insightsCardWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.insightsBlurCard {
+  background-color: var(--White, #ffffff);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.insightsBlurIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #FEF3C7; /* amber-100 */
+  color: #D97706; /* amber-600 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.insightsBlurTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--Content-Primary, #111827);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.insightsBlurBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--Content-Primary, #111827);
+  color: var(--White, #ffffff);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.insightsBlurBtn:hover {
+  background-color: #374151;
 }
 
 .toastRefreshBtn {
