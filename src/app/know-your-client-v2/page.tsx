@@ -614,7 +614,7 @@ export default function KnowYourClientPage() {
             </div>
           )}
           <div className={styles.summaryTabsHeader}>
-            {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements'].map((tabName, idx) => (
+            {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements', 'Risks'].map((tabName, idx) => (
               <button
                 key={idx}
                 className={`${styles.summaryTabBtn} ${activeSummaryTab === idx ? styles.summaryTabActive : ''}`}
@@ -784,6 +784,22 @@ export default function KnowYourClientPage() {
                       <tr><td>Working Software Delivery</td><td><span className={styles.statusChipGreen}>Mandatory</span></td></tr>
                     </tbody>
                   </table>
+                )}
+                {activeSummaryTab === 6 && (
+                  <div className={styles.summaryListContainer}>
+                    <div className={styles.summarySubSection}>
+                      <h4 className={styles.summarySubTitle}>Risks</h4>
+                      <div className={styles.readOnlyBox}>
+                        <ul className={styles.summaryOrderedList}>
+                          <li>Aggressive timeline (14 months) for full AI rollout</li>
+                          <li>Strict data residency requirements in UAE Sovereign Cloud</li>
+                          <li>Integration complexity with legacy ADJD on-premise systems</li>
+                          <li>High accuracy requirement for Arabic NLP processing</li>
+                          <li>Change management and adoption by existing judicial staff</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </>
             )}

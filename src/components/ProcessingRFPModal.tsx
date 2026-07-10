@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { X, CheckCircle2, UploadCloud, Search } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import styles from './ProcessingRFPModal.module.css'
 
 interface ProcessingRFPModalProps {
@@ -18,9 +18,6 @@ export function ProcessingRFPModal({ isOpen, onClose, onComplete }: ProcessingRF
     }
 
     let currentProgress = 0
-    // Total progress takes ~4.5s (2s + 2.5s from previous requirements, or we can just use 100ms * 45 steps)
-    // Let's do 45 steps of 100ms each, so ~4.5 seconds for 100%
-    // 100 / 45 ≈ 2.22 per step
     const interval = setInterval(() => {
       currentProgress += 2.22
       if (currentProgress >= 100) {
@@ -40,49 +37,63 @@ export function ProcessingRFPModal({ isOpen, onClose, onComplete }: ProcessingRF
 
   if (!isOpen) return null
 
-  const isExtracting = progress > 50
-  const isComplete = progress >= 100
+  // Status flags based on progress threshold (50%)
+  const isUploadingComplete = progress >= 50
+  const isExtractingComplete = progress >= 100
+  const isExtractingActive = progress >= 50 && progress < 100
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
-        <div className={styles.modalHeader}>
-          <div className={styles.titleWrapper}>
-            <h2 className={styles.modalTitle}>Processing your RFP</h2>
-            <p className={styles.modalSubtitle}>Please wait while we process and analyse your documents.</p>
-          </div>
-          <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">
-            <X size={20} />
-          </button>
-        </div>
-
         <div className={styles.modalBody}>
-          <div className={styles.stepContainer}>
-            <div className={styles.spinnerContainer}>
-              <div className={styles.spinner}></div>
+          
+          <div className={styles.spinnerWrapper}>
+            <div className={styles.spinnerRing}></div>
+            <div className={styles.waveform}>
+              <div className={styles.waveBar}></div>
+              <div className={styles.waveBar}></div>
+              <div className={styles.waveBar}></div>
+              <div className={styles.waveBar}></div>
             </div>
-            
-            <div className={styles.stepHeader}>
-              <div className={`${styles.iconWrapper} ${isComplete ? styles.complete : styles.active}`}>
-                {isComplete ? (
-                  <CheckCircle2 size={20} fill="currentColor" color="white" />
-                ) : isExtracting ? (
-                  <Search size={20} />
+          </div>
+
+          <p className={styles.smallText}>Just a moment...</p>
+          <h2 className={styles.boldText}>We&apos;re building your RFP insights</h2>
+
+          <div className={styles.statusContainer}>
+            {/* Uploading Status */}
+            <div className={styles.statusItem}>
+              <div className={styles.statusIcon}>
+                {isUploadingComplete ? (
+                  <CheckCircle2 size={24} fill="var(--Lavender-600, #7673E0)" color="white" />
                 ) : (
-                  <UploadCloud size={20} />
+                  <div className={styles.pulseCircle}></div>
                 )}
               </div>
-              <span className={`${styles.stepLabel} ${styles.active}`}>
-                {isExtracting ? 'Extracting Insights' : 'Uploading Documents'}
+              <span className={`${styles.statusText} ${!isUploadingComplete ? styles.active : ''}`}>
+                Uploading the document
               </span>
             </div>
-            <div className={styles.progressBarTrack}>
-              <div className={styles.progressBarFill} style={{ width: `${progress}%` }}></div>
+
+            {/* Extracting Status */}
+            <div className={styles.statusItem}>
+              <div className={styles.statusIcon}>
+                {isExtractingComplete ? (
+                  <CheckCircle2 size={24} fill="var(--Lavender-600, #7673E0)" color="white" />
+                ) : isExtractingActive ? (
+                  <div className={styles.pulseCircle}></div>
+                ) : (
+                  <div className={styles.pendingCircle}></div>
+                )}
+              </div>
+              <span className={`${styles.statusText} ${isExtractingActive ? styles.active : ''}`}>
+                Extracting Insights
+              </span>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   )
 }
-

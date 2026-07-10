@@ -199,6 +199,7 @@ export default function RFPDetailsPage() {
   const [partnerCapabilitiesDocs, setPartnerCapabilitiesDocs] = useState<ExtractedDocument[]>([])
   const [pendingExtractions, setPendingExtractions] = useState<PendingExtraction[]>([])
   const [editingCell, setEditingCell] = useState<{ docId: string, rowId: string, field: 'name' | 'description' | 'docDescription' } | null>(null)
+  const [isProposalTemplateSaved, setIsProposalTemplateSaved] = useState(false)
 
   // Snapshot state for Cancel/Save functionality
   const [capabilitiesSnapshot, setCapabilitiesSnapshot] = useState<{
@@ -235,6 +236,9 @@ export default function RFPDetailsPage() {
   }
 
   const handleSaveCapabilitiesModal = () => {
+    if (activeCapabilityTab === 2) {
+      setIsProposalTemplateSaved(true)
+    }
     setCapabilitiesSnapshot(null)
     setIsCapabilitiesModalOpen(false)
   }
@@ -492,7 +496,6 @@ export default function RFPDetailsPage() {
     setShowToast(true)
     setTimeout(() => {
       setShowToast(false)
-      router.push('/')
     }, 2500)
   }
 
@@ -550,6 +553,10 @@ export default function RFPDetailsPage() {
     })
 
     triggerToast("RFP submitted successfully!")
+    
+    setTimeout(() => {
+      router.push('/dashboard-v2')
+    }, 1500)
   }
 
   let formatBtnLabel = 'Generate with AI'
@@ -712,7 +719,7 @@ export default function RFPDetailsPage() {
           </section>
         )}
         {/* Action Row */}
-        <div className={styles.actionRow} style={{ justifyContent: isFromFunctionalConfirmation ? 'flex-end' : 'space-between' }}>
+        <div className={styles.actionRow} style={{ justifyContent: 'flex-start' }}>
           {!isFromFunctionalConfirmation && (
             <button className={styles.clearBtn} onClick={handleClearAll} aria-label="Clear all fields">
               Clear
@@ -727,9 +734,9 @@ export default function RFPDetailsPage() {
             </button>
           ) : (
             <button
-              className={styles.outlineNextBtn}
+              className={styles.submitBtn}
               onClick={handleSubmit}
-              disabled={!outlineVisible}
+              disabled={!isProposalTemplateSaved}
               aria-label="Submit RFP details"
             >
               Submit

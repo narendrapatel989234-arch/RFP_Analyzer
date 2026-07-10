@@ -693,11 +693,11 @@
 .clearBtn {
   background-color: transparent;
   border: 1px solid var(--Background-Plain-400);
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   color: var(--text-secondary);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: var(--weight-medium);
-  padding: var(--space-3) var(--space-8);
+  padding: var(--space-2) var(--space-6);
   cursor: pointer;
   transition: all var(--duration-fast);
 }
@@ -709,24 +709,24 @@
 }
 
 .submitBtn {
-  background: var(--Lavender-600);
+  background: var(--Content-Primary-600);
   color: var(--White, #ffffff);
   font-weight: var(--weight-bold);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   border: none;
-  border-radius: var(--radius-sm);
-  padding: var(--space-3) var(--space-10);
+  border-radius: 9999px;
+  padding: var(--space-2) var(--space-6);
   cursor: pointer;
   transition: background var(--duration-fast);
 }
 
 .submitBtn:hover:not(:disabled) {
-  background: var(--Lavender-500);
+  background: var(--Content-Primary-500);
 }
 
 .submitBtn:disabled {
-  background-color: var(--bg-disabled);
-  color: var(--text-disabled);
+  background-color: var(--Background-Plain-400);
+  color: var(--Content-Primary-400);
   cursor: not-allowed;
 }
 
@@ -881,44 +881,6 @@
   text-overflow: ellipsis;
   color: var(--text-primary);
   font-size: var(--text-xs);
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  top: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: color-mix(in srgb, var(--colors-status-green) 12%, var(--bg-surface-1));
-  border: 1px solid var(--status-success-border);
-  color: var(--status-success-text);
-  padding: var(--space-4) var(--space-6);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  box-shadow: var(--shadow-2);
-  font-weight: var(--weight-semibold);
-  font-size: var(--text-sm);
-  z-index: var(--z-toast);
-  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-/* Extraction Cards */
-.extractedCard {
-  background-color: var(--Background-Plain-200);
   border: 1px solid #dddbe4;
   border-radius: var(--radius-md);
   display: flex;
