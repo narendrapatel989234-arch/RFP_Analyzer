@@ -9,6 +9,8 @@
   gap: 16px;
   height: 100%;
   min-height: 220px;
+  position: relative;
+  overflow: hidden;
 }
 
 .topSection {
@@ -59,11 +61,12 @@
 }
 
 .chartAreaFull {
-  flex: 1;
-  width: 100%;
-  margin-top: -16px;
-  position: relative;
-  min-height: 80px;
+  position: absolute;
+  top: 90px;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  z-index: 1;
 }
 
 .areaChart {
@@ -102,10 +105,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #e5e7eb;
   padding-top: 16px;
   margin-top: auto;
   z-index: 10;
+  background-color: transparent;
 }
 
 .metricCard {
