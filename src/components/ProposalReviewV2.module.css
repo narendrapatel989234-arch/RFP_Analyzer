@@ -365,7 +365,7 @@
 }
 
 .ctaPrimary:hover {
-  background-color: var(--Lavender-600);
+  opacity: 0.9;
   transform: translateY(-1px);
 }
 
@@ -585,6 +585,397 @@
    ================================================== */
 .cardHeaderFlex {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalCard {
+  background: var(--bg-modal);
+  padding: 24px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: var(--shadow-3);
+}
+
+.tabContent {
+  width: 100%;
+}
+
+.summaryCard {
+  background: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  margin-bottom: 24px;
+}
+
+.summaryCardHeader {
+  background-color: var(--Background-Plain-100);
+  border-bottom: 1px solid var(--Background-Plain-300);
+  padding: 24px 32px;
+  color: var(--Content-Primary);
+}
+.summaryCardHeader h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.summaryCardHeader p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--Content-Primary-400);
+}
+
+.summaryCardBody {
+  padding: 24px;
+}
+
+.internalSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--Content-Primary);
+}
+
+.sectionText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--Content-Primary-400);
+}
+
+.divider {
+  border: 0;
+  border-bottom: 1px solid var(--Background-Plain-300);
+  margin: 20px 0;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summaryItemHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summaryBadge {
+  background-color: var(--Content-Primary-600);
+  color: var(--White);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.summaryItemTitleBlock h5 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--Content-Primary);
+}
+
+.summaryItemTitleBlock span {
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+.summaryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  border: 1px solid var(--Background-Plain-300);
+  background-color: var(--Background-Plain-100);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+/* ==================================================
+   PROPOSAL TAB STYLES
+   ================================================== */
+.proposalCard {
+  background-color: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 8px;
+  padding: 16px;
+  border-radius: 4px;
+  color: var(--Content-Primary);
+  margin-bottom: 8px;
+}
+
+.checkList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.checkList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--Content-Primary-400);
+}
+
+.architectureDiagramWrapper {
+  border: 1px solid var(--Background-Plain-300);
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--Background-Plain-100);
+}
+.architectureLayer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.architectureLayerTitle {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--Content-Primary-400);
+  text-transform: uppercase;
+  margin: 0;
+}
+.architectureBoxContainer {
+  display: flex;
+  gap: 16px;
+}
+.architectureBox {
+  flex: 1;
+  background-color: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--Content-Primary);
+}
+.architectureConnector {
+  text-align: center;
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+/* ==================================================
+   COMPANY PROFILE INTERACTIONS & MODAL
+   ================================================== */
+.cardHeaderFlex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalCard {
+  background: var(--bg-modal);
+  padding: 24px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: var(--shadow-3);
+}
+.modalCard h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--Content-Primary);
+}
+.summaryCard {
+  background: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  margin-bottom: 24px;
+}
+
+.summaryCardHeader {
+  background-color: var(--Background-Plain-100);
+  border-bottom: 1px solid var(--Background-Plain-300);
+  padding: 24px 32px;
+  color: var(--Content-Primary);
+}
+.summaryCardHeader h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.summaryCardHeader p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--Content-Primary-400);
+}
+
+.summaryCardBody {
+  padding: 24px;
+}
+
+.internalSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--Content-Primary);
+}
+
+.sectionText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--Content-Primary-400);
+}
+
+.divider {
+  border: 0;
+  border-bottom: 1px solid var(--Background-Plain-300);
+  margin: 20px 0;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summaryItemHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summaryBadge {
+  background-color: var(--Content-Primary-600);
+  color: var(--White);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.summaryItemTitleBlock h5 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--Content-Primary);
+}
+
+.summaryItemTitleBlock span {
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+.summaryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  border: 1px solid var(--Background-Plain-300);
+  background-color: var(--Background-Plain-100);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+/* ==================================================
+   PROPOSAL TAB STYLES
+   ================================================== */
+.proposalCard {
+  background-color: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 8px;
+  padding: 16px;
+  border-radius: 4px;
+  color: var(--Content-Primary);
+  margin-bottom: 8px;
+}
+
+.checkList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.checkList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--Content-Primary-400);
+}
+
+.architectureDiagramWrapper {
+  border: 1px solid var(--Background-Plain-300);
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--Background-Plain-100);
+}
+.architectureLayer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.architectureLayerTitle {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--Content-Primary-400);
+  text-transform: uppercase;
+  margin: 0;
+}
+.architectureBoxContainer {
+  display: flex;
+  gap: 16px;
+}
+.architectureBox {
+  flex: 1;
+  background-color: var(--White);
+  border: 1px solid var(--Background-Plain-300);
+  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--Content-Primary);
+}
+.architectureConnector {
+  text-align: center;
+  font-size: 12px;
+  color: var(--Content-Primary-400);
+}
+
+/* ==================================================
+   COMPANY PROFILE INTERACTIONS & MODAL
+   ================================================== */
+.cardHeaderFlex {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -612,8 +1003,8 @@
 }
 
 .iconBtn:hover {
-  background-color: var(--Lavender-200);
-  color: var(--Lavender-600);
+  background-color: var(--Content-Primary, #111827);
+  color: var(--White, #ffffff);
 }
 .infoChip {
   border: 1px solid var(--status-success-border);
@@ -733,7 +1124,7 @@
   100% { transform: rotate(360deg); }
 }
 .proposalCardHeader {
-  background-color: var(--Lavender-100);
+  background-color: transparent;
   border-bottom: 1px solid var(--Background-Plain-300);
   padding: 24px 32px;
   color: var(--Content-Primary);
@@ -764,4 +1155,19 @@
   overflow: hidden;
   box-shadow: var(--shadow-1);
   margin-bottom: 32px;
+}
+
+.problemCard {
+  border: 1px solid var(--Background-Plain-300);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background-color: transparent;
+  color: var(--Content-Primary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.problemCard:last-child {
+  margin-bottom: 0;
 }

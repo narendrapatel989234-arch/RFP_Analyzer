@@ -34,7 +34,7 @@ export default function RFPDetailV2() {
 
   const isStage3 = id === 'RFP-002'
   const isStage4 = id === 'RFP-003'
-  const activeStep = isStage4 ? 4 : isStage3 ? 3 : 2
+  const activeStep = isStage4 ? 5 : isStage3 ? 4 : 3
 
   const techStack = [
     'Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 
