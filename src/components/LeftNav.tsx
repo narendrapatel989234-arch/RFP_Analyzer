@@ -32,18 +32,27 @@ export function LeftNav() {
           />
         </Link>
         <div className={styles.navItems}>
-          {navItems.map((item) => (
+          {navItems.map((item) => {
+            const isDashboardActive = item.name === 'Dashboard' && (
+              pathname === '/dashboard-v2' || 
+              pathname.startsWith('/rfp-v2') || 
+              pathname.startsWith('/solution-strategy-v2') || 
+              pathname.startsWith('/know-your-client-v2')
+            );
+            
+            return (
             <Link 
               key={item.name} 
               href={item.path} 
-              className={`${styles.navItem} ${pathname === item.path ? styles.active : ''}`}
+              className={`${styles.navItem} ${isDashboardActive || pathname === item.path ? styles.active : ''}`}
             >
               <div className={styles.iconWrapper}>
                 {item.icon}
               </div>
               <span className={styles.tooltip}>{item.name}</span>
             </Link>
-          ))}
+            )
+          })}
         </div>
       </div>
       
