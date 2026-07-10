@@ -1243,9 +1243,9 @@
   top: 32px;
   left: 50%;
   transform: translateX(-50%);
-  background: color-mix(in srgb, var(--colors-status-green) 12%, var(--bg-surface-1));
-  border: 1px solid var(--status-success-border);
-  color: var(--status-success-text);
+  background: color-mix(in srgb, var(--status-green) 12%, var(--White, #ffffff));
+  border: 1px solid var(--status-green);
+  color: var(--status-green);
   padding: var(--space-4) var(--space-6);
   border-radius: var(--radius-md);
   display: flex;
