@@ -57,14 +57,7 @@ export default function RFPDetailV2() {
         </div>
         <div className={styles.contentMaxWidth}>
           <aside className={styles.stepperSidebar}>
-            <VerticalProgressStepper 
-              activeStep={activeStep} 
-              onStepClick={(stepId) => {
-                if (stepId === 1) {
-                  // handle navigation
-                }
-              }}
-            />
+            <VerticalProgressStepper activeStep={activeStep} isProposalReviewStage={isStage4} />
           </aside>
 
           <div className={styles.rightContent}>

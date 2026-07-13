@@ -71,7 +71,7 @@
 }
 
 .tr {
-  transition: background-color 0.2s;
+  transition: background-color var(--duration-fast, 0.2s) var(--ease-out, ease);
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -80,12 +80,9 @@
 }
 
 .tr:hover {
-  background-color: #F3F4F6;
+  background-color: var(--Background-Plain-100, #FAFAFA);
 }
 
-.tr:hover .placeholderSquare {
-  background-color: var(--White, #ffffff);
-}
 
 .td {
   padding: 16px 20px;
@@ -96,6 +93,11 @@
   padding: 16px 20px;
   vertical-align: middle;
   text-align: right;
+  color: var(--Content-Primary-300, #ABABAB);
+}
+
+.tr:hover .tdActions {
+  color: var(--Content-Primary-600, #292929);
 }
 
 .rfpInfoCell {
@@ -105,10 +107,11 @@
 }
 
 .placeholderSquare {
-  width: 32px;
-  height: 32px;
-  background-color: #F9FAFB;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm, 8px);
+  background-color: var(--Lavender-100, #F0EFFD);
+  color: var(--Lavender-600, #7673E0);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -116,7 +119,7 @@
 }
 
 .rfpIcon {
-  color: #6b7280;
+  /* Inherits color from placeholderSquare */
 }
 
 .rfpDetails {
@@ -180,8 +183,12 @@
 .arrowIcon {
   width: 16px;
   height: 16px;
-  color: #9ca3af;
   cursor: pointer;
+  transition: transform var(--duration-fast, 0.2s) var(--ease-out, ease);
+}
+
+.tr:hover .arrowIcon {
+  transform: translateX(4px);
 }
 
 .viewAllRow {

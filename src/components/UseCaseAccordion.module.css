@@ -807,7 +807,7 @@
 /* Toast */
 .toast {
   position: fixed;
-  top: 120px;
+  top: 32px;
   left: 50%;
   transform: translateX(-50%);
   /* Opaque on purpose — this floats over arbitrary page content, so the
@@ -825,6 +825,10 @@
   font-size: var(--text-sm);
   z-index: var(--z-toast);
   animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast svg {
+  color: var(--status-success-text);
 }
 
 @keyframes slideDown {

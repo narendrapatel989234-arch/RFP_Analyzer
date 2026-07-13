@@ -733,14 +733,19 @@ export default function RFPDetailsPage() {
               Next <ArrowRight size={16} />
             </button>
           ) : (
-            <button
-              className={styles.submitBtn}
-              onClick={handleSubmit}
-              disabled={!isProposalTemplateSaved}
-              aria-label="Submit RFP details"
-            >
-              Submit
-            </button>
+            <div className={`${styles.tooltipWrapper} ${!isProposalTemplateSaved ? styles.disabledWrapper : ''}`}>
+              <button
+                className={styles.submitBtn}
+                onClick={handleSubmit}
+                disabled={!isProposalTemplateSaved}
+                aria-label="Submit RFP details"
+              >
+                Submit
+              </button>
+              {!isProposalTemplateSaved && (
+                <div className={styles.tooltip}>Please generate and save the Proposal Template Format to submit</div>
+              )}
+            </div>
           )}
         </div>
 

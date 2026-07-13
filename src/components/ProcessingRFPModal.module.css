@@ -74,26 +74,41 @@
   animation: spin 1s linear infinite;
 }
 
-.waveform {
+.counterWrapper {
   display: flex;
-  gap: 6px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   height: 32px;
+  overflow: hidden;
   z-index: 1;
+  font-family: var(--font-display, inherit);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--Lavender-600, #7673E0);
 }
 
-.waveBar {
-  width: 4px;
-  background-color: var(--Lavender-600, #7673E0);
-  border-radius: 2px;
-  animation: pulseHeight 0.8s ease-in-out infinite alternate;
+.counterList {
+  display: flex;
+  flex-direction: column;
+  transition: transform 800ms ease-in-out;
 }
 
-.waveBar:nth-child(1) { animation-delay: 0s; height: 16px; }
-.waveBar:nth-child(2) { animation-delay: 0.2s; height: 28px; }
-.waveBar:nth-child(3) { animation-delay: 0.4s; height: 20px; }
-.waveBar:nth-child(4) { animation-delay: 0.1s; height: 24px; }
+.counterNumber {
+  height: 32px;
+  line-height: 32px;
+  width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.percentSign {
+  height: 32px;
+  line-height: 32px;
+  margin-left: 2px;
+  display: flex;
+  align-items: center;
+}
 
 @keyframes spin {
   from { transform: rotate(0deg); }

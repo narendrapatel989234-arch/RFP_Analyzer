@@ -77,7 +77,7 @@ export function CompactUpload() {
 
         <div className={styles.divider}>OR</div>
 
-        <button className={styles.createBtn} onClick={() => router.push('/rfp/step4-demo')}>
+        <button className={styles.createBtn} onClick={() => router.push('/know-your-client-v2?mode=new')}>
           Create New Request
         </button>
       </div>

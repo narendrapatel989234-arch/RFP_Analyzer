@@ -40,6 +40,19 @@
   gap: 24px;
   width: 100%;
   align-items: center;
+  position: relative;
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  background-color: var(--Background-Plain-400, #E0E0E0);
+  border-radius: var(--radius-md, 12px);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .profileItem {
@@ -80,6 +93,7 @@
   color: var(--Content-Primary-400, #737373);
   text-decoration: none;
   transition: all 0.2s ease;
+  z-index: 1;
 }
 
 .iconWrapper {
@@ -92,12 +106,10 @@
 }
 
 .navItem:hover {
-  background-color: var(--Background-Plain-400, #E0E0E0);
   color: var(--Content-Primary, #292929);
 }
 
 .active {
-  background-color: var(--Background-Plain-400, #E0E0E0);
   color: var(--Content-Primary, #292929);
   font-weight: var(--weight-medium, 500);
 }

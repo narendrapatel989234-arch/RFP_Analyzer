@@ -12,19 +12,48 @@ export interface Step {
   status: StepStatus
 }
 
+import { useRouter } from 'next/navigation'
+
 export interface VerticalProgressStepperProps {
   activeStep?: number;
-  onStepClick?: (stepId: number) => void;
+  isProposalReviewStage?: boolean;
 }
 
-export function VerticalProgressStepper({ activeStep = 2, onStepClick }: VerticalProgressStepperProps) {
+export function VerticalProgressStepper({ activeStep = 2, isProposalReviewStage = false }: VerticalProgressStepperProps) {
+  const router = useRouter()
+  const furthestStep = isProposalReviewStage ? 5 : activeStep;
+
+  const handleStepClick = (stepId: number) => {
+    switch (stepId) {
+      case 1:
+        router.push('/know-your-client-v2')
+        break
+      case 2:
+        router.push('/solution-strategy-v2')
+        break
+      case 3:
+        router.push('/rfp-v2/RFP-001')
+        break
+      case 4:
+        router.push('/rfp-v2/RFP-002')
+        break
+      case 5:
+        router.push('/rfp-v2/RFP-003')
+        break
+    }
+  }
   const steps: Step[] = [
-    { id: 1, label: 'Know Your Client', status: activeStep > 1 ? 'completed' : 'in-progress' },
-    { id: 2, label: 'Solution Strategy', status: activeStep > 2 ? 'completed' : activeStep === 2 ? 'in-progress' : 'not-started' },
-    { id: 3, label: 'Business Scope', status: activeStep > 3 ? 'completed' : activeStep === 3 ? 'in-progress' : 'not-started' },
-    { id: 4, label: 'Technical Solution', status: activeStep > 4 ? 'completed' : activeStep === 4 ? 'in-progress' : 'not-started' },
-    { id: 5, label: 'Proposal Review', status: activeStep > 5 ? 'completed' : activeStep === 5 ? 'in-progress' : 'not-started' },
-  ]
+    { id: 1, label: 'Know Your Client' },
+    { id: 2, label: 'Solution Strategy' },
+    { id: 3, label: 'Business Scope' },
+    { id: 4, label: 'Technical Solution' },
+    { id: 5, label: 'Proposal Review' },
+  ].map(step => {
+    let status: StepStatus = 'not-started';
+    if (step.id < furthestStep) status = 'completed';
+    else if (step.id === furthestStep) status = 'in-progress';
+    return { ...step, status };
+  })
 
   return (
     <div className={styles.stepperContainer}>
@@ -35,18 +64,17 @@ export function VerticalProgressStepper({ activeStep = 2, onStepClick }: Vertica
           const isActiveOrCompleted = step.status === 'completed' || step.status === 'in-progress'
           
           const isConnectorActive = step.status === 'completed'
-          const isClickable = step.status === 'completed' && !!onStepClick
+          const isClickable = isProposalReviewStage && step.status === 'completed' && step.id !== activeStep
 
           return (
             <div 
               key={step.id} 
-              className={styles.stepItem}
-              onClick={() => isClickable && onStepClick(step.id)}
-              style={{ cursor: isClickable ? 'pointer' : 'default' }}
+              className={`${styles.stepItem} ${isClickable ? styles.clickable : ''}`}
+              onClick={() => isClickable && handleStepClick(step.id)}
             >
               <div className={styles.stepIndicatorContainer}>
                 <div className={`${styles.connector} ${styles.connectorTop} ${isActiveOrCompleted ? styles.connectorActive : ''}`} style={{ visibility: index === 0 ? 'hidden' : 'visible' }} />
-                <div className={`${styles.iconContainer} ${styles[step.status]}`}>
+                <div className={`${styles.iconContainer} ${styles[step.status]} ${step.id === activeStep && step.status === 'completed' ? styles.viewingCompleted : ''}`}>
                   {step.id === 1 && <File size={16} />}
                   {step.id === 2 && <Puzzle size={16} />}
                   {step.id === 3 && <ListChecks size={16} />}

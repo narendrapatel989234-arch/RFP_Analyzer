@@ -257,7 +257,7 @@
 /* Toast */
 .toast {
   position: fixed;
-  top: 120px;
+  top: 32px;
   left: 50%;
   transform: translateX(-50%);
   background: color-mix(in srgb, var(--status-green) 12%, var(--White, #ffffff));
@@ -273,6 +273,10 @@
   font-size: var(--text-sm);
   z-index: var(--z-toast);
   animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast svg {
+  color: var(--status-success-text);
 }
 
 @keyframes slideDown {

@@ -22,6 +22,11 @@ export default function KnowYourClientPage() {
       setIsFromFunctionalConfirmation(true)
       const rId = params.get('rfpId')
       if (rId) setRfpId(rId)
+      setDummySupportingDocs(['RFP_Document.pdf', 'Compliance.pdf', 'Main_Features.pdf'])
+      setDocumentsChanged(false)
+    } else if (params.get('mode') === 'new') {
+      setDummySupportingDocs([])
+      setDocumentsChanged(true)
     }
   }, [])
   const [uploadedDoc, setUploadedDoc] = useState<{ name: string; size: string } | null>({ name: 'RFP_Document.pdf', size: '2.4 MB' })
@@ -796,15 +801,20 @@ export default function KnowYourClientPage() {
         </section>
 
             <div className={styles.actionRow} style={{ justifyContent: 'flex-start', marginTop: 'var(--space-4)' }}>
-              <button
-                className={styles.outlineNextBtn}
-                onClick={() => router.push('/solution-strategy-v2')}
-                aria-label="Next step"
-                disabled={documentsChanged}
-              >
-                Next
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </button>
+              <div className={`${styles.tooltipWrapper} ${documentsChanged ? styles.disabledWrapper : ''}`}>
+                <button
+                  className={styles.outlineNextBtn}
+                  onClick={() => router.push('/solution-strategy-v2')}
+                  aria-label="Next step"
+                  disabled={documentsChanged}
+                >
+                  Next
+                  <ArrowRight size={16} strokeWidth={2.5} />
+                </button>
+                {documentsChanged && (
+                  <div className={styles.tooltip}>Please refresh the RFP Summary to continue</div>
+                )}
+              </div>
             </div>
           </div>
         </div>

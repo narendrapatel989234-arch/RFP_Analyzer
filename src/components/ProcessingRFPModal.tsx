@@ -9,38 +9,54 @@ interface ProcessingRFPModalProps {
 }
 
 export function ProcessingRFPModal({ isOpen, onClose, onComplete }: ProcessingRFPModalProps) {
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(10)
+  const [completedProgress, setCompletedProgress] = useState(10)
 
   useEffect(() => {
     if (!isOpen) {
-      setProgress(0)
+      setProgress(10)
+      setCompletedProgress(10)
       return
     }
 
-    let currentProgress = 0
-    const interval = setInterval(() => {
-      currentProgress += 2.22
-      if (currentProgress >= 100) {
-        currentProgress = 100
-        setProgress(100)
-        clearInterval(interval)
-        setTimeout(() => {
-          onComplete()
-        }, 500)
-      } else {
-        setProgress(currentProgress)
-      }
-    }, 100)
+    const milestones = [10, 33, 42, 64, 100];
+    let currentIdx = 0;
+    let timeoutId: NodeJS.Timeout;
 
-    return () => clearInterval(interval)
+    const runStep = () => {
+      if (currentIdx < milestones.length - 1) {
+        currentIdx++;
+        const targetValue = milestones[currentIdx];
+        setProgress(targetValue);
+        
+        // Wait for the CSS transition (800ms) to complete before updating checkmarks
+        timeoutId = setTimeout(() => {
+          setCompletedProgress(targetValue);
+          
+          if (targetValue === 100) {
+            // The moment 100% happens and checkmark appears, navigate immediately
+            // A tiny 50ms delay ensures React paints the checkmark frame before router takeover
+            timeoutId = setTimeout(() => onComplete(), 50)
+          } else {
+            // Pause before advancing to the next milestone
+            timeoutId = setTimeout(runStep, 800)
+          }
+        }, 800)
+      }
+    }
+
+    // Initial pause at 10% before starting
+    timeoutId = setTimeout(runStep, 800)
+
+    return () => clearTimeout(timeoutId)
   }, [isOpen, onComplete])
 
   if (!isOpen) return null
 
-  // Status flags based on progress threshold (50%)
-  const isUploadingComplete = progress >= 50
-  const isExtractingComplete = progress >= 100
-  const isExtractingActive = progress >= 50 && progress < 100
+  // Status flags based on completedProgress (synchronized with visual animation finish)
+  const isUploadingComplete = completedProgress >= 64
+  const isExtractingComplete = completedProgress >= 100
+  const isExtractingActive = completedProgress >= 64 && completedProgress < 100
 
   return (
     <div className={styles.modalOverlay}>
@@ -49,11 +65,16 @@ export function ProcessingRFPModal({ isOpen, onClose, onComplete }: ProcessingRF
           
           <div className={styles.spinnerWrapper}>
             <div className={styles.spinnerRing}></div>
-            <div className={styles.waveform}>
-              <div className={styles.waveBar}></div>
-              <div className={styles.waveBar}></div>
-              <div className={styles.waveBar}></div>
-              <div className={styles.waveBar}></div>
+            <div className={styles.counterWrapper}>
+              <div 
+                className={styles.counterList}
+                style={{ transform: `translateY(-${Math.floor(progress) * 32}px)` }}
+              >
+                {Array.from({ length: 101 }).map((_, i) => (
+                  <div key={i} className={styles.counterNumber}>{i}</div>
+                ))}
+              </div>
+              <span className={styles.percentSign}>%</span>
             </div>
           </div>
 
