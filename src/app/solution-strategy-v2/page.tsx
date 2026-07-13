@@ -147,6 +147,7 @@ export default function RFPDetailsPage() {
   const [activeStep, setActiveStep] = useState(2)
   const [isFromFunctionalConfirmation, setIsFromFunctionalConfirmation] = useState(false)
   const [rfpId, setRfpId] = useState('RFP-001')
+  const [isProposalReviewStage, setIsProposalReviewStage] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -162,6 +163,8 @@ export default function RFPDetailsPage() {
       const f1 = new File([new ArrayBuffer(1024 * 1200)], "Compliance.pdf", { type: "application/pdf" })
       const f2 = new File([new ArrayBuffer(1024 * 3400)], "Main_Features.pdf", { type: "application/pdf" })
       setSupportingDocs([f1, f2])
+    } else if (params.get('mode') === 'review') {
+      setIsProposalReviewStage(true)
     }
   }, [])
   const [promptText, setPromptText] = useState('')
@@ -594,7 +597,7 @@ export default function RFPDetailsPage() {
         </div>
         <div className={styles.contentMaxWidth}>
           <aside className={styles.stepperSidebar}>
-            <VerticalProgressStepper activeStep={2} />
+            <VerticalProgressStepper activeStep={2} isProposalReviewStage={isProposalReviewStage} />
           </aside>
 
           <div className={styles.rightContent}>

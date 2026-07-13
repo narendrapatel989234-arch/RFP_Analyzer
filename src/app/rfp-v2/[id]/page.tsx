@@ -17,6 +17,14 @@ export default function RFPDetailV2() {
   const [isValidated, setIsValidated] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [showToast, setShowToast] = useState(false)
+  const [isReviewMode, setIsReviewMode] = useState(false)
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('mode') === 'review') {
+      setIsReviewMode(true)
+    }
+  }, [])
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg)
@@ -57,7 +65,7 @@ export default function RFPDetailV2() {
         </div>
         <div className={styles.contentMaxWidth}>
           <aside className={styles.stepperSidebar}>
-            <VerticalProgressStepper activeStep={activeStep} isProposalReviewStage={isStage4} />
+            <VerticalProgressStepper activeStep={activeStep} isProposalReviewStage={isStage4 || isReviewMode} />
           </aside>
 
           <div className={styles.rightContent}>
@@ -79,7 +87,29 @@ export default function RFPDetailV2() {
                   </p>
                 </div>
 
-
+              {isStage3 && (
+                <div className={styles.techStackBlock} style={{ height: 'auto', minHeight: 'fit-content' }}>
+                  <div className={styles.techStackHeader}>
+                    <div className={styles.techStackHeaderLeft}>
+                      <div className={styles.techStackIcon}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+                          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                          <polyline points="2 17 12 22 22 17" />
+                          <polyline points="2 12 12 17 22 12" />
+                        </svg>
+                      </div>
+                      <h3 className={styles.techStackTitle}>Project Tech Stack</h3>
+                    </div>
+                  </div>
+                  <div className={styles.techStackContent}>
+                    <div className={styles.techStackChips}>
+                      {techStack.map((tech, idx) => (
+                        <span key={idx} className={styles.techChip}>{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <UseCaseAccordion isStage3={isStage3} />
 
@@ -115,29 +145,6 @@ export default function RFPDetailV2() {
                   </div>
                 </div>
 
-                {isStage3 && (
-                  <div className={styles.techStackBlock}>
-                    <div className={styles.techStackHeader}>
-                      <div className={styles.techStackHeaderLeft}>
-                        <div className={styles.techStackIcon}>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                            <polyline points="2 17 12 22 22 17" />
-                            <polyline points="2 12 12 17 22 12" />
-                          </svg>
-                        </div>
-                        <h3 className={styles.techStackTitle}>Project Tech Stack</h3>
-                      </div>
-                    </div>
-                    <div className={styles.techStackContent}>
-                      <div className={styles.techStackChips}>
-                        {techStack.map((tech, idx) => (
-                          <span key={idx} className={styles.techChip}>{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </>
             )}
           </div>

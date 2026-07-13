@@ -220,7 +220,6 @@
 }
 
 .techStackBlock {
-  margin-bottom: var(--space-6);
   background-color: var(--White, #ffffff);
   border: 1px solid var(--Background-Plain-300, #EDEDED);
   border-radius: var(--radius-md);

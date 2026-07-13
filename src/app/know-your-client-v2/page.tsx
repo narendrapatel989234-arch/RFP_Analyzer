@@ -14,6 +14,7 @@ export default function KnowYourClientPage() {
   const [activeStep, setActiveStep] = useState(1)
   const [isFromFunctionalConfirmation, setIsFromFunctionalConfirmation] = useState(false)
   const [rfpId, setRfpId] = useState('RFP-001')
+  const [isProposalReviewStage, setIsProposalReviewStage] = useState(false)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -27,6 +28,9 @@ export default function KnowYourClientPage() {
     } else if (params.get('mode') === 'new') {
       setDummySupportingDocs([])
       setDocumentsChanged(true)
+    } else if (params.get('mode') === 'review') {
+      setIsProposalReviewStage(true)
+      setDocumentsChanged(false)
     }
   }, [])
   const [uploadedDoc, setUploadedDoc] = useState<{ name: string; size: string } | null>({ name: 'RFP_Document.pdf', size: '2.4 MB' })
@@ -480,7 +484,7 @@ export default function KnowYourClientPage() {
         </div>
         <div className={styles.contentMaxWidth}>
           <aside className={styles.stepperSidebar}>
-            <VerticalProgressStepper activeStep={1} />
+            <VerticalProgressStepper activeStep={1} isProposalReviewStage={isProposalReviewStage} />
           </aside>
 
           <div className={styles.rightContent}>
