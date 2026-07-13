@@ -41,6 +41,22 @@ export default function KnowYourClientPage() {
   const [dummySupportingDocs, setDummySupportingDocs] = useState(['RFP_Document.pdf', 'Compliance.pdf', 'Main_Features.pdf'])
   const [activeSummaryTab, setActiveSummaryTab] = useState(0)
   const [activeSummaryTab2, setActiveSummaryTab2] = useState(0)
+  const tabsContainerRef = useRef<HTMLDivElement>(null)
+  const [tabIndicatorStyle, setTabIndicatorStyle] = useState({ left: 0, width: 0 })
+
+  useEffect(() => {
+    if (tabsContainerRef.current) {
+      const tabs = tabsContainerRef.current.querySelectorAll('button')
+      const activeTabElement = tabs[activeSummaryTab2] as HTMLElement
+      if (activeTabElement) {
+        setTabIndicatorStyle({
+          left: activeTabElement.offsetLeft,
+          width: activeTabElement.offsetWidth
+        })
+      }
+    }
+  }, [activeSummaryTab2])
+
   const supportingDocsInputRef = useRef<HTMLInputElement>(null)
   const [isSummaryRefreshing, setIsSummaryRefreshing] = useState(false)
   const [documentsChanged, setDocumentsChanged] = useState(false)
@@ -444,7 +460,7 @@ export default function KnowYourClientPage() {
 
       <main className={styles.mainContent}>
         <div style={{ marginBottom: '16px', flexShrink: 0 }}>
-          <button className={styles.backButton} onClick={() => router.push('/')}>
+          <button className={styles.backButton} onClick={() => router.push('/dashboard-v2')}>
             <svg
               className={styles.backButtonIcon}
               width="16"
@@ -579,7 +595,7 @@ export default function KnowYourClientPage() {
           </div>
 
           
-          <div className={styles.summaryTabsHeader}>
+          <div className={styles.summaryTabsHeader} ref={tabsContainerRef} style={{ position: 'relative' }}>
             {['Executive Summary', 'Customer Expectations', 'Capabilities Requested', 'Technical Requirements', 'Deliverables', 'Compliance Requirements', 'Risks'].map((tabName, idx) => (
               <button
                 key={idx}
@@ -589,6 +605,19 @@ export default function KnowYourClientPage() {
                 {tabName}
               </button>
             ))}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                height: '2px',
+                backgroundColor: 'var(--Lavender-600)',
+                transform: `translateX(${tabIndicatorStyle.left}px)`,
+                width: `${tabIndicatorStyle.width}px`,
+                transition: 'transform 250ms ease-in-out, width 250ms ease-in-out',
+                zIndex: 1
+              }}
+            />
           </div>
           <div className={styles.summaryContent} style={{ position: 'relative', height: '400px', overflowY: (documentsChanged && !isFromFunctionalConfirmation && !isSummaryRefreshing) ? 'hidden' : 'auto' }}>
             {documentsChanged && !isFromFunctionalConfirmation && !isSummaryRefreshing ? (

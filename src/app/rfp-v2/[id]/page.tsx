@@ -48,7 +48,7 @@ export default function RFPDetailV2() {
       <main className={styles.mainContent}>
         <div style={{ marginBottom: '8px', flexShrink: 0 }}>
           <Link href="/dashboard-v2" className={styles.backBtn} aria-label="Go back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+            <svg className={styles.backBtnIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>

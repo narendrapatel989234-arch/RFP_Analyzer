@@ -574,7 +574,7 @@ export default function RFPDetailsPage() {
 
       <main className={styles.mainContent}>
         <div style={{ marginBottom: '16px', flexShrink: 0 }}>
-          <button className={styles.backButton} onClick={() => router.push(`/know-your-client-v2${isFromFunctionalConfirmation ? `?from=functional-confirmation&rfpId=${rfpId}` : ''}`)}>
+          <button className={styles.backButton} onClick={() => router.push('/dashboard-v2')}>
             <svg
               className={styles.backButtonIcon}
               width="16"

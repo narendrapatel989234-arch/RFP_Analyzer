@@ -1427,7 +1427,6 @@
 
 .summaryTabActive {
   color: var(--text-primary);
-  border-bottom: 2px solid var(--Lavender-600) !important;
 }
 
 .summaryHeader {
@@ -1521,6 +1520,7 @@
   background: var(--colors-brand-brown-dark, #5c3f18);
   border-color: var(--colors-brand-brown-dark, #5c3f18);
   color: var(--colors-neutral-0, #fff);
+  transform: translateY(-1px);
 }.modalOverlay {
   position: fixed;
   top: 0;
@@ -1690,6 +1690,7 @@
 .outlineNextBtn:hover:not(:disabled) {
   background: var(--Content-Primary-600);
   color: var(--White, #ffffff);
+  transform: translateY(-1px);
 }
 .outlineNextBtn:disabled {
   opacity: 0.5;

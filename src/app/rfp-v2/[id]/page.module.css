@@ -19,6 +19,34 @@
 }
 
 
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.backBtnIcon {
+  transition: transform var(--duration-fast);
+}
+
+.backBtn:hover {
+  color: var(--text-primary);
+}
+
+.backBtn:hover .backBtnIcon {
+  transform: translateX(-2px);
+}
+
+
 .contentMaxWidth {
   width: 100%;
   max-width: 1600px;
@@ -181,6 +209,7 @@
 
 .proceedBtn:hover:not(:disabled) {
   opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .proceedBtn:disabled {

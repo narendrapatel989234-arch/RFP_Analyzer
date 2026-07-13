@@ -403,50 +403,52 @@ function ModuleRow({ mod, triggerToast }: { mod: UseCaseModule, triggerToast: (m
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
             Regenerate
           </button>
-          <svg className={`${styles.moduleChevron} ${expanded ? styles.chevronOpen : ''}`} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg className={`${styles.moduleChevron} ${expanded ? styles.chevronOpen : ''}`} style={{ transition: 'transform 300ms ease-in-out' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
         </div>
       </div>
-      {expanded && (
-        <div className={styles.moduleDetails}>
-          <p className={styles.moduleDesc}>{localMod.description}</p>
+      <div style={{ display: 'grid', gridTemplateRows: expanded ? '1fr' : '0fr', transition: 'grid-template-rows 300ms ease-in-out' }}>
+        <div style={{ overflow: 'hidden', minHeight: 0 }}>
+          <div className={styles.moduleDetails}>
+            <p className={styles.moduleDesc}>{localMod.description}</p>
 
-          {(localMod.includedInScope || localMod.outOfScope) && (
-            <div className={styles.scopeGrid}>
-              {localMod.includedInScope && (
-                <div className={styles.scopeCardIncluded}>
-                  <h5 className={styles.scopeTitleIncluded}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    INCLUDED IN SCOPE
-                  </h5>
-                  <ul className={styles.scopeListIncluded}>
-                    {localMod.includedInScope.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {localMod.outOfScope && (
-                <div className={styles.scopeCardExcluded}>
-                  <h5 className={styles.scopeTitleExcluded}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                    OUT OF SCOPE
-                  </h5>
-                  <ul className={styles.scopeListExcluded}>
-                    {localMod.outOfScope.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
+            {(localMod.includedInScope || localMod.outOfScope) && (
+              <div className={styles.scopeGrid}>
+                {localMod.includedInScope && (
+                  <div className={styles.scopeCardIncluded}>
+                    <h5 className={styles.scopeTitleIncluded}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      INCLUDED IN SCOPE
+                    </h5>
+                    <ul className={styles.scopeListIncluded}>
+                      {localMod.includedInScope.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {localMod.outOfScope && (
+                  <div className={styles.scopeCardExcluded}>
+                    <h5 className={styles.scopeTitleExcluded}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" width="14" height="14">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                      OUT OF SCOPE
+                    </h5>
+                    <ul className={styles.scopeListExcluded}>
+                      {localMod.outOfScope.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
 
       {/* EDIT MODAL */}
       {isEditModalOpen && (
@@ -737,6 +739,7 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                 </button>
                 <svg
                   className={`${styles.chevron} ${isExpanded ? styles.chevronOpen : ''}`}
+                  style={{ transition: 'transform 300ms ease-in-out' }}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -748,8 +751,10 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                 </svg>
               </div>
             </div>
-            {isExpanded && !isStage3 && (
-              <div className={styles.accordionContent}>
+            {!isStage3 && (
+              <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr', transition: 'grid-template-rows 300ms ease-in-out' }}>
+                <div style={{ overflow: 'hidden', minHeight: 0 }}>
+                  <div className={styles.accordionContent}>
 
                 {/* SECTION 1: Problem Understanding */}
                 <div className={styles.sectionContainer}>
@@ -883,11 +888,15 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                 </div>
 
 
+                  </div>
+                </div>
               </div>
             )}
 
-            {isExpanded && isStage3 && (
-              <div className={styles.accordionContent}>
+            {isStage3 && (
+              <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr', transition: 'grid-template-rows 300ms ease-in-out' }}>
+                <div style={{ overflow: 'hidden', minHeight: 0 }}>
+                  <div className={styles.accordionContent}>
 
                 {/* STAGE 3 SECTION 1: Techstack Used */}
                 <div className={styles.sectionContainer}>
@@ -1143,6 +1152,8 @@ export function UseCaseAccordion({ useCases = defaultUseCases, isStage3 = false 
                   )}
                 </div>
 
+                  </div>
+                </div>
               </div>
             )}
           </div>

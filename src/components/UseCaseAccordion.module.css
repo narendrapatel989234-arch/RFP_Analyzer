@@ -163,7 +163,7 @@
   width: 20px;
   height: 20px;
   color: var(--text-secondary);
-  transition: transform var(--duration-normal);
+  transition: transform 300ms ease-in-out;
 }
 
 .chevronOpen {
@@ -972,5 +972,26 @@
 .uploadBrowse {
   color: var(--Content-Primary, #111827);
   text-decoration: underline;
+}
+
+
+.accordionContentWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease-in-out;
+}
+
+.accordionContentWrapperExpanded {
+  grid-template-rows: 1fr;
+}
+
+.accordionContentInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+
+.moduleChevron {
+  transition: transform 300ms ease-in-out;
 }
 
